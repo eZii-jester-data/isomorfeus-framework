@@ -48,17 +48,6 @@ else
         end
       end
     end
-  elsif defined?(Rack)
-    if defined?(Warden::Manager)
-      config.middleware.insert_after Warden::Manager, Hyperstack::Transport::RackMiddleware
-    else
-      config.middleware.use Hyperstack::Transport::RackMiddleware
-    end
-    if Dir.exist?(File.join('app', 'hyperstack'))
-      $LOAD_PATH.unshift(File.expand_path(File.join('app', 'hyperstack', 'handlers')))
-    elsif Dir.exist?(File.join('hyperstack'))
-      $LOAD_PATH.unshift(File.expand_path(File.join('hyperstack', 'handlers')))
-    end
   else
     if Dir.exist?(File.join('app', 'hyperstack'))
       $LOAD_PATH.unshift(File.expand_path(File.join('app', 'hyperstack', 'handlers')))
