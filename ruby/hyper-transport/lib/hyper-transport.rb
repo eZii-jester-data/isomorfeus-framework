@@ -54,9 +54,16 @@ else
     else
       config.middleware.use Hyperstack::Transport::RackMiddleware
     end
-  elsif Dir.exist?(File.join('app', 'hyperstack'))
-    $LOAD_PATH.unshift(File.expand_path(File.join('app', 'hyperstack', 'handlers')))
-  elsif Dir.exist?(File.join('hyperstack'))
-    $LOAD_PATH.unshift(File.expand_path(File.join('hyperstack', 'handlers')))
+    if Dir.exist?(File.join('app', 'hyperstack'))
+      $LOAD_PATH.unshift(File.expand_path(File.join('app', 'hyperstack', 'handlers')))
+    elsif Dir.exist?(File.join('hyperstack'))
+      $LOAD_PATH.unshift(File.expand_path(File.join('hyperstack', 'handlers')))
+    end
+  else
+    if Dir.exist?(File.join('app', 'hyperstack'))
+      $LOAD_PATH.unshift(File.expand_path(File.join('app', 'hyperstack', 'handlers')))
+    elsif Dir.exist?(File.join('hyperstack'))
+      $LOAD_PATH.unshift(File.expand_path(File.join('hyperstack', 'handlers')))
+    end
   end
 end
