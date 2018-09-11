@@ -4,6 +4,7 @@ module Hyperstack
     attr_accessor :api_path
     attr_accessor :authorization_driver
     attr_accessor :client_transport_driver_class_name
+    attr_accessor :transport_middleware_require_user
     attr_accessor :transport_notification_channel_prefix
 
     attr_accessor :server_pub_sub_driver
@@ -16,5 +17,6 @@ module Hyperstack
   self.api_path = '/hyperstack/api/endpoint'
   self.client_transport_driver_class_name = 'Hyperstack::Transport::HTTP'
   self.authorization_driver = nil
+  self.transport_middleware_require_user = true
   self.transport_notification_channel_prefix = 'hyper-transport-notifications-'
 end

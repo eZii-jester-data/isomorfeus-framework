@@ -12,8 +12,13 @@ module Hyperstack
           request = Rack::Request.new(env)
           unless request.body.nil?
             request_hash = Oj.load(request.body.read, symbol_keys: false)
+
             result = if defined?(Warden::Manager)
-                       process_request(env['rack.session'].id, env['warden'].user, request_hash)
+                       user = env['warden'].user
+                       if Hyperstack.transport_middleware_require_user
+                         return @app.call(env) unless user
+                       end
+                       process_request(env['rack.session'].id, user, request_hash)
                      else
                        process_request(env.session.id, nil, request_hash)
                      end
