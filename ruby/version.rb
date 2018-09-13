@@ -1,3 +1,3 @@
-module Hyperstack
-  VERSION = File.read(File.expand_path("../HYPERSTACK_VERSION", __dir__)).strip
+module Isomorfeus
+  VERSION = File.read(File.expand_path("../ISOMORFEUS_VERSION", __dir__)).strip
 end
