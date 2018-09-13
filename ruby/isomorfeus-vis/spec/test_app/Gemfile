@@ -15,13 +15,13 @@ gem 'puma', '~> 3.7'
 
 gem "opal-jquery", git: "https://github.com/opal/opal-jquery.git", branch: "master"
 gem 'hyperloop', '~> 1.0.0.lap27'
-gem 'hyper-vis', path: '../../'
+gem 'isomorfeus-vis', path: '../../'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  gem 'hyper-spec', '~> 1.0.0.lap27'
+  gem 'isomorfeus-spec', '~> 1.0.0.lap27'
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
   gem 'selenium-webdriver'

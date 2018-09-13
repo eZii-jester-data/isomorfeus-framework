@@ -1,4 +1,4 @@
-# hyper-vis
+# isomorfeus-vis
 
 A [Opal](http://opalrb.com) Ruby wrapper for [Vis.js](http://visjs.org) with [Ruby-Hyperloop](http://ruby-hyperloop.org) Components.
 Implements the complete API for:
@@ -13,16 +13,16 @@ Includes vis.js version 4.21.0
 
 ## Demo
 
-Reactive hyper-vis in action:
+Reactive isomorfeus-vis in action:
 
 [![Reactivity Demo](http://img.youtube.com/vi/fPSpESBbeMQ/0.jpg)](http://www.youtube.com/watch?v=fPSpESBbeMQ "Reactivity Demo")
 
 ## Quality
-[![Build Status](https://semaphoreci.com/api/v1/janbiedermann/hyper-vis/branches/master/shields_badge.svg)](https://semaphoreci.com/janbiedermann/hyper-vis)
-[![GitHub issues](https://img.shields.io/github/issues/janbiedermann/hyper-vis.svg)](https://github.com/janbiedermann/hyper-vis/issues)
-[![Percentage of issues still open](http://isitmaintained.com/badge/open/janbiedermann/hyper-vis.svg)](http://isitmaintained.com/project/janbiedermann/hyper-vis "Percentage of issues still open")
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/janbiedermann/hyper-vis.svg)](http://isitmaintained.com/project/janbiedermann/hyper-vis "Average time to resolve an issue")
-[![Pending Pull-Requests](http://githubbadges.herokuapp.com/janbiedermann/hyper-vis/pulls.svg)](https://github.com/janbiedermann/hyper-vis/pulls)
+[![Build Status](https://semaphoreci.com/api/v1/janbiedermann/isomorfeus-vis/branches/master/shields_badge.svg)](https://semaphoreci.com/janbiedermann/isomorfeus-vis)
+[![GitHub issues](https://img.shields.io/github/issues/janbiedermann/isomorfeus-vis.svg)](https://github.com/janbiedermann/isomorfeus-vis/issues)
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/janbiedermann/isomorfeus-vis.svg)](http://isitmaintained.com/project/janbiedermann/isomorfeus-vis "Percentage of issues still open")
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/janbiedermann/isomorfeus-vis.svg)](http://isitmaintained.com/project/janbiedermann/isomorfeus-vis "Average time to resolve an issue")
+[![Pending Pull-Requests](http://githubbadges.herokuapp.com/janbiedermann/isomorfeus-vis/pulls.svg)](https://github.com/janbiedermann/isomorfeus-vis/pulls)
 
 #### Tests
 ```
@@ -42,11 +42,11 @@ bundle exec rspec
 ## Installation
 for a Rails app:
 ```ruby
-gem 'hyper-vis'
+gem 'isomorfeus-vis'
 ```
 and `bundle update`.
 
-hyper-vis depends on `hyper-component` from Ruby-Hyperloop but can be used without it.
+isomorfeus-vis depends on `isomorfeus-component` from Ruby-Hyperloop but can be used without it.
 
 vis.js is automatically imported for Ruby-Hyperloop. If you get vis.js with webpacker, you may need to cancel the import in your config/intializers/hyperloop.rb
 ```ruby

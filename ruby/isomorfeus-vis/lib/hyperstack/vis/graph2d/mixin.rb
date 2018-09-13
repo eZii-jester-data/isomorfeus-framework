@@ -1,9 +1,9 @@
-module Hyperstack
+module Isomorfeus
   module Vis
-    module Timeline
+    module Graph2d
       module Mixin
         def self.included(base)
-          base.include(Hyperstack::Component::Mixin)
+          base.include(Isomorfeus::Component::Mixin)
           base.class_eval do
             param items: nil
             param groups: nil

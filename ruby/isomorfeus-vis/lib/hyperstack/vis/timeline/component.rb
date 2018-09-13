@@ -1,11 +1,12 @@
-module Hyperstack
+module Isomorfeus
   module Vis
-    module Network
+    module Timeline
       class Component
-        include Hyperstack::Vis::Network::Mixin
+        include Isomorfeus::Vis::Timeline::Mixin
         def self.inherited(base)
           base.class_eval do
-            param vis_data: nil
+            param items: nil
+            param groups: nil
             param options: nil
           end
         end

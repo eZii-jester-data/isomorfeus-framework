@@ -1,24 +1,19 @@
-module Hyperstack
+module Isomorfeus
   module Vis
-    module Graph2d
+    module Graph3d
       module Mixin
         def self.included(base)
-          base.include(Hyperstack::Component::Mixin)
+          base.include(Isomorfeus::Component::Mixin)
           base.class_eval do
-            param items: nil
-            param groups: nil
+            param vis_data: nil
             param options: nil
 
             def _set_dom_node(dom_node)
               @_dom_node = dom_node
             end
 
-            def items
-              @_items
-            end
-
-            def groups
-              @_groups
+            def vis_data
+              @_data
             end
 
             def document
@@ -42,8 +37,7 @@ module Hyperstack
             def self.render_with_dom_node(tag = 'DIV', &block)
               render do
                 @_vis_render_block = block
-                @_items = params.items
-                @_groups = params.groups
+                @_data = params.vis_data
                 @_options = params.options
                 send(tag, ref: method(:_set_dom_node).to_proc)
               end
@@ -55,19 +49,15 @@ module Hyperstack
 
             after_mount do
               if @_dom_node && @_vis_render_block
-                instance_exec(@_dom_node, @_items, @_groups, @_options, &@_vis_render_block)
+                instance_exec(@_dom_node, @_data, @_options, &@_vis_render_block)
               end
             end
 
             before_receive_props do |new_props|
               if automatic_refresh && @_dom_node && @_vis_render_block
                 changed = false
-                if new_props[:items] != @_items
-                  @_items = new_props[:items]
-                  changed = true
-                end
-                if new_props[:groups] != @_groups
-                  @_items = new_props[:groups]
+                if new_props[:vis_data] != @_data
+                  @_data = new_props[:vis_data]
                   changed = true
                 end
                 if new_props[:options] != @_options
@@ -75,7 +65,7 @@ module Hyperstack
                   changed = true
                 end
                 if changed
-                  instance_exec(@_dom_node, @_items, @_groups, @_options, &@_vis_render_block)
+                  instance_exec(@_dom_node, @_data, @_options, &@_vis_render_block)
                 end
               end
             end

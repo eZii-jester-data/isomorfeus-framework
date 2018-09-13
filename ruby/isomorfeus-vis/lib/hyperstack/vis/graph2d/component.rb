@@ -1,8 +1,8 @@
-module Hyperstack
+module Isomorfeus
   module Vis
     module Graph2d
       class Component
-        include Hyperstack::Vis::Graph2d::Mixin
+        include Isomorfeus::Vis::Graph2d::Mixin
         def self.inherited(base)
           base.class_eval do
             param items: nil
