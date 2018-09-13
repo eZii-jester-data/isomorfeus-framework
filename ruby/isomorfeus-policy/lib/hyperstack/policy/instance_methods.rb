@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Policy
     module InstanceMethods
       attr_reader :current_user

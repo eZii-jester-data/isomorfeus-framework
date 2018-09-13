@@ -1,10 +1,10 @@
-module Hyperstack
+module Isomorfeus
   module Handler
     class PolicyHandler
-      include Hyperstack::Policy
+      include Isomorfeus::Policy
 
       def process_request(_session_id, current_user, request)
-        result = { hyperstack_gate: {} }
+        result = { isomorfeus_gate: {} }
 
         request.keys.each do |agent_object_id|
           class_name = request[agent_object_id]['class_name']

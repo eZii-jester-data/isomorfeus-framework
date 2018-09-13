@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Policy
     module ClassMethods
       def defined_policies

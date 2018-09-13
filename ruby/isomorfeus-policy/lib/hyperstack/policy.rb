@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Policy
     def authorize(user, class_name, action, *policy_context)
       begin
@@ -38,7 +38,7 @@ module Hyperstack
 
     def promise_authorize(user, class_name, action, *policy_context)
       if RUBY_ENGINE == 'opal'
-        Hyperstack::Transport.promise_send('hyperstack/handler/policy' => { user_id: user.id, class_name: class_name, action: action, policy_context: JSON.generate(*policy_context)}).then do |result|
+        Isomorfeus::Transport.promise_send('isomorfeus/handler/policy' => { user_id: user.id, class_name: class_name, action: action, policy_context: JSON.generate(*policy_context)}).then do |result|
           raise if result.has_key?(:denied)
           result
         end.fail do |result|

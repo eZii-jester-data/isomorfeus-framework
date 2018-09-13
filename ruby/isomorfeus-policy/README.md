@@ -1,20 +1,20 @@
-# hyper-policy
-Policy for Hyperstack
+# isomorfeus-policy
+Policy for Isomorfeus
 
 ## Installation
 take this from the repo
 then in your shell:
-`$ hyper-policy-installer`
+`$ isomorfeus-policy-installer`
 
-This will create directories and install a default gate handler in your projects `hyperstack/handlers` directory or
-`app/hyperstack/handlers`, depending on your config.
+This will create directories and install a default gate handler in your projects `isomorfeus/handlers` directory or
+`app/isomorfeus/handlers`, depending on your config.
 
 ## Usage
 You may modify the installed PolicyHandler. See the gate_handler.rb file.
 To create a policy for a class, name the policy after the class + 'Policy'.
 For example, for a class 'SuperDuper' the policy must be named 'SuperDuperPolicy'
 
-Place the policy file in your projects `hyperstack/policies` directory or `app/hyperstack/policies`, depending on your config.
+Place the policy file in your projects `isomorfeus/policies` directory or `app/isomorfeus/policies`, depending on your config.
 
 Policies get "compiled" so that errors in the policy definition get caught early on.
 Policy params get checked before the rules are executed.
@@ -24,12 +24,12 @@ Rules are compiled to a set of booleans and are executed on and with booleans on
 Example Policy:
 ```ruby
 class SuperDuperPolicy
-  include Hyperstack::Policy::PolicyDefinition
+  include Isomorfeus::Policy::PolicyDefinition
   
   qualify :member_is_valid do |*policy_context|
-    # policy_context is whatever is passed to Hyperstack::Policy.authorize
+    # policy_context is whatever is passed to Isomorfeus::Policy.authorize
   
-    # current_user is available as instance method and is passed to the policy initializer by Hyperstack::Policy.authorize
+    # current_user is available as instance method and is passed to the policy initializer by Isomorfeus::Policy.authorize
     current_user.class == Member # result must be a boolean
   end
   
@@ -37,7 +37,7 @@ class SuperDuperPolicy
     current_user.is_admin == 't' # must make sure its a boolean, not some 't' or '1' from the ORM or DB
   end
   
-  # :fetch is the action as passed by Hyperstack::Policy.authorize
+  # :fetch is the action as passed by Isomorfeus::Policy.authorize
   policy_for :fetch do
     # there are following conditions available:
     # :if, :and_if, :if_not, :and_if_not, :unless 
@@ -54,8 +54,8 @@ end
 ```
 In a component on the client or in any class anywhere, us authorize for example like this:
 ```ruby
-class Mycomponent < Hyperstack::Component
-  include Hyperstack::Policy # include this
+class Mycomponent < Isomorfeus::Component
+  include Isomorfeus::Policy # include this
   
   render do
     if authorized?(GlobalStore.current_user, 'SuperDuper', :save) # then use this
@@ -68,7 +68,7 @@ end
 ```
 Data required by the qualify of the policy should be available on the client!
 
-After including Hyperstack::Policy there are available:
+After including Isomorfeus::Policy there are available:
 ```ruby
 authorize(user, class_name, action, *policy_context)
 # result is a Hash, one of:

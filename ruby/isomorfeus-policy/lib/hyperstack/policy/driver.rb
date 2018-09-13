@@ -1,7 +1,7 @@
-module Hyperstack
+module Isomorfeus
   module Policy
     class Driver
-      extend Hyperstack::Policy
+      extend Isomorfeus::Policy
     end
   end
 end
