@@ -1,9 +1,9 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module Pusher
       class Channel
         def self.pusher_instance
-          @pusher_instance ||= Hyperstack::Transport::Pusher::ClientDriver.pusher_instance
+          @pusher_instance ||= Isomorfeus::Transport::Pusher::ClientDriver.pusher_instance
         end
 
         def self.channels

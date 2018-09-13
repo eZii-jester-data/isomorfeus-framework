@@ -1,11 +1,11 @@
 require 'pusher'
 
-module Hyperstack
+module Isomorfeus
   module Transport
     module Pusher
       class ServerDriver
         def self.pusher_instance
-          @pusher_instance ||= ::Pusher::Client.new(Hyperstack.pusher_server_options)
+          @pusher_instance ||= ::Pusher::Client.new(Isomorfeus.pusher_server_options)
         end
 
         def self.publish(channels, message)

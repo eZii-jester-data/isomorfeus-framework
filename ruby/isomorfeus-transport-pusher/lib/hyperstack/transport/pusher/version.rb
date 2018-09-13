@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module Pusher
       VERSION = File.read(File.expand_path("../../../../../../HYPERSTACK_VERSION", __dir__)).strip
