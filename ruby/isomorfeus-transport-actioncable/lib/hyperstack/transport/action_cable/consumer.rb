@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module ActionCable
       class Consumer
@@ -6,7 +6,7 @@ module Hyperstack
 
         def initialize(uri)
           @native_action_consumer = `ActionCable.createConsumer(uri)`
-          @subscriptions = Hyperstack::Transport::ActionCable::Subscriptions.new(@native_action_consumer)
+          @subscriptions = Isomorfeus::Transport::ActionCable::Subscriptions.new(@native_action_consumer)
         end
 
         def connect

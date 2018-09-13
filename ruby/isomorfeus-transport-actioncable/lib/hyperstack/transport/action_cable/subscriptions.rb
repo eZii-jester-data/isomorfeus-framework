@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module ActionCable
       class Subscriptions
@@ -8,7 +8,7 @@ module Hyperstack
 
         def create(channel_options)
           native_subscription = @native_action_consumer.JS.subscriptions.JS.create(channel_options.to_n)
-          Hyperstack::Transport::ActionCable::Subscription.new(native_subscription)
+          Isomorfeus::Transport::ActionCable::Subscription.new(native_subscription)
         end
       end
     end

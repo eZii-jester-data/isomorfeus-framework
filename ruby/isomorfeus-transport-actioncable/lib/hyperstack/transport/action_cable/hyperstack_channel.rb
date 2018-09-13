@@ -1,7 +1,7 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module ActionCable
-      class HyperstackChannel < ::ActionCable::Channel::Base
+      class IsomorfeusChannel < ::ActionCable::Channel::Base
         def subscribed
           stream_from "#{params[:session_id]}"
         end
