@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
 
   # available settings
   class << self

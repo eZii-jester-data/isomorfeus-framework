@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   class Operation
     module ClassMethods
 
@@ -137,7 +137,7 @@ module Hyperstack
 
         def process_response(response)
           response.keys.each do |agent_object_id|
-            agent = Hyperstack::Transport::RequestAgent.get(agent_object_id)
+            agent = Isomorfeus::Transport::RequestAgent.get(agent_object_id)
             agent.result = response[agent_object_id]
           end
         end
@@ -149,7 +149,7 @@ module Hyperstack
                      validate({})
                    end
           raise errors.join("\n") if errors.any?
-          Hyperstack::Transport.promise_send('hyperstack/handler/operation' => { self.to_s.underscore  => params })
+          Isomorfeus::Transport.promise_send('isomorfeus/handler/operation' => { self.to_s.underscore  => params })
         end
       else
         def run_on_client(session_id, *params)
@@ -159,7 +159,7 @@ module Hyperstack
                       validate({})
                     end
           raise errors.join("\n") if errors.any?
-          Hyperstack::Transport::ServerPubSub.publish_to_session(session_id, { self.to_s.underscore => { params => {}}})
+          Isomorfeus::Transport::ServerPubSub.publish_to_session(session_id, { self.to_s.underscore => { params => {}}})
         end
 
         # def run_on_multiple_clients(sessions, *params)

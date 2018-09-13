@@ -1,27 +1,27 @@
-# hyper-operation
+# isomorfeus-operation
 
 ## Installation
 
 take this from the repo
 then in your shell:
-`$ hyper-operation-installer`
+`$ isomorfeus-operation-installer`
 
-This will create directories and install a default business operations handler in your projects `hyperstack/handlers` directory or
-`app/hyperstack/handlers`, depending on your config.
+This will create directories and install a default business operations handler in your projects `isomorfeus/handlers` directory or
+`app/isomorfeus/handlers`, depending on your config.
 
 ## Usage
 You may modify the installed BusinessHandler, for example enable additional authorization. See the business_handler.rb file.
 Create a business operations class like below, add the business operation class to you config as valid, for security:
-`Hyperstack.valid_business_class_names = ['earn_money']`
+`Isomorfeus.valid_business_class_names = ['earn_money']`
 
-params are used exactly like hyper-react params.
-Place operation in your projects `hyperstack/operations` directory or
-`app/hyperstack/operations`, depending on your config.
+params are used exactly like isomorfeus-react params.
+Place operation in your projects `isomorfeus/operations` directory or
+`app/isomorfeus/operations`, depending on your config.
 
 
 Example Operation:
 ```ruby
-class EarnMoney < Hyperstack::Business
+class EarnMoney < Isomorfeus::Business
   param :user_id
   param :products
   param :cc_number

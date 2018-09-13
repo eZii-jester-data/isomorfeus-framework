@@ -1,7 +1,7 @@
-module Hyperstack
+module Isomorfeus
   module Handler
     class OperationHandler
-      include Hyperstack::Operation::SecurityGuards
+      include Isomorfeus::Operation::SecurityGuards
 
       def process_request(_session_id, current_user, request)
         result = {}
@@ -15,8 +15,8 @@ module Hyperstack
           request[operation_operation_name].keys.each do |agent_object_id|
             parsed_params = Oj.load(request[operation_operation_name][agent_object_id], symbol_keys: true)
 
-            if Hyperstack.authorization_driver
-              authorization_result = Hyperstack.authorization_driver.authorize(current_user, operation_class.to_s, :run, parsed_params)
+            if Isomorfeus.authorization_driver
+              authorization_result = Isomorfeus.authorization_driver.authorize(current_user, operation_class.to_s, :run, parsed_params)
               if authorization_result.has_key?(:denied)
                 result[operation_operation_name][agent_object_id] = { errors: { authorization_result[:denied] => '' }}
                 next # authorization guard

@@ -1,10 +1,10 @@
-module Hyperstack
+module Isomorfeus
   class Operation
     module Mixin
       def self.included(base)
-        base.include(Hyperstack::Params::InstanceMethods)
-        base.extend(Hyperstack::Params::ClassMethods)
-        base.extend(Hyperstack::Operation::ClassMethods)
+        base.include(Isomorfeus::Params::InstanceMethods)
+        base.extend(Isomorfeus::Params::ClassMethods)
+        base.extend(Isomorfeus::Operation::ClassMethods)
       end
 
       attr_accessor :props
