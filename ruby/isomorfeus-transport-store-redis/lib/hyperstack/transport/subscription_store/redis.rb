@@ -1,20 +1,20 @@
 require 'redis'
 
-module Hyperstack
+module Isomorfeus
   module Transport
     module SubscriptionStore
       class Redis
         def self.scrub_time
-          @scrub_time ||= if Hyperstack.redis_options.has_key?(:scrub_time)
-                            Hyperstack.redis_options[:scrub_time].to_f
+          @scrub_time ||= if Isomorfeus.redis_options.has_key?(:scrub_time)
+                            Isomorfeus.redis_options[:scrub_time].to_f
                           else
                             8.hours.to_f
                           end
         end
 
         def self.redis_instance
-          @redis_instance ||= if Hyperstack.redis_options && Hyperstack.redis_options != {}
-                                ::Redis.new(Hyperstack.redis_options)
+          @redis_instance ||= if Isomorfeus.redis_options && Isomorfeus.redis_options != {}
+                                ::Redis.new(Isomorfeus.redis_options)
                               else
                                 ::Redis.new
                               end

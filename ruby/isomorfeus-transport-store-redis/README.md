@@ -1,5 +1,5 @@
-# hyper-transport-store-redis
-A subscription store for hyper-transport
+# isomorfeus-transport-store-redis
+A subscription store for isomorfeus-transport
 
 ## Installation
 
@@ -11,8 +11,8 @@ in your frameworks config or initializer:
 
 ```ruby
   # thats set by default
-  Hyperstack.server_subscription_store = Hyperstack::Transport::SubscriptionStore::Redis
+  Isomorfeus.server_subscription_store = Isomorfeus::Transport::SubscriptionStore::Redis
   
   # that can be adjusted to the options Redis would usually accept
-  Hyperstack.redis_options = {}
+  Isomorfeus.redis_options = {}
 ```

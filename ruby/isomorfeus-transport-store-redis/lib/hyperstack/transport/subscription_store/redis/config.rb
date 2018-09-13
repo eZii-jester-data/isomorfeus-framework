@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
 
   # available settings
   class << self
@@ -7,6 +7,6 @@ module Hyperstack
   end
 
   # defaults
-  self.server_subscription_store = Hyperstack::Transport::SubscriptionStore::Redis
+  self.server_subscription_store = Isomorfeus::Transport::SubscriptionStore::Redis
   self.redis_options = {}
 end

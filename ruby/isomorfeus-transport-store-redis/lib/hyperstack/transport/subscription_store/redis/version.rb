@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module SubscriptionStore
       class Redis
