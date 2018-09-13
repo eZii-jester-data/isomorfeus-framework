@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     class WebSocket
       CONNECTING  = 0

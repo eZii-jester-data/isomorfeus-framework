@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     class NotificationProcessor
       def self.process_notification(notification_hash)
@@ -7,7 +7,7 @@ module Hyperstack
             "::#{class_name.underscore.camelize}".constantize.process_notification(notification_hash[class_name])
           end
         else
-          Hyperstack::Transport::ResponseProcessor.process_response(notification_hash)
+          Isomorfeus::Transport::ResponseProcessor.process_response(notification_hash)
         end
       end
     end

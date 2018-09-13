@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Handler
     # for autoloader
   end

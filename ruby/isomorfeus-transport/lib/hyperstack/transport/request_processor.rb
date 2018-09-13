@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     module RequestProcessor
       def process_request(session_id, current_user, request)

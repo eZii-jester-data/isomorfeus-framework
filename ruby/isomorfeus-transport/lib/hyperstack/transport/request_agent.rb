@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     class RequestAgent
       def self.agents

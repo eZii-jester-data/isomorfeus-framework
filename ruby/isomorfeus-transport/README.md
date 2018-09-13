@@ -1,6 +1,6 @@
-# hyper-transport
+# isomorfeus-transport
 
-Various transport options for hyperstack.
+Various transport options for isomorfeus.
 Supports:
 - Pusher
 - ActionCable
@@ -8,10 +8,10 @@ Supports:
 - HTTP Ajax
 
 ## Installation
-hyper-transport is automatically installed if you use hyper-resource.
+isomorfeus-transport is automatically installed if you use isomorfeus-resource.
 Otherwise add to your Gemfile:
 ```ruby
-gem 'hyper-transport'
+gem 'isomorfeus-transport'
 ```
 and bundle install/update
 
@@ -19,7 +19,7 @@ and bundle install/update
 ### Pusher
 in your client code add:
 ```ruby
-require 'hyper-transport-pusher'
+require 'isomorfeus-transport-pusher'
 ```
 Currently supports Pusher Channels.
 ```ruby
@@ -28,15 +28,15 @@ Currently supports Pusher Channels.
 ### ActionCable
 in your client code add:
 ```ruby
-require 'hyper-transport-action-cable'
+require 'isomorfeus-transport-action-cable'
 ```
 ### WebSocket (NI)
 in your client code add:
 ```ruby
-require 'hyper-transport-web-socket'
+require 'isomorfeus-transport-web-socket'
 ```
 ### HTTP Ajax
 in your client code add:
 ```ruby
-require 'hyper-transport-http'
+require 'isomorfeus-transport-http'
 ```

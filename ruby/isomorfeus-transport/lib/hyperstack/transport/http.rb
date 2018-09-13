@@ -1,4 +1,4 @@
-module Hyperstack
+module Isomorfeus
   module Transport
     # HTTP is used to perform a `XMLHttpRequest` in ruby. It is a simple wrapper
     # around `XMLHttpRequest`
@@ -134,7 +134,7 @@ module Hyperstack
         @active_requests ||= 0
         @active_requests -= 1
         if @active_requests < 0
-          `console.warn("Ooops, Hyperstack::HTTP active_requests out of sync!")`
+          `console.warn("Ooops, Isomorfeus::HTTP active_requests out of sync!")`
           @active_requests = 0
         end
       end
@@ -249,10 +249,10 @@ module Hyperstack
         "#<HTTP @url=#{@url} @method=#{@method}>"
       end
 
-      # meant for hyper-resource
+      # meant for isomorfeus-resource
       def self.send_request(data)
-        post(Hyperstack.api_path + "?timestamp=#{`Date.now() + Math.random()`}", payload: data).then do |response|
-          Hyperstack::Transport::ResponseProcessor.process_response(response.json)
+        post(Isomorfeus.api_path + "?timestamp=#{`Date.now() + Math.random()`}", payload: data).then do |response|
+          Isomorfeus::Transport::ResponseProcessor.process_response(response.json)
         end
         nil
       end

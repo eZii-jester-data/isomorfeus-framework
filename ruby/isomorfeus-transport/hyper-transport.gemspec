@@ -1,13 +1,13 @@
 require '../version.rb'
 
 Gem::Specification.new do |s|
-  s.name         = 'hyper-transport'
-  s.version      = Hyperstack::VERSION
+  s.name         = 'isomorfeus-transport'
+  s.version      = Isomorfeus::VERSION
   s.author       = 'Jan Biedermann'
   s.email        = 'jan@kursator.de'
-  s.homepage     = 'http://hyperstack.org'
-  s.summary      = 'Various client side transport options for Hyperstack.'
-  s.description  = 'Various client side transport options for Hyperstack.'
+  s.homepage     = 'http://isomorfeus.org'
+  s.summary      = 'Various client side transport options for Isomorfeus.'
+  s.description  = 'Various client side transport options for Isomorfeus.'
 
   s.files          = `git ls-files`.split("\n")
   s.test_files     = `git ls-files -- {test,spec,features}/*`.split("\n")
@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'oj', '~> 3.6.0'
   s.add_runtime_dependency 'opal', '~> 0.11.0'
   s.add_runtime_dependency 'activesupport', '~> 5.0'
-  s.add_runtime_dependency 'hyper-component', Hyperstack::VERSION
+  s.add_runtime_dependency 'isomorfeus-component', Isomorfeus::VERSION
 end
