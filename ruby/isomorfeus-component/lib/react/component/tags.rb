@@ -65,10 +65,6 @@ module React
             define_method name do |*params, &children|
               React::RenderingContext.render(component, *params, &children)
             end
-            # handle deprecated _as_node style
-            define_method "#{name}_as_node" do |*params, &children|
-              React::RenderingContext.build_only(component, *params, &children)
-            end
           end
           parent.extend(tag_names_module)
         end

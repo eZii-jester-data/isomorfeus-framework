@@ -12,8 +12,7 @@ module HyperStore
     alias pre_component_method_missing method_missing
 
     def method_missing(method, *args)
-      if method.end_with?('!') && __from__.respond_to?(:deprecation_warning)
-        __from__.deprecation_warning("The mutator 'state.#{method}' has been deprecated.  Use 'mutate.#{method.sub(/\!$/,'')}' instead.")
+      if method.end_with?('!')
         __from__.mutate.__send__(method.chop, *args)
       else
         pre_component_method_missing(method, *args)

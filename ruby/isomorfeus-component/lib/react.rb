@@ -81,31 +81,8 @@ module React
     end
   end
 
-  def self.is_valid_element(element)
-    %x{ console.error("Warning: `is_valid_element` is deprecated in favor of `is_valid_element?`."); }
-    element.kind_of?(React::Element) && `React.isValidElement(#{element.to_n})`
-  end
-
   def self.is_valid_element?(element)
     element.kind_of?(React::Element) && `React.isValidElement(#{element.to_n})`
-  end
-
-  def self.render_to_string(element)
-    %x{ console.error("Warning: `React.render_to_string` is deprecated in favor of `React::Server.render_to_string`."); }
-    if !(`typeof ReactDOMServer === 'undefined'`)
-      React::RenderingContext.build { `ReactDOMServer.renderToString(#{element.to_n})` } # v0.15+
-    else
-      raise "renderToString is not defined.  In React >= v15 you must import it with ReactDOMServer"
-    end
-  end
-
-  def self.render_to_static_markup(element)
-    %x{ console.error("Warning: `React.render_to_static_markup` is deprecated in favor of `React::Server.render_to_static_markup`."); }
-    if !(`typeof ReactDOMServer === 'undefined'`)
-      React::RenderingContext.build { `ReactDOMServer.renderToStaticMarkup(#{element.to_n})` } # v0.15+
-    else
-      raise "renderToStaticMarkup is not defined.  In React >= v15 you must import it with ReactDOMServer"
-    end
   end
 
   def self.unmount_component_at_node(node)

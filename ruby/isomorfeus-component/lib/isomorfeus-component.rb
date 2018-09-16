@@ -1,28 +1,42 @@
 if RUBY_ENGINE == 'opal'
+  require 'active_support/core_ext/class/attribute'
   require 'browser/delay'
-  require 'isomorfeus-store'
+  require 'native'
+
   require 'react'
   require 'react/observable'
-  require 'isomorfeus/props_wrapper'
-  require 'isomorfeus/validator'
+  require 'react/ext/string'
+  require 'react/ext/hash'
 
   require 'react/component/dsl_instance_methods'
   require 'react/component/should_component_update'
   require 'react/component/tags'
-  require 'react/component/base'
   require 'react/element'
   require 'react/event'
   require 'react/api'
+  require 'react/callbacks'
   require 'react/rendering_context'
+  require 'react/component/api'
+  require 'react/component/class_methods'
   require 'react/state'
   require 'react/object'
   require 'react/to_key'
   require 'reactive-ruby/isomorphic_helpers'
+
+  require 'isomorfeus-store'
+
+  require 'isomorfeus-store/state_wrapper'
+  require 'isomorfeus/props_wrapper'
+  require 'isomorfeus/validator'
+
   require 'isomorfeus/params/class_methods'
   require 'isomorfeus/params/instance_methods'
-  require 'isomorfeus/component/mixin'
+
   require 'isomorfeus/component'
   require 'isomorfeus/context'
+
+  require 'ismo_component/mixin'
+  require 'ismo_component/base'
   require 'isomorfeus/top_level'
 else
   require 'oj'
