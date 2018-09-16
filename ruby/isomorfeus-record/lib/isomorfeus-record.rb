@@ -9,7 +9,14 @@ if RUBY_ENGINE == 'opal'
   require 'isomorfeus/model/driver/generic'
   require 'isomorfeus/model/driver/active_record'
   require 'isomorfeus/model/driver/neo4j'
-  require 'isomorfeus/record'
+  require 'isomorfeus/record/dummy_value'
+  require 'isomorfeus/record/collection'
+  require 'isomorfeus/record/client_class_methods'
+  require 'isomorfeus/record/client_class_processor'
+  require 'isomorfeus/record/client_instance_methods'
+  require 'isomorfeus/record/client_instance_processor'
+  require 'ismo_record/mixin'
+  require 'ismo_record/base'
 else
   require 'active_support'
   require 'oj'
@@ -27,7 +34,10 @@ else
   require 'isomorfeus/handler/model/read_handler'
   require 'isomorfeus/handler/model/unlink_handler'
   require 'isomorfeus/handler/model/update_handler'
-  require 'isomorfeus/record'
+  require 'isomorfeus/record/server_class_methods'
+  require 'isomorfeus/record/server_instance_methods'
+  require 'ismo_record/mixin'
+  require 'ismo_record/base'
   Opal.append_path(__dir__.untaint)
   if Dir.exist?(File.join('app', 'isomorfeus', 'models'))
     # Opal.append_path(File.expand_path(File.join('app', 'isomorfeus', 'models')))  <- opal-autoloader will handle this

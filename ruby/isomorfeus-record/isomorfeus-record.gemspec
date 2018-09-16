@@ -1,7 +1,7 @@
 require '../version.rb'
 
 Gem::Specification.new do |s|
-  s.name         = 'isomorfeus-model'
+  s.name         = 'isomorfeus-record'
   s.version      = Isomorfeus::VERSION
   s.author       = 'Jan Biedermann'
   s.email        = 'jan@kursator.de'
