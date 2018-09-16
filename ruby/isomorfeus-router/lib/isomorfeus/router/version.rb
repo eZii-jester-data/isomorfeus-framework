@@ -1,5 +1,5 @@
-module Isomorfeus::Router
-  VERSION = File.read(File.expand_path("../../../../ISOMORFEUS_VERSION", __dir__)).strip
-
-  HYPERLOOP_VERSION = VERSION
+module Isomorfeus
+  module Router
+    VERSION = File.read(File.expand_path("../../../../ISOMORFEUS_VERSION", __dir__)).strip
+  end
 end

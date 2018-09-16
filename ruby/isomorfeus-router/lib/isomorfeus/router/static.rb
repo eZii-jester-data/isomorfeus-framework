@@ -1,5 +1,5 @@
 module Isomorfeus
-  class Router
+  module Router
     module Static
       module ClassMethods
         def route(&block)
