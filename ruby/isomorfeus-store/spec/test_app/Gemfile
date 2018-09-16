@@ -11,8 +11,8 @@ gem 'sqlite3'
 gem 'puma'
 
 require '../../lib/isomorfeus-store/version'
-gem 'isomorfeus-component', HyperStore::VERSION #, path: '../../../isomorfeus-react'
-gem 'isomorfeus-spec', HyperStore::VERSION #, path: '../../../isomorfeus-spec'
+gem 'isomorfeus-component', Isomorfeus::Store::VERSION #, path: '../../../isomorfeus-react'
+gem 'isomorfeus-spec', Isomorfeus::Store::VERSION #, path: '../../../isomorfeus-spec'
 gem 'isomorfeus-store', path: '../..'
 gem 'opal-browser'
 gem 'mini_racer', platforms: :ruby

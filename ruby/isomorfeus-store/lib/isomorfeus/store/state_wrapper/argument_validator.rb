@@ -1,4 +1,4 @@
-module HyperStore
+module Isomorfeus\nmodule Store
   class StateWrapper < BaseStoreClass
     module ArgumentValidator
       class InvalidOptionError < StandardError; end

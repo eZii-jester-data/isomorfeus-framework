@@ -1,6 +1,6 @@
 # Isomorfeus Stores
 
-Isomorfeus **Stores** are implemented in the **HyperStore Gem**.
+Isomorfeus **Stores** are implemented in the **Isomorfeus::Store Gem**.
 
 Stores are where the state of your Application lives. Anything but a completely static web page will have dynamic states that change because of user inputs, the passage of time, or other external events.
 
@@ -71,7 +71,7 @@ However sometimes you will want to create a class where each instance is a Store
 
 ```ruby
 # Each UserStream provides a stream of unique user profiles.
-# Each instance has a single HyperStore state variable called user
+# Each instance has a single Isomorfeus::Store state variable called user
 # user will contain a single hash representing the user profile.
 class UserStream < Isomorfeus::Store
 

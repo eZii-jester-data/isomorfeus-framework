@@ -132,7 +132,7 @@ describe 'the receives macro' do
       it 'will throw an error if nothing at all is passed in' do
         expect do
           Foo.receives
-        end.to raise_error(HyperStore::DispatchReceiver::InvalidOperationError)
+        end.to raise_error(Isomorfeus::Store::DispatchReceiver::InvalidOperationError)
       end
 
       it 'will throw an error if only a Symbol is passed in' do
@@ -143,13 +143,13 @@ describe 'the receives macro' do
         end
         expect do
           Foo.receives :foo!
-        end.to raise_error(HyperStore::DispatchReceiver::InvalidOperationError)
+        end.to raise_error(Isomorfeus::Store::DispatchReceiver::InvalidOperationError)
       end
 
       it 'will throw an error if only a Proc is passed in' do
         expect do
           Foo.receives -> { mutate.bar('foo') }
-        end.to raise_error(HyperStore::DispatchReceiver::InvalidOperationError)
+        end.to raise_error(Isomorfeus::Store::DispatchReceiver::InvalidOperationError)
       end
 
       it 'will throw an error if only a block is passed in' do
@@ -157,7 +157,7 @@ describe 'the receives macro' do
           Foo.receives do
             mutate.bar('foo')
           end
-        end.to raise_error(HyperStore::DispatchReceiver::InvalidOperationError)
+        end.to raise_error(Isomorfeus::Store::DispatchReceiver::InvalidOperationError)
       end
     end
 

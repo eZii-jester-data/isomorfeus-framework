@@ -25,7 +25,7 @@
 [![Gem Version](https://badge.fury.io/rb/isomorfeus-store.svg)](https://badge.fury.io/rb/isomorfeus-store)
 
 <p align="center">
-<img src="http://ruby-isomorfeus.io/images/HyperStores.png" width="100" alt="Hyperstores">
+<img src="http://ruby-isomorfeus.io/images/Isomorfeus::Stores.png" width="100" alt="Hyperstores">
 </p>
 
 </div>

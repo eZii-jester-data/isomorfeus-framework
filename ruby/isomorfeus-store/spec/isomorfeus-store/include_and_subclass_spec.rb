@@ -20,12 +20,12 @@ describe 'subclassing Isomorfeus::Store' do
   context 'class level' do
     it 'should define the :state method' do
       expect(Foo.singleton_methods).to include(:state)
-      expect(class_of(Foo.state)).to be < HyperStore::StateWrapper
+      expect(class_of(Foo.state)).to be < Isomorfeus::Store::StateWrapper
     end
 
     it 'should define the :mutate method' do
       expect(Foo.singleton_methods).to include(:mutate)
-      expect(class_of(Foo.mutate)).to be < HyperStore::MutatorWrapper
+      expect(class_of(Foo.mutate)).to be < Isomorfeus::Store::MutatorWrapper
     end
 
     it 'should define the :receieves method' do
@@ -38,12 +38,12 @@ describe 'subclassing Isomorfeus::Store' do
 
     it 'should define the :state method' do
       expect(@foo.methods).to include(:state)
-      expect(class_of(@foo.state)).to be < HyperStore::StateWrapper
+      expect(class_of(@foo.state)).to be < Isomorfeus::Store::StateWrapper
     end
 
     it 'should define the :mutate method' do
       expect(@foo.methods).to include(:mutate)
-      expect(class_of(@foo.mutate)).to be < HyperStore::MutatorWrapper
+      expect(class_of(@foo.mutate)).to be < Isomorfeus::Store::MutatorWrapper
     end
   end
 end
@@ -64,12 +64,12 @@ describe 'including Isomorfeus::Store::Mixin' do
   context 'class level' do
     it 'should define the :state method' do
       expect(Foo.singleton_methods).to include(:state)
-      expect(class_of(Foo.state)).to be < HyperStore::StateWrapper
+      expect(class_of(Foo.state)).to be < Isomorfeus::Store::StateWrapper
     end
 
     it 'should define the :mutate method' do
       expect(Foo.singleton_methods).to include(:mutate)
-      expect(class_of(Foo.mutate)).to be < HyperStore::MutatorWrapper
+      expect(class_of(Foo.mutate)).to be < Isomorfeus::Store::MutatorWrapper
     end
 
     it 'should define the :receieves method' do
@@ -82,12 +82,12 @@ describe 'including Isomorfeus::Store::Mixin' do
 
     it 'should define the :state method' do
       expect(@foo.methods).to include(:state)
-      expect(class_of(@foo.state)).to be < HyperStore::StateWrapper
+      expect(class_of(@foo.state)).to be < Isomorfeus::Store::StateWrapper
     end
 
     it 'should define the :mutate method' do
       expect(@foo.methods).to include(:mutate)
-      expect(class_of(@foo.mutate)).to be < HyperStore::MutatorWrapper
+      expect(class_of(@foo.mutate)).to be < Isomorfeus::Store::MutatorWrapper
     end
   end
 end

@@ -1092,7 +1092,7 @@ describe 'StateWrapper' do
             class Foo < Isomorfeus::Store; end
 
             expect { Foo.state(scope: :class, bar: nil) }
-              .to raise_error(HyperStore::StateWrapper::ArgumentValidator::InvalidOptionError)
+              .to raise_error(Isomorfeus::Store::StateWrapper::ArgumentValidator::InvalidOptionError)
           end
         end
 
