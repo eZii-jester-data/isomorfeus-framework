@@ -424,7 +424,7 @@ Pre-rendering is automatically taken care for you unde the hood, no more need to
 
 ## Setup
 
-To setup HyperRouter:
+To setup Isomorfeus::Router:
 
 + Install the gem (if you have installed the `isomorfeus` gem this has already been done)
 + Your page should render your `Isomorfeus::Router` as its top-level-component (first component to be rendered on the page) - in the example below this would be `AppRouter`

@@ -1,4 +1,4 @@
-module HyperRouter
+module Isomorfeus::Router
   class History
     include Native
 
@@ -11,7 +11,7 @@ module HyperRouter
     end
 
     def location
-      HyperRouter::Location.new(`#{@native}.location`)
+      Isomorfeus::Router::Location.new(`#{@native}.location`)
     end
 
     def block(message = nil)

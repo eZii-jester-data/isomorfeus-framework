@@ -1,4 +1,4 @@
-module HyperRouter
+module Isomorfeus::Router
   module InstanceMethods
     def history
       self.class.history

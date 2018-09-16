@@ -24,7 +24,7 @@
 [![Gem Version](https://badge.fury.io/rb/isomorfeus-router.svg)](https://badge.fury.io/rb/isomorfeus-router)
 
 <p align="center">
-<img src="http://ruby-isomorfeus.org/images/HyperRouter.png" width="100" alt="Isomorfeus-router">
+<img src="http://ruby-isomorfeus.org/images/Isomorfeus::Router.png" width="100" alt="Isomorfeus-router">
 </p>
 
 </div>

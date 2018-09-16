@@ -1,4 +1,4 @@
-module HyperRouter
+module Isomorfeus::Router
   class Location
     include Native
 

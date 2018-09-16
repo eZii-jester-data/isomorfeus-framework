@@ -1,4 +1,4 @@
-module HyperRouter
+module Isomorfeus::Router
   class IsomorphicMethods
     include React::IsomorphicHelpers
 

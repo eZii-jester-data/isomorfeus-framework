@@ -1,6 +1,4 @@
-# rubocop:disable Style/MethodName
-
-module HyperRouter
+module Isomorfeus::Router
   module ComponentMethods
     def Link(to, opts = {}, &children)
       opts[:to] = {}.tap do |hash|
@@ -17,7 +15,7 @@ module HyperRouter
       opts[:activeStyle] = opts.delete(:active_style).to_n if opts[:active_style]
       opts[:isActive] = opts.delete(:active).to_n if opts[:active]
       if (%i[activeClassName activeStyle isActive] & opts.keys).any?
-        React::State.get_state(HyperRouter, :location)
+        React::State.get_state(Isomorfeus::Router, :location)
       end
       React::Router::DOM::NavLink(opts, &children)
     end
@@ -29,9 +27,9 @@ module HyperRouter
 
     def format_params(e)
       {
-        match:    HyperRouter::Match.new(`#{e}.match`),
-        location: HyperRouter::Location.new(`#{e}.location`),
-        history:  HyperRouter::History.new(`#{e}.history`)
+        match:    Isomorfeus::Router::Match.new(`#{e}.match`),
+        location: Isomorfeus::Router::Location.new(`#{e}.location`),
+        history:  Isomorfeus::Router::History.new(`#{e}.history`)
       }
     end
 

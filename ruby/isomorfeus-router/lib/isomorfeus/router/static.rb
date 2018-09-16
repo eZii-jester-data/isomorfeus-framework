@@ -8,11 +8,11 @@ module Isomorfeus
       end
 
       def self.included(base)
-        base.extend(HyperRouter::ClassMethods)
+        base.extend(Isomorfeus::Router::ClassMethods)
         base.extend(ClassMethods)
 
-        base.include(HyperRouter::InstanceMethods)
-        base.include(HyperRouter::ComponentMethods)
+        base.include(Isomorfeus::Router::InstanceMethods)
+        base.include(Isomorfeus::Router::ComponentMethods)
       end
     end
   end
