@@ -8,6 +8,9 @@ module IsmoComponent
       base.include(React::Component::DslInstanceMethods)
       base.include(React::Component::ShouldComponentUpdate)
       base.include(Isomorfeus::Params::InstanceMethods)
+      base.extend(Isomorfeus::Params::ClassMethods)
+      base.include(Isomorfeus::Component::RouterMethods)
+      base.extend(React::Component::ClassMethods)
       base.class_eval do
         class_attribute :initial_state
         define_callback :before_mount
@@ -18,8 +21,6 @@ module IsmoComponent
         define_callback :before_unmount
         define_callback :after_error
       end
-      base.extend(Isomorfeus::Params::ClassMethods)
-      base.extend(React::Component::ClassMethods)
     end
 
     def initialize(native_element)

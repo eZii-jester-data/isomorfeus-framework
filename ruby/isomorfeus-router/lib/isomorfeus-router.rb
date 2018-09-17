@@ -7,7 +7,6 @@ if RUBY_ENGINE == 'opal'
   require 'react/router/dom'
   require 'react/router/history'
 
-  require 'isomorfeus/router/isomorphic_methods'
   require 'isomorfeus/router/history'
   require 'isomorfeus/router/location'
   require 'isomorfeus/router/match'
@@ -21,7 +20,7 @@ if RUBY_ENGINE == 'opal'
   require 'ismo_router/static'
 else
   require 'opal'
-  require 'isomorfeus/router/isomorphic_methods'
+  require 'isomorfeus/router/version'
 
   Opal.append_path File.expand_path('../', __FILE__).untaint
 end

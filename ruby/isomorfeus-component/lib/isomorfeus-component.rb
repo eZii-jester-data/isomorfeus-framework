@@ -25,14 +25,14 @@ if RUBY_ENGINE == 'opal'
 
   require 'isomorfeus-store'
 
-  require 'isomorfeus-store/state_wrapper'
+  require 'isomorfeus/store/state_wrapper'
   require 'isomorfeus/props_wrapper'
   require 'isomorfeus/validator'
 
   require 'isomorfeus/params/class_methods'
   require 'isomorfeus/params/instance_methods'
 
-  require 'isomorfeus/component'
+  require 'isomorfeus/component/router_methods'
   require 'isomorfeus/context'
 
   require 'ismo_component/mixin'
