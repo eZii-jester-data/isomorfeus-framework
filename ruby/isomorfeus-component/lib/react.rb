@@ -1,7 +1,6 @@
 require 'native'
 require 'active_support/core_ext/object/try'
 require 'react/component/tags'
-require 'react/component/base'
 
 module React
 
