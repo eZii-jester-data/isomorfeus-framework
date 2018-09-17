@@ -1,7 +1,7 @@
 module Isomorfeus
   module Router
     class History
-      include Native
+      include Native::Wrapper
 
       def initialize(native)
         @native = native

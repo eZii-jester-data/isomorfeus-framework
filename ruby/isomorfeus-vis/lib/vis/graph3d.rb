@@ -1,6 +1,6 @@
 module Vis
   class Graph3d
-    include Native
+    include Native::Wrapper
     include Vis::Utilities
 
     aliases_native %i[
@@ -23,7 +23,7 @@ module Vis
       `self["native"].off(event, handler)`
       @event_handlers[event].delete(event_handler_id)
     end
-    
+
     def on(event, &block)
       event = lower_camelize(event)
       @event_handlers[event] = {} unless @event_handlers[event]

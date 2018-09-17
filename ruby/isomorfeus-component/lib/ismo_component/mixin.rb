@@ -1,7 +1,7 @@
 module IsmoComponent
   module Mixin
     def self.included(base)
-      base.include(Isomorfeus::Store::Mixin)
+      base.include(IsmoStore::Mixin)
       base.include(React::Component::API)
       base.include(React::Callbacks)
       base.include(React::Component::Tags)

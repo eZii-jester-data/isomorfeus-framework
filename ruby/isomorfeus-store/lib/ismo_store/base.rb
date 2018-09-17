@@ -1,10 +1,11 @@
 module IsmoStore
-  class << self
-    def inherited(child)
+  class Base
+    def self.inherited(child)
       child.include(::IsmoStore::Mixin)
     end
-  end
-  def initialize
-    init_store
+
+    def initialize
+      init_store
+    end
   end
 end

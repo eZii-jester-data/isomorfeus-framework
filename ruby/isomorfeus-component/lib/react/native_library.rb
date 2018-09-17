@@ -72,7 +72,7 @@ module React
         if React::API.native_react_component?(native_name)
           new_klass = klass.const_set ruby_name, Class.new
           new_klass.class_eval do
-            include Isomorfeus::Component::Mixin
+            include IsmoComponent::Mixin
             imports native_name
           end
           new_klass

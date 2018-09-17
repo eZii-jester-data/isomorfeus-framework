@@ -3,7 +3,7 @@ module Isomorfeus
     module Network
       module Mixin
         def self.included(base)
-          base.include(Isomorfeus::Component::Mixin)
+          base.include(IsmoComponent::Mixin)
           base.class_eval do
             param vis_data: nil
             param options: nil

@@ -1,6 +1,6 @@
 module Vis
   class Network
-    include Native
+    include Native::Wrapper
     include Vis::Utilities
 
     aliases_native %i[
@@ -12,8 +12,8 @@ module Vis
       editNode
       enableEditMode
       disableEditMode
-      findNode 
-      getBaseEdges 
+      findNode
+      getBaseEdges
       getClusteredEdges
       getConnectedEdges
       getConnectedNodes
@@ -55,7 +55,7 @@ module Vis
 
     EVENTS_NO_COVERSION = %i[afterDrawing beforeDrawing blurEdge blurNode hoverEdge hoverNode showPopup]
     EVENTS_NO_PARAM = %i[hidePopup startStabilizing stabilizationIterationsDone initRedraw]
-    
+
     def on(event, &block)
       event = lower_camelize(event)
       @event_handlers[event] = {} unless @event_handlers[event]

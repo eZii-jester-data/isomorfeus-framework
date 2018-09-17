@@ -54,8 +54,6 @@ module React
   end
 
   def self.render(element, container)
-    raise "ReactDOM.render is not defined.  In React >= v15 you must import it with ReactDOM" if (`typeof ReactDOM === 'undefined'`)
-
     container = `container.$$class ? container[0] : container`
 
     if block_given?
@@ -85,11 +83,7 @@ module React
   end
 
   def self.unmount_component_at_node(node)
-    if !(`typeof ReactDOM === 'undefined'`)
-      `ReactDOM.unmountComponentAtNode(node.$$class ? node[0] : node)` # v0.15+
-    else
-      raise "unmountComponentAtNode is not defined.  In React >= v15 you must import it with ReactDOM"
-    end
+    `ReactDOM.unmountComponentAtNode(node.$$class ? node[0] : node)`
   end
 
 end

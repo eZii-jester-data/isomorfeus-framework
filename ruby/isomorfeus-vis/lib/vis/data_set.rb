@@ -1,6 +1,6 @@
 module Vis
   class DataSet
-    include Native
+    include Native::Wrapper
     include Vis::Utilities
     include Vis::EventSupport
     include Vis::DataCommon
@@ -8,7 +8,7 @@ module Vis
     aliases_native %i[clear distinct flush length]
     native_method_with_options :setOptions
     alias :size :length
-    
+
     attr_reader :event_handlers
 
     def self.wrap(native)
@@ -69,7 +69,7 @@ module Vis
       res = @native.JS.max(field)
       `res !== null ? Opal.Hash.$new(res) : #{nil}`
     end
-    
+
     def min(field)
       res = @native.JS.min(field)
       `res !== null ? Opal.Hash.$new(res) :  #{nil}`

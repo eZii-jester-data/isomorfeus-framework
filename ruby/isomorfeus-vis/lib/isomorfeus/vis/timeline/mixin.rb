@@ -3,7 +3,7 @@ module Isomorfeus
     module Timeline
       module Mixin
         def self.included(base)
-          base.include(Isomorfeus::Component::Mixin)
+          base.include(IsmoComponent::Mixin)
           base.class_eval do
             param items: nil
             param groups: nil

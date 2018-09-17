@@ -1,6 +1,6 @@
 module Vis
   class DataView
-    include Native
+    include Native::Wrapper
     include Vis::Utilities
     include Vis::EventSupport
     include Vis::DataCommon

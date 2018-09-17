@@ -1,6 +1,6 @@
 module Vis
   class Graph2d
-    include Native
+    include Native::Wrapper
     include Vis::Utilities
 
     aliases_native %i[
@@ -41,7 +41,7 @@ module Vis
     end
 
     EVENTS_NO_PARAM = %i[currentTimeTick changed]
-    
+
     def on(event, &block)
       event = lower_camelize(event)
       @event_handlers[event] = {} unless @event_handlers[event]
@@ -59,7 +59,7 @@ module Vis
     def set_groups(dataset)
       @native.JS.setGroups(dataset.to_n)
     end
-    
+
     def set_items(dataset)
       @native.JS.setItems(dataset.to_n)
     end
@@ -77,7 +77,7 @@ module Vis
       res = @native.JS.getEventProperties(event.to_n)
       `Opal.Hash.$new(res)`
     end
-    
+
     def get_legend(group_id, icon_width, icon_height)
       res = @native.JS.getLegend(group_id, icon_width, icon_height)
       `Opal.Hash.$new(res)`

@@ -1,6 +1,6 @@
 module React
   class Event
-    include Native
+    include Native::Wrapper
     alias_native :bubbles, :bubbles
     alias_native :cancelable, :cancelable
     alias_native :current_target, :currentTarget

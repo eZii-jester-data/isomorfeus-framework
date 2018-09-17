@@ -1,6 +1,6 @@
 module Vis
   class Timeline
-    include Native
+    include Native::Wrapper
     include Vis::Utilities
 
     aliases_native %i[
@@ -43,7 +43,7 @@ module Vis
 
     EVENTS_NO_COVERSION = %i[groupDragged]
     EVENTS_NO_PARAM = %i[currentTimeTick changed]
-    
+
     def on(event, &block)
       event = lower_camelize(event)
       @event_handlers[event] = {} unless @event_handlers[event]
@@ -101,7 +101,7 @@ module Vis
       res = @native.JS.getWindow()
       `Opal.Hash.$new(res)`
     end
-    
+
     def move_to(time, options = {})
       @native.JS.moveTo(time, options_to_native(options))
     end

@@ -106,7 +106,9 @@ module React
       end
 
       def to_n
-        React::API.class_eval('@@component_classes')[self]
+        native_component = React::API.class_variable_get(:@@component_classes)[self]
+        return native_component if native_component
+        React::API.create_native_react_class(self)
       end
     end
   end
