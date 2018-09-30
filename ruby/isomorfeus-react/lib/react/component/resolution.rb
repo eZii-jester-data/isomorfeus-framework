@@ -57,8 +57,8 @@ module React
                 Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
               }
             }
-            var element = React.createElement(component, props, Opal.React.render_buffer.pop());
-            Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(element);
+            var react_element = React.createElement(component, props, Opal.React.render_buffer.pop());
+            Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(react_element);
             return null;
           } else {
             return #{_original_method_missing(component_name, *args, block)};

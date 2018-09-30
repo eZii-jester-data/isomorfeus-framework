@@ -17,6 +17,7 @@ if RUBY_ENGINE == 'opal'
   require 'react_dom'
   # React.Component
   require 'react/component/api'
+  require 'react/component/features'
   require 'react/native_constant_wrapper'
   require 'react/component/native_component'
   require 'react/component/props'

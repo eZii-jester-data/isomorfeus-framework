@@ -6,6 +6,18 @@ module React
           attr_accessor :props
           attr_accessor :state
 
+          def ref(ref_name, &block)
+            defined_refs.JS[ref_name] = if block_given?
+                                       block
+                                     else
+                                       `null`
+                                     end
+          end
+
+          def defined_refs
+            @defined_ref ||= `{}`
+          end
+
           def state
             return @default_state if @default_state
             %x{

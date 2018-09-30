@@ -22,6 +22,8 @@ module React
         for (var i = 0; i < keys_length; i++) {
           if (keys[i].startsWith("on_")) {
             result[#{lower_camelize(`keys[i]`)}] = #{@native.JS[ruby_style_props[`keys[i]`]]};
+          } else if (keys[i].startsWith("aria_")) {
+            result[keys[i].replace("_", "-")] = #{ruby_style_props[`keys[i]`]};
           } else {
             result[#{lower_camelize(`keys[i]`)}] = #{ruby_style_props[`keys[i]`]};
           }

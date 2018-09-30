@@ -15,6 +15,15 @@ module React
     `React.cloneElement(ruby_react_element.$to_n(), native_props, block_result)`
   end
 
+  def self.create_context(const_name, default_value)
+    %x{
+      Opal.global[const_name] = React.createContext(value);
+      var new_const = #{React::NativeConstantWrapper.new(`Opal.global[const_name]`)};
+      #{Object.const_set(const_name, `new_const`)};
+      return new_const;
+    }
+  end
+
   def self.create_element(type, props = nil, children = nil, &block)
     %x{
       var component = null;
@@ -34,7 +43,7 @@ module React
       }
       if (block !== nil) {
         block_result = block.$call()
-        if (block_result && !(#{`block_result` != nil})) {
+        if (block_result && (typeof block_result.$$typeof == "undefined") && (#{`block_result` != nil})) {
           Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
         }
       }

@@ -12,11 +12,21 @@ module React
               super(props);
               this.state = base.$state().$to_n();
               this.__ruby_instance = base.$new(this);
-              var here = this;
-              #{
-                base.event_handlers.each do |handler|
-                  `here[handler] = here[handler].bind(here);`
-                end
+              var event_handlers = #{base.event_handlers};
+              var evh_length = event_handlers.length;
+              for (var i = 0; i < evh_length; i++) {
+                this[event_handlers[i]] = this[event_handlers[i]].bind(this);
+              }
+              var defined_refs = #{base.defined_refs};
+              for (var ref in defined_refs) {
+                if (defined_refs[ref] != null) {
+                  this[ref] = function(element) {
+                    #{`this.__ruby_instance`.instance_exec(React::Ref.new(`element`), `defined_refs[ref]`)}
+                  }
+                  this[ref] = this[ref].bind(this);
+                } else {
+                  this[ref] = React.createRef();
+                }
               }
             }
             static get displayName() {
