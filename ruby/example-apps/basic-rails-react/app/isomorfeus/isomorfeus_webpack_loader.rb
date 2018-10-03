@@ -12,6 +12,7 @@ class React::FunctionalComponent::Creator
   end
 end
 
+# some native React code for comparing performance
 %x{
   class Tester extends React.Component {
     constructor(props) {
@@ -91,17 +92,6 @@ end
     }
   }
   global.Test = Test;
-
-  function do_the_mount() {
-    //var c = React.createElement(Ahh, null, null);
-    //return ReactDOM.render(c, document.body.querySelector('div'));
-    var t1 = performance.now();
-    #{ReactDOM.render(React.create_element(RootComponent), `document.body.querySelector('div')`)};
-    var t2 = performance.now();
-    console.log(t2 - t1);
-  };
-  function ready_fun() {
-    /in/.test(document.readyState) ? setTimeout(ready_fun,5) : do_the_mount();
-  };
-  ready_fun();
 }
+
+Isomorfeus::TopLevel.on_ready_mount(RootComponent)

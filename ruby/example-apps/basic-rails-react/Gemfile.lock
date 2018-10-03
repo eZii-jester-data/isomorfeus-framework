@@ -1,4 +1,15 @@
 GIT
+  remote: https://github.com/isomorfeus/isomorfeus-framework.git
+  revision: fc273df1d0b718bd45060fbe16115a2972ef6d4f
+  branch: ulysses
+  glob: ruby/isomorfeus-react/*.gemspec
+  specs:
+    isomorfeus-react (16.5.1)
+      opal (>= 0.11.0, < 0.12.0)
+      opal-activesupport (~> 0.3.1)
+      opal-browser (~> 0.2.0)
+
+GIT
   remote: https://github.com/janbiedermann/opal.git
   revision: e3fdf16e8a657f7d9f9507207848a34953dced8d
   branch: es6_import_export
@@ -8,14 +19,6 @@ GIT
       hike (~> 1.2)
       parser (= 2.5.1.0)
       sourcemap (~> 0.1.0)
-
-PATH
-  remote: /Users/jan/workspace/isomorfeus/ruby/isomorfeus-react
-  specs:
-    isomorfeus-react (16.5.1)
-      opal (>= 0.11.0, < 0.12.0)
-      opal-activesupport (~> 0.3.1)
-      opal-browser (~> 0.2.0)
 
 GEM
   remote: https://rubygems.org/

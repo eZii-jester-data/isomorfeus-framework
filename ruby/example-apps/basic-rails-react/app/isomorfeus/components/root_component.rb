@@ -10,10 +10,10 @@ class RootComponent < React::Component::Base
       1000.times do
         # Test()
         Sem.Label(as: 'span') do
-          'l'
+          'K'
         end
         Sem.Label(as: 'span') do
-          'l'
+          'B'
         end
         R1Component(icks: 'X') do
           SPAN { 'C' }
@@ -24,7 +24,7 @@ class RootComponent < React::Component::Base
         R2Component()
         SPAN(on_click: :handle_click) do
           if state.toggler
-            'O'
+            'Q'
           else
             'X'
           end

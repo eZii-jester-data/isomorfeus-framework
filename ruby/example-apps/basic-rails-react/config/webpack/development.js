@@ -7,7 +7,7 @@ const OwlResolver = require('opal-webpack-loader/resolver'); // to resolve ruby 
 
 module.exports = {
     parallelism: 8,
-    context: path.resolve(__dirname, '../..'),
+    context: path.resolve(__dirname, '../../app/isomorfeus'),
     mode: "development",
     optimization: {
         minimize: false // dont minimize in development, to speed up hot reloads
@@ -22,7 +22,7 @@ module.exports = {
     // devtool: 'inline-source-map', // slowest
     // devtool: 'inline-cheap-source-map',
     entry: {
-        app: ['./app/javascript/app.js'], // entrypoint for isomorfeus
+        app: ['./app.js'], // entrypoint for isomorfeus
     },
     output: {
         // webpack-serve keeps the output in memory
@@ -38,7 +38,8 @@ module.exports = {
     },
     plugins: [
         // both for hot reloading
-        new webpack.NamedModulesPlugin()
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
     ],
     module: {
         rules: [
@@ -109,52 +110,17 @@ module.exports = {
             }
         ]
     },
-    // configuration for webpack serve
-    serve: {
-        devMiddleware: {
-            publicPath: '/packs/',
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            watchOptions: {
-
-            }
-        },
-        hotClient: {
-            host: 'localhost',
-            port: 8081,
-            allEntries: true,
-            hmr: true
-        },
-        host: "localhost",
-        port: 3035,
-        logLevel: 'debug',
-        content: path.resolve(__dirname, '../../public/packs'),
-        clipboard: false,
+    // configuration for webpack-dev-server
+    devServer: {
         open: false,
-        on: {
-            "listening": function (server) {
-                const socket = new WebSocket('ws://localhost:8081');
-                const watchPath = path.resolve(__dirname, '../../app/views');
-                const options = {};
-                const watcher = chokidar.watch(watchPath, options);
-
-                watcher.on('change', () => {
-                    const data = {
-                        type: 'broadcast',
-                        data: {
-                            type: 'window-reload',
-                            data: {},
-                        },
-                    };
-
-                    socket.send(JSON.stringify(data));
-                });
-
-                server.server.on('close', () => {
-                    watcher.close();
-                });
-            }
+        lazy: false,
+        port: 3035,
+        hotOnly: true,
+        inline: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+            "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
         }
     }
 };

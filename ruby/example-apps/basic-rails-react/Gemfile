@@ -64,4 +64,4 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'opal', github: 'janbiedermann/opal', branch: 'es6_import_export'
 gem 'opal-autoloader', '~> 0.0.3'
 gem 'opal-webpack-loader', '~> 0.3.7'
-gem 'isomorfeus-react', path: '/Users/jan/workspace/isomorfeus/ruby/isomorfeus-react'
+gem 'isomorfeus-react', github: 'isomorfeus/isomorfeus-framework', branch: 'ulysses', glob: 'ruby/isomorfeus-react/*.gemspec'
