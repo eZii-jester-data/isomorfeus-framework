@@ -14,6 +14,7 @@ module React
               for (var i = 0; i < evh_length; i++) {
                 this[event_handlers[i]] = this[event_handlers[i]].bind(here);
               }
+              var defined_refs = #{base.defined_refs};
               for (var ref in defined_refs) {
                 if (defined_refs[ref] != null) {
                   this[ref] = function(element) {

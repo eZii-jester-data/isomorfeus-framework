@@ -35,12 +35,15 @@ if RUBY_ENGINE == 'opal'
   # Functional Component
   require 'react/functional_component/creator'
   require 'react/functional_component/runner'
+  require 'isomorfeus/config'
+  require 'isomorfeus/top_level'
 else
   require 'opal'
   require 'opal-activesupport'
   require 'opal-browser'
 
   require 'isomorfeus/config'
+  require 'isomorfeus/view_helpers'
 
   Opal.append_path(__dir__.untaint)
   if defined?(Rails)

@@ -32,38 +32,59 @@ module React
             @default_state = React::Component::State.new(`native_state`)
           end
 
-          def prop(name, options)
+          def prop(name, options = `null`)
             name = lower_camelize(name)
-            if options.has_key?(:default)
-              %x{
-                if (typeof self.react_component.defaultProps == "undefined") {
-                  self.react_component.defaultProps = {};
+            if options
+              if options.has_key?(:default)
+                %x{
+                  if (typeof self.react_component.defaultProps == "undefined") {
+                    self.react_component.defaultProps = {};
+                  }
+                  self.react_component.defaultProps[name] = options.$fetch("default");
                 }
-                self.react_component.defaultProps[name] = options.$fetch("default");
-              }
-            end
-            if options.has_key?(:class)
-              %x{
-                if (typeof self.react_component.propTypes == "undefined") {
-                  self.react_component.propTypes = {};
-                  self.react_component.propValidations = {};
-                  self.react_component.propValidations[name] = {};
+              end
+              if options.has_key?(:class)
+                %x{
+                  if (typeof self.react_component.propTypes == "undefined") {
+                    self.react_component.propTypes = {};
+                    self.react_component.propValidations = {};
+                    self.react_component.propValidations[name] = {};
+                  }
+                  self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
+                  self.react_component.propValidations[name].ruby_class = options.$fetch("class");
                 }
-                self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
-                self.react_component.propValidations[name].ruby_class = options.$fetch("class");
-              }
-            elsif options.has_key?(:is_a)
-              %x{
-                if (typeof self.react_component.propTypes == "undefined") {
-                  self.react_component.propTypes = {};
-                  self.react_component.propValidations = {};
-                  self.react_component.propValidations[name] = {};
+              elsif options.has_key?(:is_a)
+                %x{
+                  if (typeof self.react_component.propTypes == "undefined") {
+                    self.react_component.propTypes = {};
+                    self.react_component.propValidations = {};
+                    self.react_component.propValidations[name] = {};
+                  }
+                  self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
+                  self.react_component.propValidations[name].is_a = options.$fetch("is_a");
                 }
-                self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
-                self.react_component.propValidations[name].is_a = options.$fetch("is_a");
-              }
-            end
-            if options.has_key?(:required)
+              end
+              if options.has_key?(:required)
+                %x{
+                  if (typeof self.react_component.propTypes == "undefined") {
+                    self.react_component.propTypes = {};
+                    self.react_component.propValidations = {};
+                    self.react_component.propValidations[name] = {};
+                  }
+                  self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
+                  self.react_component.propValidations[name].required = options.$fetch("required");
+                }
+              elsif !options.has_key?(:default)
+                %x{
+                  if (typeof self.react_component.propTypes == "undefined") {
+                    self.react_component.propTypes = {};
+                    self.react_component.propValidations = {};
+                  }
+                  self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
+                  self.react_component.propValidations[name].required = true;
+                }
+              end
+            else
               %x{
                 if (typeof self.react_component.propTypes == "undefined") {
                   self.react_component.propTypes = {};
@@ -73,20 +94,11 @@ module React
                 self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
                 self.react_component.propValidations[name].required = options.$fetch("required");
               }
-            elsif !options.has_key?(:default)
-              %x{
-                if (typeof self.react_component.propTypes == "undefined") {
-                  self.react_component.propTypes = {};
-                  self.react_component.propValidations = {};
-                }
-                self.react_component.propTypes[name] = self.react_component.prototype.validateProp;
-                self.react_component.propValidations[name].required = true;
-              }
             end
           end
 
           def default_props
-            `self.react_component.prototype.defaultProps`
+            React::Component::Props.new(`self.react_component.prototype.defaultProps`)
           end
 
           def component_did_catch(&block)
@@ -182,6 +194,7 @@ module React
 
       def force_update(&block)
         if block_given?
+          # this maybe needs instance_exec too
           @native.JS.forceUpdate(`function() { block.$call(); }`)
         else
           @native.JS.forceUpdate
