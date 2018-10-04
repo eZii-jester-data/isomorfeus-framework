@@ -55,7 +55,7 @@ module React
             if (block !== nil) {
               Opal.React.render_buffer.push([]);
               block_result = block.$call();
-              if (block_result && (typeof block_result['$!='] !== "undefined" && #{`block_result` != nil})) {
+              if (block_result && ((typeof block_result['$!='] !== "undefined" && #{`block_result` != nil}) || typeof block_result.$$typeof === "symbol")) {
                 Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
               }
               children = Opal.React.render_buffer.pop();
