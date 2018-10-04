@@ -21,7 +21,7 @@ Because isomorfeus-react follows closely the React principles/implementation/API
 apply, but in the Ruby way, see:
 - https://reactjs.org/docs/getting-started.html
 
-React and accompanying libraries must be available in the global namespace,
+React and accompanying libraries must be imported and available in the global namespace in the application javascript entry file,
 with webpack this can be ensured by assigning them to the global namespace:
 ```javascript
 import React from 'react';
@@ -348,6 +348,13 @@ class MyComponent < React::Component::Base
 end
 ```
 
+Some Javascript components accept another Javascript component as property, like for example React Router. The Ruby class won't work here,
+instead the Javascript React component of the Ruby class must be passed.
+It can be accessed by using Opals JS syntax to get the React Component of the Ruby class:
+```ruby
+Route(path: '/', strict: true, component: MyComponent.JS[:react_component])
+```
+
 ### Context
 A context can be created using `React.create_context(constant_name, default_value)`. Constant_name must be a string like `"MyContext"`.
 The context withs its Provider and Consumer can then be used like a component:
@@ -368,6 +375,61 @@ class MyOtherComponent < React::Component::Base
   render do
     MyContext.Consumer do |value|
       Sem.Button(as: value) { 'useful text' }
+    end
+  end
+end
+```
+
+### Using React Router
+First the Components of React Router must be imported and made available in the global context:
+```javascript
+import * as ReactRouter from 'react-router';
+import * as ReactRouterDOM from 'react-router-dom';
+import { BrowserRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
+
+global.ReactRouter = ReactRouter;
+global.ReactRouterDOM = ReactRouterDOM;
+global.BrowserRouter = BrowserRouter;
+global.Link = Link;
+global.NavLink = NavLink;
+global.Route = Route;
+global.Switch = Switch;
+```
+Only import whats needed, or import HashRouter instead of BrowserRouter.
+Then the Router components can be used as an other component:
+```ruby
+class RouterComponent < React::Component::Base
+  render do
+    DIV do
+      BrowserRouter do
+        Switch do
+          Route(path: '/my_path/:id', exact: true, component: MyOtherComponent.JS[:react_component])
+          Route(path: '/', strict: true, component: MyCompnent.JS[:react_component])
+        end
+      end
+    end
+  end
+end
+```
+The Javascript React components of the ruby class must be passed as shown above. The child components then get the Router props
+(match, history, location) passed in their props. They can be accessed like this:
+```ruby
+class MyOtherComponent < React::Component::Base
+
+  render do
+    Sem.Container(text_align: 'left', text: true) do
+      DIV do
+        SPAN { 'match :id is: ' }
+        SPAN { props.match.id }
+      end
+      DIV do
+        SPAN { 'location pathname is: ' }
+        SPAN { props.location.pathname }
+      end
+      DIV do
+        SPAN { 'number of history entries: ' }
+        SPAN { props.history.length }
+      end
     end
   end
 end
