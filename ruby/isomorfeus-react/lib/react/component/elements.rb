@@ -54,27 +54,12 @@ module React
       SUPPORTED_HTML_AND_SVG_ELEMENTS.each do |element|
         define_method(element) do |*args, &block|
           %x{
-            var children = null;
-            var block_result = null;
             var props = null;
-            var react_element;
 
             if (args.length > 0) {
               props = #{to_native_react_props(args[0])};
             }
-            if (block !== nil) {
-              Opal.React.render_buffer.push([]);
-              block_result = block.$call();
-              if (block_result && ((typeof block_result['$!='] !== "undefined" && #{`block_result` != nil}) || typeof block_result.$$typeof === "symbol")) {
-                Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
-              }
-              children = Opal.React.render_buffer.pop();
-              if (children.length == 1) { children = children[0]; }
-              else if (children.length == 0) { children = null; }
-            }
-            react_element = React.createElement(#{element}, props, children);
-            Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(react_element);
-            return null;
+            Opal.React.internal_render(element, props, block);
           }
         end
         alias_method element.upcase, element

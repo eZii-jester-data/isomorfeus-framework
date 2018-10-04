@@ -3,6 +3,37 @@ module React
 
   %x{
     self.render_buffer = [];
+
+    self.lower_camelize = function(snake_cased_word) {
+      var words = snake_cased_word.split("_");
+      if (words.length == 1) { return words[0]; }
+
+      var other_words = words.slice(1, words.length);
+      var other_length = other_words.length;
+      for (var i = 0; i < other_length; i++) {
+        other_words[i] = other_words[i].charAt(0).toUpperCase() + other_words[i].slice(1);
+      }
+      return words[0] + other_words.join("");
+    };
+
+    self.internal_render = function(component, props, block) {
+      var children;
+      var block_result;
+      var react_element;
+
+      if (block !== nil) {
+        Opal.React.render_buffer.push([]);
+        block_result = block.$call();
+        if (block_result && (block_result !== nil || typeof block_result.$$typeof === "symbol")) {
+          Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
+        }
+        children = Opal.React.render_buffer.pop();
+        if (children.length == 1) { children = children[0]; }
+        else if (children.length == 0) { children = null; }
+      }
+      react_element = React.createElement(component, props, children);
+      Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(react_element);
+    }
   }
 
   def self.clone_element(ruby_react_element, props = nil, children = nil, &block)
@@ -43,7 +74,7 @@ module React
       }
       if (block !== nil) {
         block_result = block.$call()
-        if (block_result && (typeof block_result.$$typeof == "undefined") && (#{`block_result` != nil})) {
+        if (block_result && (block_result !== nil || typeof block_result.$$typeof === "symbol")) {
           Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
         }
         children = Opal.React.render_buffer.pop()

@@ -33,7 +33,7 @@ module React
           end
 
           def prop(name, options = `null`)
-            name = lower_camelize(name)
+            name = `Opal.React.lower_camelize(name)`
             if options
               if options.has_key?(:default)
                 %x{

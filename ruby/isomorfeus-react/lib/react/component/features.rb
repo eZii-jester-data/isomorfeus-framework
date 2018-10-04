@@ -3,22 +3,12 @@ module React
     module Features
       def Fragment(props = `null`, &block)
         %x{
-          var children = null;
-          var block_result = null;
           var native_props = null;
-          Opal.React.render_buffer.push([]);
+
           if (props) {
             native_props = #{to_native_react_props(props)};
           }
-          if (block !== nil) {
-            block_result = block.$call()
-            if (block_result && (#{`block_result` != nil})) {
-              Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
-            }
-          }
-          var react_element = React.createElement(React.Fragment, native_props, Opal.React.render_buffer.pop());
-          Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(react_element);
-          return null;
+          Opal.React.internal_render(React.Fragment, native_props, block);
         }
       end
 
@@ -30,7 +20,7 @@ module React
           Opal.React.render_buffer.push([]);
           if (block !== nil) {
             block_result = block.$call()
-            if (block_result && (#{`block_result` != nil})) {
+            if (block_result && (block_result !== nil || typeof block_result.$$typeof === "symbol")) {
               Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
             }
           }
@@ -42,22 +32,12 @@ module React
 
       def StrictMode(props = `null`, &block)
         %x{
-          var children = null;
-          var block_result = null;
           var native_props = null;
-          Opal.React.render_buffer.push([]);
+
           if (props) {
             native_props = #{to_native_react_props(props)};
           }
-          if (block !== nil) {
-            block_result = block.$call()
-            if (block_result && (#{`block_result` != nil})) {
-              Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
-            }
-          }
-          var react_element = React.createElement(React.StrictMode, native_props, Opal.React.render_buffer.pop());
-          Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(react_element);
-          return null;
+          Opal.React.internal_render(React.StrictMode, native_props, block);
         }
       end
     end

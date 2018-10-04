@@ -7,7 +7,7 @@ module React
       alias _original_method_missing method_missing
 
       def method_missing(prop, *args, &block)
-        @native.JS[:props].JS[lower_camelize(prop)]
+        @native.JS[:props].JS[`Opal.React.lower_camelize(prop)`]
       end
 
       def history
