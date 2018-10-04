@@ -11,7 +11,7 @@ git commit: "-m 'Initial commit: Rails base'"
 gem 'opal', github: 'janbiedermann/opal', branch: 'es6_import_export'
 gem 'opal-autoloader', '~> 0.0.2'
 gem 'opal-webpack-loader', '~> 0.3.7'
-gem 'isomorfeus-react', path: '/Users/jan/workspace/isomorfeus/ruby/isomorfeus-react'
+gem 'isomorfeus-react', github: 'isomorfeus/isomorfeus-framework', branch: 'ulysses', glob: 'ruby/isomorfeus-react/*.gemspec'
 
 # ----------------------------------- Create the folders
 
