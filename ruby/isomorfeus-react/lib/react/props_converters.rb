@@ -31,15 +31,5 @@ module React
         return result;
       }
     end
-
-    def to_ruby_props(native_style_props)
-      result = {}
-      %x{
-        for (key in native_style_props){
-          #{result[`key`.underscore] = `native_style_props[key]`}
-        }
-      }
-      result
-    end
   end
 end

@@ -137,7 +137,7 @@ module React
           def get_derived_state_from_props(&block)
             %x{
               self.react_component.prototype.getDerivedStateFromProps = function(props, state) {
-                return #{`this.__ruby_instance`.instance_exec(to_ruby_props(`props`), `Opal.Hash.$new(state)`, &block)};
+                return #{`this.__ruby_instance`.instance_exec(React::Component::Props.new(`props`), `Opal.Hash.$new(state)`, &block)};
               }
             }
           end
@@ -145,7 +145,7 @@ module React
           def get_snapshot_before_update(&block)
             %x{
               self.react_component.prototype.getSnapshotBeforeUpdate = function(prev_props, prev_state) {
-                return #{`this.__ruby_instance`.instance_exec(to_ruby_props(`prev_props`), `Opal.Hash.$new(prev_state)`, &block)};
+                return #{`this.__ruby_instance`.instance_exec(React::Component::Props.new(`prev_props`), `Opal.Hash.$new(prev_state)`, &block)};
               }
             }
           end
@@ -171,7 +171,7 @@ module React
           def unsafe_component_will_receive_props(&block)
             %x{
               self.react_component.prototype.UNSAFE_componentWillReceiveProps = function(next_props) {
-                return #{`this.__ruby_instance`.instance_exec(to_ruby_props(`next_props`), &block)};
+                return #{`this.__ruby_instance`.instance_exec(React::Component::Props.new(`next_props`), &block)};
               }
             }
           end
@@ -179,7 +179,7 @@ module React
           def unsafe_component_will_update(&block)
             %x{
               self.react_component.prototype.UNSAFE_componentWillUpdate = function(next_props, next_state) {
-                return #{`this.__ruby_instance`.instance_exec(to_ruby_props(`next_props`), `Opal.Hash.$new(next_state)`, &block)};
+                return #{`this.__ruby_instance`.instance_exec(React::Component::Props.new(`next_props`), `Opal.Hash.$new(next_state)`, &block)};
               }
             }
           end
