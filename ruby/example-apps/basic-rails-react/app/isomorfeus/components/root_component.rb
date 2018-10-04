@@ -36,6 +36,9 @@ class RootComponent < React::Component::Base
           's'
         end
         SPAN do
+          's'
+        end
+        SPAN do
           's '
         end
       end

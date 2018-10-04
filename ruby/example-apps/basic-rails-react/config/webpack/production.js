@@ -5,7 +5,7 @@ const ManifestPlugin = require('webpack-manifest-plugin');  // for generating th
 
 module.exports = {
     parallelism: 8,
-    context: path.resolve(__dirname, '../..'),
+    context: path.resolve(__dirname, '../../app/isomorfeus'),
     mode: "production",
     optimization: {
         minimize: true // minimize
@@ -15,7 +15,7 @@ module.exports = {
         maxEntrypointSize: 20000000
     },
     entry: {
-        app: './app/javascript/app.js',
+        app: './app.js',
     },
     plugins: [
         new CompressionPlugin({ test: /.js/ }), // gzip compress
@@ -30,7 +30,11 @@ module.exports = {
         plugins: [
             // resolve ruby files
             new OwlResolver('resolve', 'resolved')
-        ]
+        ],
+        alias: {
+            'react-dom': 'react-dom/profiling',
+            'schedule/tracing': 'schedule/tracing-profiling',
+        }
     },
     module: {
         rules: [
