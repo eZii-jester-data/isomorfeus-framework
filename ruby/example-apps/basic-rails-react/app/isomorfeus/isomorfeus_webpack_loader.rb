@@ -94,4 +94,29 @@ end
   global.Test = Test;
 }
 
-Isomorfeus::TopLevel.on_ready_mount(RootComponent)
+class ShowLinks < React::PureComponent::Base
+  render do
+    DIV do
+      Link(to: '/run/10') { 'Run 10' }
+      SPAN { ' | ' }
+      Link(to: '/run/100') { 'Run 100' }
+      SPAN { ' | ' }
+      Link(to: '/run/1000') { 'Run 1000' }
+    end
+  end
+end
+
+class RouterComponent < React::Component::Base
+  render do
+    DIV do
+      BrowserRouter do
+        Switch do
+          Route(path: '/run/:count', exact: true, component: RootComponent.JS[:react_component])
+          Route(path: '/', strict: true, component: ShowLinks.JS[:react_component])
+        end
+      end
+    end
+  end
+end
+
+Isomorfeus::TopLevel.on_ready_mount(RouterComponent)

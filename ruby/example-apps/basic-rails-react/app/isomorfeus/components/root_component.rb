@@ -7,7 +7,7 @@ class RootComponent < React::Component::Base
 
   render do
     Sem.Container(text_align: 'left', text: true) do
-      1000.times do
+      props.match.count.to_i.times do
         # Test()
         Sem.Label(as: 'span') do
           'K'
