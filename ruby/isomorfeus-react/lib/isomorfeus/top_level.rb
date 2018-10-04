@@ -26,7 +26,7 @@ module Isomorfeus
         end
       end
       element = `document.body.querySelector(element_query)`
-      ReactDOM.render(React.create_element(RootComponent, params), element)
+      ReactDOM.render(React.create_element(component, params), element)
     end
 
     def self.ujs_mount
