@@ -44,7 +44,7 @@ else
   require 'opal'
   require 'opal-activesupport'
   require 'opal-browser'
-
+  require 'react/version'
   require 'isomorfeus/config'
   require 'isomorfeus/view_helpers'
 
