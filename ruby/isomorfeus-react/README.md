@@ -434,3 +434,8 @@ class MyOtherComponent < React::Component::Base
   end
 end
 ```
+Otherwise the React Router documentation applies: https://reacttraining.com/react-router/
+
+### Development Tools
+The React Developer Tools allow for analyzing, debugging and profiling components. A very helpful toolset and working very nice with isomorfeus-react:
+https://github.com/facebook/react-devtools
