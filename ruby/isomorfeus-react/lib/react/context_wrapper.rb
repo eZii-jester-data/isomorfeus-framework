@@ -34,10 +34,7 @@ module React
 
     def Provider(*args, &block)
       %x{
-        var children = null;
-        var block_result = null;
         var props = null;
-        var react_element;
 
         if (args.length > 0) {
           props = #{to_native_react_props(args[0])};
