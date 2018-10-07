@@ -21,7 +21,7 @@ and to your client code add:
 require 'isomorfeus-react'
 ```
 ## Usage
-Because isomorfeus-react follows closely the React principles/implementation/API and Documentation, most things of the official React Documentation
+Because isomorfeus-react follows closely the React principles/implementation/API and Documentation, most things of the official React documentation
 apply, but in the Ruby way, see:
 - https://reactjs.org/docs/getting-started.html
 
@@ -34,7 +34,7 @@ global.React = React;
 global.ReactDOM = ReactDOM;
 ```
 
-Following each Feature is presented with its differences to the Javascript React implementation.
+Following features are presented with its differences to the Javascript React implementation.
 
 ### Class Components
 Class Components can be created in two ways, either by inheritance or by including a module.
