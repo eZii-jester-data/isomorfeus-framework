@@ -7,7 +7,11 @@ isomorfeus-react version follows the React version which features and API it imp
 Isomorfeus-react 16.5.x implements features and the API of React 16.5 and should be used with React 16.5
 
 ## Installation
-add to the Gemfile:
+To install React with the matching version:
+```
+yarn add react@16.5
+```
+then add to the Gemfile:
 ```ruby
 gem 'isomorfeus-react'
 ```
