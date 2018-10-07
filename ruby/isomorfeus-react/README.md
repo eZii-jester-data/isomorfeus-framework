@@ -109,6 +109,10 @@ class React::FunctionalComponent::Creator
   end
 end
 ```
+The file containing the creator must be explicitly required, because the resulting constant name of the component and the constant
+of the creator differ, opal-autoloader can't resolve the constant automatically.
+
+ 
 A Functional Component can then be used in another Component:
 ```ruby
 class MyComponent < React::PureComponent::Base
