@@ -70,5 +70,4 @@ end
 ```
 
 ### Development Tools
-The Redux Development Tools allow for detailed debugging of store/state changes and along with various UI provide
-time travel or other visualizations: https://github.com/zalmoxisus/redux-devtools-extension
+The Redux Development Tools allow for detailed debugging of store/state changes: https://github.com/zalmoxisus/redux-devtools-extension

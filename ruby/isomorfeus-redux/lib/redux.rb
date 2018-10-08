@@ -1,10 +1,19 @@
 module Redux
+
   def self.create_store(reducer, preloaded_state = nil, enhancer = nil)
     Redux::Store.new(reducer, preloaded_state, enhancer)
   end
 
-  def self.combine_reducers(*reducers)
-    `Redux.combineReducers(reducers)`
+  def self.combine_reducers(reducers)
+    %x{
+      var real_reducers;
+      if (typeof reducers.$class === "function") {
+        real_reducers = reducers.$to_n();
+      } else {
+        real_reducers = reducers;
+      }
+      return Redux.combineReducers(real_reducers);
+    }
   end
 
   def self.apply_middleware(*middlewares)
@@ -25,7 +34,7 @@ module Redux
       return (function(previous_state, action) {
         var new_state = block.$call(Opal.Hash.$new(previous_state), Opal.Hash.$new(action));
         if (typeof new_state.$class === "function") { new_state = new_state.$to_n(); }
-        return result;
+        return new_state;
       });
     }
   end
