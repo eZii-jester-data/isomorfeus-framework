@@ -1,5 +1,5 @@
 module React
-  module Component
+  module ReduxComponent
     module NativeComponent
       # for should_component_update we apply ruby semantics for comparing props
       # to do so, we convert the props to ruby hashes and then compare
@@ -16,7 +16,20 @@ module React
               } else {
                 this.state = {};
               };
+              var current_store_state = Opal.Isomorfeus.store.native.getState();
+              if (typeof current_store_state.__component_class_state !== "undefined" && typeof current_store_state.__component_class_state[#{component_name}] !== "undefined") {
+                this.state.__component_class_state = {};
+                this.state.__component_class_state[#{component_name}] = current_store_state.__component_class_state[#{component_name}];
+              } else if (typeof this.state.__component_class_state === "undefined") {
+                this.state.__component_class_state = {};
+                this.state.__component_class_state[#{component_name}] = {};
+              };
               this.__ruby_instance = base.$new(this);
+              this.__object_id = this.__ruby_instance.$object_id().$to_s();
+              if (!this.state.__component_state) {
+                this.state.__component_state = {};
+                this.state.__component_state[this.__object_id] = {};
+              };
               var event_handlers = #{base.event_handlers};
               var evh_length = event_handlers.length;
               for (var i = 0; i < evh_length; i++) {
@@ -33,6 +46,8 @@ module React
                   this[ref] = React.createRef();
                 }
               }
+              this.listener = this.listener.bind(this);
+              this.unsubscriber = Opal.Isomorfeus.store.native.subscribe(this.listener);
             }
             static get displayName() {
               return #{component_name};
@@ -91,6 +106,30 @@ module React
                 }
               }
               return null;
+            }
+            listener() {
+              var next_state = Opal.Isomorfeus.store.native.getState();
+              if (typeof next_state.__component_state !== "undefined" && typeof next_state.__component_state[this.__object_id] !== "undefined") {
+                var current_ruby_state = Opal.Hash.$new(this.state.__component_state[this.__object_id]);
+                var next_ruby_state = Opal.Hash.$new(next_state.__component_state[this.__object_id]);
+                if (#{`next_ruby_state` != `current_ruby_state`}) {
+                  var new_state = { __component_state: {}};
+                  new_state.__component_state[this.__object_id] = current_ruby_state.$merge(next_ruby_state).$to_n();
+                  this.setState(new_state);
+                }
+              }
+              if (typeof next_state.__component_class_state !== "undefined" && typeof next_state.__component_class_state[#{component_name}] !== "undefined") {
+                var current_ruby_state = Opal.Hash.$new(this.state.__component_class_state[#{component_name}]);
+                var next_ruby_state = Opal.Hash.$new(next_state.__component_class_state[#{component_name}]);
+                if (#{`next_ruby_state` != `current_ruby_state`}) {
+                  var new_state = { __component_class_state: {}};
+                  new_state.__component_class_state[#{component_name}] = current_ruby_state.$merge(next_ruby_state).$to_n();
+                  this.setState(new_state);
+                }
+              }
+            }
+            componentWillUnmount() {
+              if (typeof this.unsubscriber === "function") { this.unsubscriber(); };
             }
           }
         }

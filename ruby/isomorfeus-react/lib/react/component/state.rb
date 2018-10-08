@@ -6,7 +6,7 @@ module React
       alias _original_method_missing method_missing
 
       def method_missing(key, *args, &block)
-        if key.end_with?('=')
+        if `key.endsWith('=')`
           new_state = `{}`
           new_state.JS[key.chop] = args[0]
           if block_given?
@@ -32,8 +32,22 @@ module React
         end
       end
 
+      def size
+        `Object.keys(#@native.state).length`;
+      end
+
       def to_n
-        @native.JS[:state]
+        %x{
+          var new_native = {};
+          for (var key in #@native.state) {
+            if (typeof #@native.state[key].$to_n !== "undefined") {
+              new_native[key] = #@native.state[key].$to_n();
+            } else {
+              new_native[key] = #@native.state[key];
+            }
+          }
+          return new_native;
+        }
       end
     end
   end

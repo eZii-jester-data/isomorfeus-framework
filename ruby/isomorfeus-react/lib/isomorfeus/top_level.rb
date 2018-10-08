@@ -5,6 +5,8 @@ module Isomorfeus
     end
 
     def self.on_ready_mount(component, params = nil, element_query = nil)
+      # init in case it hasn't been run yet
+      Isomorfeus.init
       # this looks a bit odd but works across _all_ browsers, and no event handler mess
       # TODO: server rendering
       %x{

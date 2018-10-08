@@ -7,7 +7,11 @@ module React
           base.react_component = class extends React.Component {
             constructor(props) {
               super(props);
-              this.state = base.$state().$to_n();
+              if (base.$state().$size() > 0) {
+                this.state = base.$state().$to_n();
+              } else {
+                this.state = {};
+              };
               this.__ruby_instance = base.$new(this);
               var event_handlers = #{base.event_handlers};
               var evh_length = event_handlers.length;

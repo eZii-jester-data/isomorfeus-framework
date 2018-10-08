@@ -1,4 +1,5 @@
 if RUBY_ENGINE == 'opal'
+  require 'opal'
   require 'native'
   require 'active_support/core_ext/string'
   require 'browser/support'
@@ -9,6 +10,7 @@ if RUBY_ENGINE == 'opal'
   require 'browser/window'
   require 'browser/dom/node'
   require 'browser/dom/element'
+  require 'isomorfeus-redux'
   require 'react/version'
   require 'react/props_converters'
   require 'react'
@@ -39,17 +41,30 @@ if RUBY_ENGINE == 'opal'
   # Functional Component
   require 'react/functional_component/creator'
   require 'react/functional_component/runner'
+  require 'react/redux_component/store_defaults'
+  require 'react/redux_component/api'
+  require 'react/redux_component/class_store_proxy'
+  require 'react/redux_component/instance_store_proxy'
+  require 'react/redux_component/native_component'
+  require 'react/redux_component/mixin'
+  require 'react/redux_component/base'
+  require 'react/redux_component/reducers'
   require 'isomorfeus/config'
+
+  React::ReduxComponent::Reducers.add_component_reducers_to_store
+
   require 'isomorfeus/top_level'
 else
   require 'opal'
   require 'opal-activesupport'
   require 'opal-browser'
+  require 'isomorfeus-redux'
   require 'react/version'
   require 'isomorfeus/config'
   require 'isomorfeus/view_helpers'
 
   Opal.append_path(__dir__.untaint)
+
   if defined?(Rails)
     module Isomorfeus
       module Model

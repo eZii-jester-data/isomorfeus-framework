@@ -2,8 +2,16 @@ if RUBY_ENGINE == 'opal'
   module Isomorfeus
     class << self
       attr_reader :options
+      attr_reader :initialized
+      attr_reader :store
 
       def init
+        return if initialized
+        @initialized = true
+        # at least one reducer must have be added at this stage
+        # this happened in isomorfeus-react.rb, where the component reducer was added
+        @store = Redux::Store.init!
+        `Opal.Isomorfeus.store = #@store`
         init_options
         execute_init_classes
       end
