@@ -18,7 +18,7 @@ class RootComponent < React::Component::Base
         R1Component(icks: 'X') do
           SPAN { 'C' }
         end
-        R1Component(icks: 'X') do
+        R3Component(icks: 'X') do
           'R'
         end
         R2Component()
@@ -28,12 +28,6 @@ class RootComponent < React::Component::Base
           else
             'X'
           end
-        end
-        SPAN do
-          's'
-        end
-        SPAN do
-          's'
         end
         SPAN do
           's'

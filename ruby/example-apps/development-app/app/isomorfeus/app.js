@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import * as ReactRouter from 'react-router';
 import * as ReactRouterDOM from 'react-router-dom';
 import { BrowserRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
+import * as Redux from 'redux';
 // import ActionCable from 'actioncable';
 
 global.React = React;
@@ -16,6 +17,7 @@ global.Link = Link;
 global.NavLink = NavLink;
 global.Route = Route;
 global.Switch = Switch;
+global.Redux = Redux;
 // global.ActionCable = ActionCable;
 
 import init_app from 'isomorfeus_webpack_loader.rb';
