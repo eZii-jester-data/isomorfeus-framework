@@ -20,7 +20,7 @@ module React
           Opal.React.render_buffer.push([]);
           if (block !== nil) {
             block_result = block.$call()
-            if (block_result && (block_result !== nil || typeof block_result.$$typeof === "symbol")) {
+            if (block_result && (block_result !== nil && (typeof block_result === "string" || typeof block_result.$$typeof === "symbol"))) {
               Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(block_result);
             }
           }
