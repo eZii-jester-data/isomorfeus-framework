@@ -48,7 +48,7 @@ module React
 
   def self.create_context(const_name, default_value)
     %x{
-      Opal.global[const_name] = React.createContext(value);
+      Opal.global[const_name] = React.createContext(default_value);
       var new_const = #{React::ContextWrapper.new(`Opal.global[const_name]`)};
       #{Object.const_set(const_name, `new_const`)};
       return new_const;
