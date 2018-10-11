@@ -2,12 +2,11 @@ module React
   module ReduxComponent
     class InstanceStoreProxy
 
-      def initialize(component_instance)
+      def initialize(component_instance, access_key = 'state')
         @native_component_instance = component_instance.to_n
         @component_object_id = component_instance.object_id.to_s
+        @access_key = access_key
       end
-
-      alias _original_method_missing method_missing
 
       def method_missing(key, *args, &block)
         if `key.endsWith('=')`
@@ -20,8 +19,9 @@ module React
           # get instance state
 
           # check if we have a component local state value
-          if @native_component_instance.JS[:state].JS[:__component_state].JS[@component_object_id].JS[key]
-            return @native_component_instance.JS[:state].JS[:__component_state].JS[@component_object_id].JS[key]
+          if @native_component_instance.JS[@access_key].JS[:__component_state].JS[@component_object_id] &&
+            @native_component_instance.JS[@access_key].JS[:__component_state].JS[@component_object_id].JS[key]
+            return @native_component_instance.JS[@access_key].JS[:__component_state].JS[@component_object_id].JS[key]
           end
 
           # check if we have a value in the store

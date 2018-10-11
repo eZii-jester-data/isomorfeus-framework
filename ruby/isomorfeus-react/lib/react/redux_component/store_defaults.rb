@@ -5,9 +5,7 @@ module React
         @state = state
         @component_name = component_name
       end
-
-      alias _original_method_missing method_missing
-
+      
       def method_missing(key, *args, &block)
         if `key.endsWith('=')`
           # set initial class state

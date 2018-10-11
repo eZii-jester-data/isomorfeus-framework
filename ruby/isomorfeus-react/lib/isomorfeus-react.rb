@@ -41,6 +41,7 @@ if RUBY_ENGINE == 'opal'
   # Functional Component
   require 'react/functional_component/creator'
   require 'react/functional_component/runner'
+  # ReduxComponent
   require 'react/redux_component/store_defaults'
   require 'react/redux_component/api'
   require 'react/redux_component/class_store_proxy'
@@ -51,8 +52,28 @@ if RUBY_ENGINE == 'opal'
   require 'react/redux_component/reducers'
   require 'isomorfeus/config'
 
+  # init component reducers
   React::ReduxComponent::Reducers.add_component_reducers_to_store
 
+  # init LucidApplicationContext (Store Provider and Consumer)
+  require 'lucid/app/context'
+
+  Lucid::App::Context.create_application_context
+
+  # LucidComponent
+  require 'lucid/component/api'
+  require 'lucid/component/native_component'
+  require 'lucid/component/event_handler'
+  require 'lucid/component/mixin'
+  require 'lucid/component/base'
+
+  # LucidApp
+  require 'lucid/app/api'
+  require 'lucid/app/native_component'
+  require 'lucid/app/mixin'
+  require 'lucid/app/base'
+
+  # allow mounting of components
   require 'isomorfeus/top_level'
 else
   require 'opal'

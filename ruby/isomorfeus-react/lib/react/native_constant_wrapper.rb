@@ -3,7 +3,7 @@ module React
     include ::Native::Wrapper
     include ::React::PropsConverters
 
-    alias _original_method_missing method_missing
+    alias _react_native_constant_wrapper_original_method_missing method_missing
 
     def method_missing(name, *args, &block)
       %x{
@@ -23,7 +23,7 @@ module React
           }
           Opal.React.internal_render(component, props, block);
         } else {
-          return #{_original_method_missing(component_name, *args, block)};
+          return #{_react_native_constant_wrapper_original_method_missing(component_name, *args, block)};
         }
       }
     end

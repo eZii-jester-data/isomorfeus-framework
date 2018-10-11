@@ -12,7 +12,7 @@ module React
       alias_native :push, :push
       alias_native :replace, :replace
 
-      alias _original_method_missing method_missing
+      alias _react_component_hitory_original_method_missing method_missing
 
       def method_missing(prop, *args, &block)
         @native.JS[:params].JS[prop]

@@ -3,7 +3,7 @@ module React
     module Resolution
       def self.included(base)
         base.instance_exec do
-          alias _original_const_missing const_missing
+          alias _react_component_resolution_original_const_missing const_missing
 
           def const_missing(const_name)
             %x{
@@ -12,14 +12,14 @@ module React
                 #{Object.const_set(const_name, `new_const`)};
                 return new_const;
               } else {
-                return #{_original_method_missing(const_name)};
+                return #{_react_component_resolution_original_const_missing(const_name)};
               }
             }
           end
         end
       end
 
-      alias _original_method_missing method_missing
+      alias _react_component_resolution_original_method_missing method_missing
 
       def method_missing(component_name, *args, &block)
         # html tags are defined as methods, so they will not end up here.
@@ -51,7 +51,7 @@ module React
             }
             Opal.React.internal_render(component, props, block);
           } else {
-            return #{_original_method_missing(component_name, *args, block)};
+            return #{_react_component_resolution_original_method_missing(component_name, *args, block)};
           }
         }
       end

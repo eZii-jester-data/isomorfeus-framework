@@ -3,8 +3,6 @@ module React
     class State
       include ::Native::Wrapper
 
-      alias _original_method_missing method_missing
-
       def method_missing(key, *args, &block)
         if `key.endsWith('=')`
           new_state = `{}`

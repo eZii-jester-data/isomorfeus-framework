@@ -4,8 +4,6 @@ module React
       include ::Native::Wrapper
       include ::React::PropsConverters
 
-      alias _original_method_missing method_missing
-
       def method_missing(prop, *args, &block)
         @native.JS[:props].JS[`Opal.React.lower_camelize(prop)`]
       end

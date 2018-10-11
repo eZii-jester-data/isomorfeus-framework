@@ -3,8 +3,6 @@ module React
     class Match
       include ::Native::Wrapper
 
-      alias _original_method_missing method_missing
-
       def method_missing(prop, *args, &block)
         @native.JS[:params].JS[prop]
       end
