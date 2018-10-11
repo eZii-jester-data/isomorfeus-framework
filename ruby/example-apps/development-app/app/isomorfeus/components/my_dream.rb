@@ -1,4 +1,4 @@
-class R3Component < React::ReduxComponent::Base
+class MyDream < Lucid::Component::Base
   event_handler :handle_click do |event, info|
     `console.log('received click hc')`
     store.toggler = !store.toggler

@@ -1,4 +1,4 @@
-class RootComponent < React::Component::Base
+class ClearRoot < React::Component::Base
   event_handler :handle_click do |event, info|
     state.toggler = !state.toggler
   end
@@ -9,7 +9,7 @@ class RootComponent < React::Component::Base
     DIV do
       props.match.count.to_i.times do
         # Test()
-        R3Component(icks: 'X') do
+        MyDream(icks: 'X') do
           'R'
         end
       end

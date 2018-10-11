@@ -98,11 +98,28 @@ end
 class ShowLinks < React::PureComponent::Base
   render do
     DIV do
+      SPAN { 'Props based Redux Components: ' }
       Link(to: '/run/10') { 'Run 10' }
       SPAN { ' | ' }
       Link(to: '/run/100') { 'Run 100' }
       SPAN { ' | ' }
       Link(to: '/run/1000') { 'Run 1000' }
+      SPAN { ' | ' }
+      Link(to: '/run/1000') { 'Run 3000' }
+      SPAN { ' | ' }
+      Link(to: '/run/10000') { 'Run 10000' }
+    end
+    DIV do
+      SPAN { 'State based Redux Components: ' }
+      Link(to: '/rrun/10') { 'Run 10' }
+      SPAN { ' | ' }
+      Link(to: '/rrun/100') { 'Run 100' }
+      SPAN { ' | ' }
+      Link(to: '/rrun/1000') { 'Run 1000' }
+      SPAN { ' | ' }
+      Link(to: '/rrun/1000') { 'Run 3000' }
+      SPAN { ' | ' }
+      Link(to: '/rrun/10000') { 'Run 10000' }
     end
   end
 end
@@ -120,4 +137,4 @@ class RouterComponent < React::Component::Base
   end
 end
 
-Isomorfeus::TopLevel.on_ready_mount(RouterComponent)
+Isomorfeus::TopLevel.on_ready_mount(MyApp)
