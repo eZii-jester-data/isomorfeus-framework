@@ -12,17 +12,18 @@ if RUBY_ENGINE == 'opal'
   require 'browser/dom/element'
   require 'isomorfeus-redux'
   require 'react/version'
-  require 'react/props_converters'
   require 'react'
   # require 'react/element' # usually not needed
   require 'react/synthetic_event'
   require 'react_dom'
-  # React.Component
+  # React::Component
   require 'react/component/api'
   require 'react/component/features'
   require 'react/native_constant_wrapper'
   require 'react/context_wrapper'
-  require 'react/component/native_component'
+  require 'react/component/native_component_constructor'
+  require 'react/component/native_component_should_update'
+  require 'react/component/native_component_validate_prop'
   require 'react/component/props'
   require 'react/component/state'
   require 'react/component/match'
@@ -34,19 +35,18 @@ if RUBY_ENGINE == 'opal'
   require 'react/component/event_handler'
   require 'react/component/mixin'
   require 'react/component/base'
-  # React.PureComponent
-  require 'react/pure_component/native_component'
+  # React::PureComponent
   require 'react/pure_component/mixin'
   require 'react/pure_component/base'
   # Functional Component
   require 'react/functional_component/creator'
   require 'react/functional_component/runner'
-  # ReduxComponent
+  # Redux::Component
   require 'react/redux_component/store_defaults'
   require 'react/redux_component/api'
   require 'react/redux_component/class_store_proxy'
   require 'react/redux_component/instance_store_proxy'
-  require 'react/redux_component/native_component'
+  require 'react/redux_component/native_component_constructor'
   require 'react/redux_component/mixin'
   require 'react/redux_component/base'
   require 'react/redux_component/reducers'
@@ -56,22 +56,22 @@ if RUBY_ENGINE == 'opal'
   React::ReduxComponent::Reducers.add_component_reducers_to_store
 
   # init LucidApplicationContext (Store Provider and Consumer)
-  require 'lucid/app/context'
+  require 'lucid_app/context'
 
-  Lucid::App::Context.create_application_context
+  LucidApp::Context.create_application_context
 
   # LucidComponent
-  require 'lucid/component/api'
-  require 'lucid/component/native_component'
-  require 'lucid/component/event_handler'
-  require 'lucid/component/mixin'
-  require 'lucid/component/base'
+  require 'lucid_component/api'
+  require 'lucid_component/native_component_constructor'
+  require 'lucid_component/event_handler'
+  require 'lucid_component/mixin'
+  require 'lucid_component/base'
 
   # LucidApp
-  require 'lucid/app/api'
-  require 'lucid/app/native_component'
-  require 'lucid/app/mixin'
-  require 'lucid/app/base'
+  require 'lucid_app/api'
+  require 'lucid_app/native_component_constructor'
+  require 'lucid_app/mixin'
+  require 'lucid_app/base'
 
   # allow mounting of components
   require 'isomorfeus/top_level'

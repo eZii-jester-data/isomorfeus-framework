@@ -2,7 +2,6 @@ module React
   module Component
     class Props
       include ::Native::Wrapper
-      include ::React::PropsConverters
 
       def method_missing(prop, *args, &block)
         @native.JS[:props].JS[`Opal.React.lower_camelize(prop)`]

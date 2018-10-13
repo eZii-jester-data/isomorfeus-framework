@@ -3,9 +3,9 @@ module React
     module Mixin
       def self.included(base)
         base.include(::Native::Wrapper)
-        base.include(::React::PropsConverters)
-        base.extend(::React::PropsConverters)
-        base.extend(::React::Component::NativeComponent)
+        base.extend(::React::Component::NativeComponentConstructor)
+        base.extend(::React::Component::NativeComponentShouldUpdate)
+        base.extend(::React::Component::NativeComponentValidateProp)
         base.extend(::React::Component::ShouldComponentUpdate)
         base.extend(::React::Component::EventHandler)
         base.include(::React::Component::Elements)

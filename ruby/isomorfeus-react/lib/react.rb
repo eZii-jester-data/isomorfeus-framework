@@ -1,20 +1,32 @@
 module React
-  extend React::PropsConverters
-
   %x{
     self.render_buffer = [];
 
     self.lower_camelize = function(snake_cased_word) {
-      var words = snake_cased_word.split("_");
-      if (words.length == 1) { return words[0]; }
+      var parts = snake_cased_word.split('_');
+      var res = parts[0];
 
-      var other_words = words.slice(1, words.length);
-      var other_length = other_words.length;
-      for (var i = 0; i < other_length; i++) {
-        other_words[i] = other_words[i].charAt(0).toUpperCase() + other_words[i].slice(1);
+      for (var i = 1; i < parts.length; i++) {
+            res += parts[i][0].toUpperCase() + parts[i].slice(1);
       }
-      return words[0] + other_words.join("");
-    };
+      return res;
+    }
+
+    self.to_native_react_props = function(native_component, ruby_style_props) {
+        var result = {};
+        var keys = ruby_style_props.$keys();
+        var keys_length = keys.length;
+        for (var i = 0; i < keys_length; i++) {
+          if (keys[i].startsWith("on_") && native_component) {
+            result[Opal.React.lower_camelize(keys[i])] = native_component[ruby_style_props['$[]'](keys[i])];
+          } else if (keys[i].startsWith("aria_")) {
+            result[keys[i].replace("_", "-")] = ruby_style_props['$[]'](keys[i]);
+          } else {
+            result[Opal.React.lower_camelize(keys[i])] = ruby_style_props['$[]'](keys[i]);
+          }
+        }
+        return result;
+    }
 
     self.internal_render = function(component, props, block) {
       var children;
@@ -33,7 +45,14 @@ module React
       }
       react_element = React.createElement(component, props, children);
       Opal.React.render_buffer[Opal.React.render_buffer.length - 1].push(react_element);
-    }
+    };
+
+    self.active_redux_components = [];
+
+    self.active_redux_component = function() {
+      var length = Opal.React.active_redux_components.length;
+      return Opal.React.active_redux_components[length-1];
+    };
   }
 
   def self.clone_element(ruby_react_element, props = nil, children = nil, &block)
@@ -42,7 +61,7 @@ module React
       block_result = block.call
       block_result = `null` unless block_result
     end
-    native_props = props ? to_native_react_props(props): `null`
+    native_props = props ? `Opal.React.to_native_react_props(null, props)` : `null`
     `React.cloneElement(ruby_react_element.$to_n(), native_props, block_result)`
   end
 
@@ -70,7 +89,7 @@ module React
 
       Opal.React.render_buffer.push([]);
       #{
-        native_props = to_native_react_props(props) if props;
+        native_props = `Opal.React.to_native_react_props(null, props)` if props;
       }
       if (block !== nil) {
         block_result = block.$call()

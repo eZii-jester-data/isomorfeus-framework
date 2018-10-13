@@ -1,7 +1,6 @@
 module React
   class NativeConstantWrapper
     include ::Native::Wrapper
-    include ::React::PropsConverters
 
     alias _react_native_constant_wrapper_original_method_missing method_missing
 
@@ -19,7 +18,7 @@ module React
           var react_element;
 
           if (args.length > 0) {
-            props = #{to_native_react_props(args[0])};
+            props = Opal.React.to_native_react_props(#@native, args[0]);
           }
           Opal.React.internal_render(component, props, block);
         } else {

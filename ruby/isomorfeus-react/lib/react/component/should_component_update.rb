@@ -1,7 +1,6 @@
 module React
   module Component
     module ShouldComponentUpdate
-
       def self.extended(base)
         base.define_singleton_method(:should_component_update?) do |&block|
           `base.has_custom_should_component_update = true`

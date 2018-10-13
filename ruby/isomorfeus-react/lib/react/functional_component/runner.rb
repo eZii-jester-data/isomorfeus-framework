@@ -1,7 +1,6 @@
 module React
   module FunctionalComponent
     class Runner
-      include ::React::PropsConverters
       include ::React::Component::Elements
       include ::React::Component::Features
       include ::React::Component::Resolution
