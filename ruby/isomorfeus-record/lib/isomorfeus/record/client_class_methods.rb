@@ -351,7 +351,7 @@ module Isomorfeus
       # @param options [Hash] further options for ORMs like Neo4j
       #
       # This macro defines additional methods:
-      def has_one(direction, relation_name, options = { type: nil })
+      def has_one(direction, relation_name = nil, options = { type: nil })
         if relation_name.is_a?(Hash)
           options.merge(relation_name)
           relation_name = direction
@@ -557,7 +557,7 @@ module Isomorfeus
           args_json = args.to_json
           @read_states[name] = {} unless @read_states.has_key?(name)
           @read_states[name][args_json] = 'i'
-          @remote_methods[name] = options unless @remote_methods.has_key?(name)
+          @remote_methods[name] = {}.merge!(options) unless @remote_methods.has_key?(name)
           @remote_methods[name][args_json] = { result: options[:default_result] } unless @remote_methods[name].has_key?(args_json)
           raise "#{self.class.to_s}[_no_id_].#{name}, can't execute instance remote_method without id!" unless self.id
           request = { 'isomorfeus/handler/model/read' => { self.class.model_name => { instances: { id => { remote_methods: { name => { args => {}}}}}}}}
@@ -577,7 +577,7 @@ module Isomorfeus
           else
             _register_observer
             args_json = args.to_json
-            @remote_methods[name] = options unless @remote_methods.has_key?(name)
+            @remote_methods[name] = {}.merge!(options) unless @remote_methods.has_key?(name)
             @remote_methods[name][args_json] = { result: options[:default_result] } unless @remote_methods[name].has_key?(args_json)
             unless @read_states.has_key?(name) && @read_states[name].has_key?(args_json) && 'fi'.include?(@read_states[name][args_json])
               self.send("promise_#{name}", *args)
