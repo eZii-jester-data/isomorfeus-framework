@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'oj', '~> 3.6.0'
   s.add_runtime_dependency 'opal', '~> 0.11.0'
   s.add_runtime_dependency 'opal-activesupport', '~> 0.3.1'
-  s.add_runtime_dependency 'isomorfeus-component' , Isomorfeus::VERSION
+  s.add_runtime_dependency 'isomorfeus-react' , '~> 16.5.0.delta1'
   s.add_runtime_dependency 'isomorfeus-transport', Isomorfeus::VERSION
   s.add_development_dependency 'listen'
   s.add_development_dependency 'rake', '>= 11.3.0'

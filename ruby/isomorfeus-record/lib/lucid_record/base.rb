@@ -1,4 +1,4 @@
-module IsmoRecord
+module LucidRecord
   class Base
     def self.inherited(base)
       base.include(::IsmoRecord::Mixin)

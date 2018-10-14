@@ -1,6 +1,6 @@
 require 'opal-activesupport'
-require 'isomorfeus-store'
-require 'isomorfeus-component'
+require 'isomorfeus-redux'
+require 'isomorfeus-react'
 require 'isomorfeus-transport'
 
 if RUBY_ENGINE == 'opal'
@@ -15,8 +15,8 @@ if RUBY_ENGINE == 'opal'
   require 'isomorfeus/record/client_class_processor'
   require 'isomorfeus/record/client_instance_methods'
   require 'isomorfeus/record/client_instance_processor'
-  require 'ismo_record/mixin'
-  require 'ismo_record/base'
+  require 'lucid_record/mixin'
+  require 'lucid_record/base'
 else
   require 'active_support'
   require 'oj'
@@ -36,8 +36,9 @@ else
   require 'isomorfeus/handler/model/update_handler'
   require 'isomorfeus/record/server_class_methods'
   require 'isomorfeus/record/server_instance_methods'
-  require 'ismo_record/mixin'
-  require 'ismo_record/base'
+  require 'lucid_record/mixin'
+  require 'lucid_record/base'
+
   Opal.append_path(__dir__.untaint)
   if Dir.exist?(File.join('app', 'isomorfeus', 'models'))
     # Opal.append_path(File.expand_path(File.join('app', 'isomorfeus', 'models')))  <- opal-autoloader will handle this

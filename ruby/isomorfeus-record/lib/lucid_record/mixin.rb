@@ -1,4 +1,4 @@
-module IsmoRecord
+module LucidRecord
   module Mixin
     def self.included(base)
       if RUBY_ENGINE == 'opal'
