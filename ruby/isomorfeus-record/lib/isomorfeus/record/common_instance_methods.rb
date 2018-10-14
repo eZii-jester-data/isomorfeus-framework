@@ -1,6 +1,6 @@
 module Isomorfeus
   module Record
-    module ServerInstanceMethods
+    module CommonInstanceMethods
       def to_transport_hash
         record_model = self.class.to_s.underscore
         record_json = self.as_json
