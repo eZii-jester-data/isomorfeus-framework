@@ -1,3 +1,4 @@
+import * as Redux from 'redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import * as History from 'history';
@@ -7,6 +8,7 @@ import { BrowserRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
 import * as Sem from 'semantic-ui-react'
 // import ActionCable from 'actioncable';
 
+global.Redux = Redux;
 global.React = React;
 global.ReactDOM = ReactDOM;
 // global.History = History;

@@ -1,4 +1,25 @@
 GIT
+  remote: https://github.com/isomorfeus/isomorfeus-react.git
+  revision: 77c3b75daa53d73abd25c4435490c85b1e507ddf
+  branch: master
+  glob: ruby/*.gemspec
+  specs:
+    isomorfeus-react (16.5.0.delta1)
+      isomorfeus-redux (~> 4.0.0.delta1)
+      opal (>= 0.11.0, < 0.12.0)
+      opal-activesupport (~> 0.3.1)
+      opal-browser (~> 0.2.0)
+
+GIT
+  remote: https://github.com/isomorfeus/isomorfeus-redux.git
+  revision: cc3bc2db411edf88dd6943fc84b531897e21a3f8
+  branch: master
+  glob: ruby/*.gemspec
+  specs:
+    isomorfeus-redux (4.0.0.delta1)
+      opal (>= 0.11.0, < 0.12.0)
+
+GIT
   remote: https://github.com/janbiedermann/opal.git
   revision: e3fdf16e8a657f7d9f9507207848a34953dced8d
   branch: es6_import_export
@@ -8,14 +29,6 @@ GIT
       hike (~> 1.2)
       parser (= 2.5.1.0)
       sourcemap (~> 0.1.0)
-
-PATH
-  remote: /Users/jan/workspace/isomorfeus/ruby/isomorfeus-react
-  specs:
-    isomorfeus-react (16.5.1)
-      opal (>= 0.11.0, < 0.12.0)
-      opal-activesupport (~> 0.3.1)
-      opal-browser (~> 0.2.0)
 
 GEM
   remote: https://rubygems.org/
@@ -237,6 +250,7 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   isomorfeus-react!
+  isomorfeus-redux!
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   opal!
