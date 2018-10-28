@@ -15,7 +15,7 @@ module ExampleReact
       SPAN { ', Children: '  }
       SPAN { props.children }
       SPAN { ' ' }
-      SPAN { '| '}
+      SPAN { '| ' }
     end
   end
 end
