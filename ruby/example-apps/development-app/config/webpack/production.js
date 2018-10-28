@@ -8,7 +8,7 @@ module.exports = {
     context: path.resolve(__dirname, '../../app/isomorfeus'),
     mode: "production",
     optimization: {
-        minimize: true // minimize
+        minimize: false // minimize
     },
     performance: {
         maxAssetSize: 20000000, // isomorfeus is some code
