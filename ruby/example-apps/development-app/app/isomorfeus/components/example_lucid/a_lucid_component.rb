@@ -33,7 +33,6 @@ module ExampleLucid
       SPAN(on_click: :change_app_store) { ", app_store is: #{app_store.c_bool} (Click!)" }
       SPAN { ', Children: '  }
       SPAN { props.children }
-      SPAN { ' ' }
       SPAN { '| '}
     end
   end

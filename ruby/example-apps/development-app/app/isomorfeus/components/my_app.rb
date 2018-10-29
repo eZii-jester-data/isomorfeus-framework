@@ -15,6 +15,8 @@ class MyApp < LucidApp::Base
           Route(path: '/luc_run/:count', exact: true, component: ExampleLucid::Run.JS[:react_component])
           Route(path: '/luc_rec_fun/:count', exact: true, component: ExampleLucid::RecordFun.JS[:react_component])
           Route(path: '/luc_rec_run/:count', exact: true, component: ExampleLucid::RecordRun.JS[:react_component])
+          Route(path: '/lucs_fun/:count', exact: true, component: ExampleLucid::Jogging.JS[:react_component])
+          Route(path: '/lucs_run/:count', exact: true, component: ExampleLucid::Jogging.JS[:react_component])
           Route(path: '/js_fun/:count', exact: true, component: `ExampleJS.Fun`)
           Route(path: '/js_run/:count', exact: true, component: `ExampleJS.Run`)
           Route(path: '/', strict: true, component: ShowLinks.JS[:react_component])

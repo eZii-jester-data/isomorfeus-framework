@@ -75,6 +75,14 @@ class ShowLinks < React::PureComponent::Base
       Link(to: '/luc_run/10000') { 'Render 10000 nodes' }
     end
     DIV do
+      H3 { 'Only LucidComponent, Props, State, Store:' }
+      Link(to: '/lucs_run/1000') { 'Render 1000 nodes' }
+      SPAN { ' | ' }
+      Link(to: '/lucs_run/3000') { 'Render 3000 nodes' }
+      SPAN { ' | ' }
+      Link(to: '/lucs_run/10000') { 'Render 10000 nodes' }
+    end
+    DIV do
       H3 { 'LucidComponent, Props, State, Store with Transport and LucidRecord:' }
       Link(to: '/luc_rec_run/1000') { 'Render 1000 nodes' }
       SPAN { ' | ' }
