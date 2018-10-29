@@ -4,8 +4,8 @@ require 'isomorfeus-react'
 
 require_tree 'components'
 
-class React::FunctionalComponent::Creator
-  functional_component 'R2Component' do
+class React::FunctionComponent::Creator
+  function_component 'R2Component' do
     Fragment do
       SPAN { "f" }
     end

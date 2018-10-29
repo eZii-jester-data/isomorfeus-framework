@@ -2,7 +2,7 @@ class ShowLinks < React::PureComponent::Base
   render do
     H2 { 'Functionality' }
     DIV do
-      H3 { 'React::FunctionalComponent, Props:' }
+      H3 { 'React::FunctionComponent, Props:' }
       Link(to: '/fun_fun/10') { 'Render 10 Components' }
     end
     DIV do
@@ -35,7 +35,7 @@ class ShowLinks < React::PureComponent::Base
     DIV { '~ 3000 nodes -> amazon' }
     DIV { '~ 10000 nodes -> youtube, twitter' }
     DIV do
-      H3 { 'React::FunctionalComponent, Props:' }
+      H3 { 'React::FunctionComponent, Props:' }
       Link(to: '/fun_run/1000') { 'Render 1000 nodes' }
       SPAN { ' | ' }
       Link(to: '/fun_run/3000') { 'Render 3000 nodes' }

@@ -3,8 +3,8 @@ class MyApp < LucidApp::Base
     DIV do
       BrowserRouter do
         Switch do
-          Route(path: '/fun_fun/:count', exact: true, component: `ExampleFunctional.Fun`)
-          Route(path: '/fun_run/:count', exact: true, component: `ExampleFunctional.Run`)
+          Route(path: '/fun_fun/:count', exact: true, component: `ExampleFunction.Fun`)
+          Route(path: '/fun_run/:count', exact: true, component: `ExampleFunction.Run`)
           Route(path: '/pure_fun/:count', exact: true, component: ExamplePure::Fun.JS[:react_component])
           Route(path: '/pure_run/:count', exact: true, component: ExamplePure::Run.JS[:react_component])
           Route(path: '/com_fun/:count', exact: true, component: ExampleReact::Fun.JS[:react_component])
