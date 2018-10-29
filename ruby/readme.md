@@ -18,7 +18,7 @@ For production performance, for example:
 There are issues with hot reloading at the moment.
 
 ## Example Apps
-- [Basic Rails React](https://github.com/isomorfeus/isomorfeus-react/tree/master/ruby/example-apps/basic-rails-react) -
+- [Basic Rails React](https://github.com/isomorfeus/isomorfeus-react/tree/ulysses/ruby/example-apps/basic-rails-react) -
 It shows usage of basic React::Components in a rails app
-- [Components App](https://github.com/isomorfeus/isomorfeus-react/tree/master/ruby/example-apps/basic-rails-react) -
+- [Components App](https://github.com/isomorfeus/isomorfeus-react/tree/ulysses/ruby/example-apps/basic-rails-react) -
 Shows all Component types and usage of the Store in a rails app
