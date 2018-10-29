@@ -1,12 +1,10 @@
 # Isomorfeus
 
-## Release goals:
+-> Make your dreams come true :)
 
-+ Backend independent
-+ Webpack based build and hot-reloading process (no Sprockets)
-+ Faster and simplified Isomorphic Models
-  + Redis or others for pub/sub
-  + ORM agnostic (tested with ActiveRecord SQL and Neo4j.rb)
-+ Updated Operation DSL (business logic and bidirectional client/server execution)
-+ IsomorfeusPolicy for authorisation and authentication on the client and server
-+ Faster rspec framework plus automated build and deploy process
+A easy to use application framework, made for a highly productive development experience.
+Its internally based on React and Redux.
+
+## Ruby
+Currently there is a Opal Ruby implementation in the ruby directory of this repo:
+- [isomorfeus ruby implementation](https://github.com/isomorfeus/isomorfeus-framework/tree/master/ruby)
