@@ -1,7 +1,6 @@
 require 'opal'
 require 'opal-autoloader'
 require 'isomorfeus-redux'
-require 'isomorfeus-record'
 require 'isomorfeus-react'
 
 require_tree 'components'

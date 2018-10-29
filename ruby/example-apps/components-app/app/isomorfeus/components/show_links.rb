@@ -27,7 +27,7 @@ class ShowLinks < React::PureComponent::Base
     end
     DIV do
       H3 { 'Everything together:' }
-      Link(to: '/all_the_fun/1') { 'Render 10 Components'  }
+      Link(to: '/all_the_fun/1') { 'Render all Component types'  }
     end
     H2 { 'Performance' }
     DIV { 'For example:' }
