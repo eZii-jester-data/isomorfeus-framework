@@ -27,41 +27,26 @@ module Isomorfeus
           reflections[relation_name] = { direction: direction, type: options[:type], kind: :belongs_to }
 
           define_method("promise_#{relation_name}") do
-            _register_observer
-            @read_states[relation_name] = 'i'
-            request = { 'isomorfeus/handler/model/read' => { self.class.model_name => { instances: { id => { relations: { relation_name => {}}}}}}}
-            Isomorfeus::Transport.promise_send(request).then do
-              self
-            end.fail do |response|
-              error_message = "#{self.class.to_s}[#{self.id}].#{relation_name}, a belongs_to association, failed to read records!"
-              `console.error(error_message)`
-              response
-            end
+            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
           end
           # @!method [relation_name] get records of the relation
           # @return [Isomorfeus::Record::Collection] either a empty one, if the data has not been readed yet, or the
           #   collection with the real data, if it has been readed already
           define_method(relation_name) do
-            if @read_states[relation_name] == 'i'
-              _register_observer
-            elsif self.id && @read_states[relation_name] != 'f'
-              send("promise_#{relation_name}")
-            end
-            @relations[relation_name]
-          end
-          # @!method update_[relation_name] mark internal structures so that the relation data is updated once it is requested again
-          # @return nil
-          define_method("update_#{relation_name}") do
-            @read_states[relation_name] = 'u'
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            return result if result
+            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
             nil
           end
-          # TODO, needs the network part, post to server
-          # define_method("#{name}=") do |arg|
-          #   _register_observer
-          #   @relations[name] = arg
-          #   @read_states[name] = 'f'
-          #   @relations[name]
-          # end
+          define_method("promise_#{name}=") do |arg|
+            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+          end
+          define_method("#{name}=") do |arg|
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+            arg
+          end
         end
 
         # DSL macro to declare a has_and_belongs_many relationship
@@ -88,48 +73,30 @@ module Isomorfeus
           # @return [Promise] on success the .then block will receive a [Isomorfeus::Record::Collection] as arg
           #    on failure the .fail block will receive some error indicator or nothing
           define_method("promise_#{relation_name}") do
-            _register_observer
-            @read_states[relation_name] = 'i'
-            request = { 'isomorfeus/handler/model/read' => { self.class.model_name => { instances: { id => { relations: { relation_name => {}}}}}}}
-            Isomorfeus::Transport.promise_send(request).then do
-              self
-            end.fail do |response|
-              error_message = "#{self.class.to_s}[#{self.id}].#{relation_name}, a has_and_belongs_to_many association, failed to read records!"
-              `console.error(error_message)`
-              response
+            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name).then do |response|
+              # TODO response
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_RELATION', model: self.class.model_name, id: @id, object_id: object_id, value: response)
             end
           end
           # @!method [relation_name] get records of the relation
           # @return [Isomorfeus::Record::Collection] either a empty one, if the data has not been readed yet, or the
           #   collection with the real data, if it has been readed already
           define_method(relation_name) do
-            if @read_states[relation_name] == 'i'
-              _register_observer
-            elsif self.id && @read_states[relation_name] != 'f'
-              send("promise_#{relation_name}")
-            end
-            @relations[relation_name]
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            return result if result
+            send("promise_#{relation_name}")
+            Isomorfeus::Record::Collection.new([], self, relation_name)
           end
-          # @!method update_[relation_name] mark internal structures so that the relation data is updated once it is requested again
-          # @return nil
-          define_method("update_#{relation_name}") do
-            @read_states[relation_name] = 'u'
+          define_method("promise_#{relation_name}=") do |arg|
+            Isomorfeus.store.dispatch(type: 'RECORD_SET_RELATION', model: self.class.model_name, id: @id, object_id: object_id, value: arg)
+            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+          end
+          define_method("#{relation_name}=") do |arg|
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            send("promise_#{relation_name}=", arg)
             nil
           end
-          # TODO
-          # define_method("#{name}=") do |arg|
-          #   _register_observer
-          #   collection = if arg.is_a?(Array)
-          #                  Isomorfeus::Record::Collection.new(arg, self, name)
-          #                elsif arg.is_a?(Isomorfeus::Record::Collection)
-          #                  arg
-          #                else
-          #                  raise "Argument must be a Isomorfeus::Record::Collection or a Array"
-          #                end
-          #   @relations[name] = collection
-          #   @read_states[name] = 'f'
-          #   @relations[name]
-          # end
         end
 
         # DSL macro to declare a has_many relationship
@@ -156,47 +123,30 @@ module Isomorfeus
           # @return [Promise] on success the .then block will receive a [Isomorfeus::Record::Collection] as arg
           #    on failure the .fail block will receive some error indicator or nothing
           define_method("promise_#{relation_name}") do
-            _register_observer
-            @read_states[relation_name] = 'i'
-            request = { 'isomorfeus/handler/model/read' => { self.class.model_name => { instances: { id => { relations: { relation_name => {}}}}}}}
-            Isomorfeus::Transport.promise_send(request).then do
-              self
-            end.fail do |response|
-              error_message = "#{self.class.to_s}[#{self.id}].#{relation_name}, a has_many association, failed to read records!"
-              `console.error(error_message)`
-              response
+            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name).then do |response|
+              # TODO response
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_RELATION', model: self.class.model_name, id: @id, object_id: object_id, value: response)
             end
           end
           # @!method [relation_name] get records of the relation
           # @return [Isomorfeus::Record::Collection] either a empty one, if the data has not been readed yet, or the
           #   collection with the real data, if it has been readed already
           define_method(relation_name) do
-            if @read_states[relation_name] == 'i'
-              _register_observer
-            elsif self.id && @read_states[relation_name] != 'f'
-              send("promise_#{relation_name}")
-            end
-            @relations[relation_name]
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            return result if result
+            send("promise_#{relation_name}")
+            Isomorfeus::Record::Collection.new([], self, relation_name)
           end
-          # @!method update_[relation_name] mark internal structures so that the relation data is updated once it is requested again
-          # @return nil
-          define_method("update_#{relation_name}") do
-            @read_states[relation_name] = 'u'
+          define_method("promise_#{relation_name}=") do |arg|
+            Isomorfeus.store.dispatch(type: 'RECORD_SET_RELATION', model: self.class.model_name, id: @id, object_id: object_id, value: arg)
+            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+          end
+          define_method("#{relation_name}=") do |arg|
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            send("promise_#{relation_name}=", arg)
             nil
           end
-          # define_method("#{relation_name}=") do |arg|
-          #   _register_observer
-          #   collection = if arg.is_a?(Array)
-          #     Isomorfeus::Record::Collection.new(arg, self, relation_name)
-          #   elsif arg.is_a?(Isomorfeus::Record::Collection)
-          #     arg
-          #   else
-          #     raise "Argument must be a Isomorfeus::Record::Collection or a Array"
-          #   end
-          #   @relations[relation_name] = collection
-          #   @read_states[relation_name] = 'f'
-          #   @relations[relation_name]
-          # end
         end
 
         # DSL macro to declare a has_one relationship
@@ -223,39 +173,30 @@ module Isomorfeus
           # @return [Promise] on success the .then block will receive a [Isomorfeus::Record::Collection] as arg
           #    on failure the .fail block will receive some error indicator or nothing
           define_method("promise_#{relation_name}") do
-            @read_states[relation_name] = 'i'
-            request = { 'isomorfeus/handler/model/read' => { self.class.model_name => { instances: { id => { relations: { relation_name => {}}}}}}}
-            Isomorfeus::Transport.promise_send(request).then do
-              self
-            end.fail do |response|
-              error_message = "#{self.class.to_s}[#{self.id}].#{relation_name}, a has_one association, failed to read records!"
-              `console.error(error_message)`
-              response
+            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name).then do |response|
+              # TODO response
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_RELATION', model: self.class.model_name, id: @id, object_id: object_id, value: response)
             end
           end
           # @!method [relation_name] get records of the relation
           # @return [Isomorfeus::Record::Collection] either a empty one, if the data has not been readed yet, or the
           #   collection with the real data, if it has been readed already
           define_method(relation_name) do
-            if @read_states[relation_name] == 'i'
-              _register_observer
-            elsif self.id && @read_states[relation_name] != 'f'
-              send("promise_#{relation_name}")
-            end
-            @relations[relation_name]
-          end
-          # @!method update_[relation_name] mark internal structures so that the relation data is updated once it is requested again
-          # @return nil
-          define_method("update_#{relation_name}") do
-            @read_states[relation_name] = 'u'
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            return result if result
+            send("promise_#{relation_name}")
             nil
           end
-          # define_method("#{relation_name}=") do |arg|
-          #   _register_observer
-          #   @relations[relation_name] = arg
-          #   @read_states[relation_name] = 'f'
-          #   @relations[relation_name]
-          # end
+          define_method("promise_#{relation_name}=") do |arg|
+            Isomorfeus.store.dispatch(type: 'RECORD_SET_RELATION', model: self.class.model_name, id: @id, object_id: object_id, value: arg)
+            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+          end
+          define_method("#{relation_name}=") do |arg|
+            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            send("promise_#{relation_name}=", arg)
+            nil
+          end
         end
       end
     end

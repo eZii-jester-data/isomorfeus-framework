@@ -1,6 +1,5 @@
 require 'opal-activesupport'
 require 'isomorfeus-redux'
-require 'isomorfeus-react'
 require 'isomorfeus-transport'
 
 if RUBY_ENGINE == 'opal'
@@ -9,17 +8,20 @@ if RUBY_ENGINE == 'opal'
   require 'isomorfeus/model/driver/generic'
   require 'isomorfeus/model/driver/active_record'
   require 'isomorfeus/model/driver/neo4j'
+  require 'isomorfeus/model/reducers'
+
+  Isomorfeus::Model::Reducers.add_record_reducer_to_store
+
   require 'isomorfeus/record/collection'
   require 'isomorfeus/record/opal/class_methods'
   require 'isomorfeus/record/opal/relations'
   require 'isomorfeus/record/opal/remote_methods'
   require 'isomorfeus/record/opal/scopes'
   require 'isomorfeus/record/opal/instance_methods'
-  require 'isomorfeus/record/opal/class_processor'
-  require 'isomorfeus/record/opal/instance_processor'
   require 'isomorfeus/record/common_instance_methods'
   require 'lucid_record/mixin'
   require 'lucid_record/base'
+  require 'isomorfeus-react'
 else
   require 'active_support'
   require 'oj'
@@ -45,6 +47,7 @@ else
   require 'isomorfeus/record/common_instance_methods'
   require 'lucid_record/mixin'
   require 'lucid_record/base'
+  require 'isomorfeus-react'
 
   Opal.append_path(__dir__.untaint)
   if Dir.exist?(File.join('app', 'isomorfeus', 'models'))

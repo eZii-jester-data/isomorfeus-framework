@@ -10,7 +10,7 @@ module Isomorfeus
           request.keys.each do |model_name|
             model = guarded_record_class(model_name)
 
-            request[model_name]['instances']['new'].keys.each do |some_id|
+            request[model_name]['instances'].keys.each do |some_id|
 
               # authorize record create
               if Isomorfeus.authorization_driver

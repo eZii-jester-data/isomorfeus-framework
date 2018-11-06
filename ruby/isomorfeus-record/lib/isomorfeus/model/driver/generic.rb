@@ -6,10 +6,21 @@ module Isomorfeus
           @model = model
         end
 
-        if RUBY_ENGINE != 'opal'
+        def linking_requires_relation?
+          true
+        end
+
+        if RUBY_ENGINE == 'opal'
+          # nothing for now
+        else
+          def add_to_relation(left_record, right_record, sym_relation_name)
+            left_record.send(sym_relation_name) << right_record
+          end
+
           def class_remote_method(sym_method_name, *args)
             @model.send(sym_method_name, *args)
           end
+
           def collection_query(record, sym_query_name)
             record.send(sym_query_name)
           end
@@ -34,8 +45,9 @@ module Isomorfeus
             false
           end
 
-          def link(left_record, right_record, sym_relation_name = nil)
-            left_record.send(sym_relation_name) << right_record
+          def link(left_record, right_record, link_type)
+            raise 'Direct Record linking not supported in Model Driver!' if linking_requires_relation?
+            raise 'Direct Record linking not supported in Model Driver!'
           end
 
           def relation(record, sym_relation_name)
@@ -44,6 +56,10 @@ module Isomorfeus
 
           def remote_method(record, sym_method_name, *args)
             record.send(sym_method_name, *args)
+          end
+
+          def remove_from_relation(record, right_record, sym_relation_name)
+            record.send(sym_relation_name).delete(right_record)
           end
 
           def scope(sym_scope_name, *args)
@@ -55,7 +71,8 @@ module Isomorfeus
           end
 
           def unlink(left_record, right_record, sym_relation_name = nil)
-            record.send(sym_relation_name).delete(right_record)
+            raise 'Direct Record unlinking not supported in Model Driver!' if linking_requires_relation?
+            raise 'Direct Record unlinking not supported in Model Driver!'
           end
 
           def update(record, data_hash)

@@ -11,11 +11,7 @@ module Isomorfeus
             end
           end
 
-          def has_relation?(sym_relation_name)
-            !!@model.reflect_on_association(sym_relation_name)&.macro
-          end
-
-          def link(left_record, right_record, sym_relation_name)
+          def add_to_relation(left_record, right_record, sym_relation_name)
             relation_type = @model.reflect_on_association(sym_relation_name)&.macro
             if %i[belongs_to has_one].include?(relation_type)
               record.send("#{sym_relation_name}=", right_record)
@@ -25,7 +21,11 @@ module Isomorfeus
             end
           end
 
-          def unlink(left_record, right_record, sym_relation_name)
+          def has_relation?(sym_relation_name)
+            !!@model.reflect_on_association(sym_relation_name)&.macro
+          end
+
+          def remove_from_relation(left_record, right_record, sym_relation_name)
             record.send(sym_relation_name).delete(right_record)
             relation_type = @model.reflect_on_association(sym_relation_name)&.macro
             if %i[belongs_to has_one].include?(relation_type)
