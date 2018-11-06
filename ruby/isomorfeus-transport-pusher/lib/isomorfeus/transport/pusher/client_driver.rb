@@ -23,7 +23,7 @@ module Isomorfeus
             notification_channel = "#{Isomorfeus.transport_notification_channel_prefix}#{Isomorfeus.session_id}"
             Isomorfeus.pusher_options[:channel] = pusher_api.JS.subscribe(notification_channel)
             Isomorfeus.pusher_options[:channel].JS.bind('update', `function(data){
-              return Opal.Isomorfeus.$const_get('Transport').$const_get('NotificationProcessor').$process_notification(Opal.Hash.$new(data));
+              return #{Isomorfeus::Transport.process_response_or_notification(`data`)};
             }`)
           end
 

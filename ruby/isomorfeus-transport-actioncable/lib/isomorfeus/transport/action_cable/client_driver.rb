@@ -7,11 +7,11 @@ module Isomorfeus
           notification_channel = "#{Isomorfeus.transport_notification_channel_prefix}#{Isomorfeus.session_id}"
           %x{
           #{@consumer_instance}.subscriptions.create({ channel: 'Isomorfeus::Transport::ActionCable::IsomorfeusChannel', session_id: #{notification_channel} }, {
-                  received: function(data) {
-                    return Opal.Isomorfeus.$const_get('Transport').$const_get('NotificationProcessor').$process_notification(Opal.Hash.$new(data));
-                  }
-                })
+              received: function(data) {
+                return #{Isomorfeus::Transport.process_response_or_notification(`data`)};
               }
+            })
+          }
         end
 
         def self.consumer_instance
