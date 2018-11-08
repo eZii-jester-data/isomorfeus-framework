@@ -1,7 +1,7 @@
 module Isomorfeus
   module Handler
     module Model
-      # for autoloader
+      # keep for autoloader
     end
   end
 end

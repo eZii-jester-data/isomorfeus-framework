@@ -47,7 +47,7 @@ module Isomorfeus
 
           def link(left_record, right_record, link_type)
             raise 'Direct Record linking not supported in Model Driver!' if linking_requires_relation?
-            raise 'Direct Record linking not supported in Model Driver!'
+            raise 'Direct Record linking not implemented in this Model Driver!'
           end
 
           def relation(record, sym_relation_name)
@@ -72,7 +72,7 @@ module Isomorfeus
 
           def unlink(left_record, right_record, sym_relation_name = nil)
             raise 'Direct Record unlinking not supported in Model Driver!' if linking_requires_relation?
-            raise 'Direct Record unlinking not supported in Model Driver!'
+            raise 'Direct Record unlinking not implemented in this Model Driver!'
           end
 
           def update(record, data_hash)

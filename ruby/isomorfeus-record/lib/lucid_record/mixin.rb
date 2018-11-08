@@ -6,10 +6,8 @@ module LucidRecord
         base.extend(::Isomorfeus::Record::Opal::Relations)
         base.extend(::Isomorfeus::Record::Opal::RemoteMethods)
         base.extend(::Isomorfeus::Record::Opal::Scopes)
-        base.extend(::Isomorfeus::Record::Opal::ClassProcessor)
         base.include(::Isomorfeus::Record::Opal::InstanceMethods)
         base.include(::Isomorfeus::Record::CommonInstanceMethods)
-        base.include(::Isomorfeus::Record::Opal::InstanceProcessor)
         base.class_eval do
           scope :all
         end

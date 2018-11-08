@@ -27,24 +27,25 @@ module Isomorfeus
           reflections[relation_name] = { direction: direction, type: options[:type], kind: :belongs_to }
 
           define_method("promise_#{relation_name}") do
-            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            Isomorfeus::DataAccess.promise_fetch('isomorfeus/handler/model/read', self.class.model_name, :instances, @id,
+                                                 :relations, relation_name)
           end
           # @!method [relation_name] get records of the relation
           # @return [Isomorfeus::Record::Collection] either a empty one, if the data has not been readed yet, or the
           #   collection with the real data, if it has been readed already
           define_method(relation_name) do
-            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
-            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            Isomorfeus::DataAccess.register_used_store_path(:record_state, self.class.model_name, :instances, @id, :relations, relation_name)
+            result = Isomorfeus::DataAccess.local_fetch(:record_state, self.class.model_name, :instances, @id, :relations, relation_name)
             return result if result
-            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :relations, relation_name)
+            send("promise_#{relation_name}")
             nil
           end
           define_method("promise_#{name}=") do |arg|
-            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+            Isomorfeus::DataAccess.promise_store(:record_state, self.class.model_name, :instance, @id, :relation, relation_name, arg)
           end
           define_method("#{name}=") do |arg|
-            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :relations, relation_name)
-            Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :instance, @id, :relation, relation_name, arg)
+            Isomorfeus::DataAccess.register_used_store_path(:record_state, self.class.model_name, :instances, @id, :relations, relation_name)
+            Isomorfeus::DataAccess.promise_store(:record_state, self.class.model_name, :instance, @id, :relation, relation_name, arg)
             arg
           end
         end

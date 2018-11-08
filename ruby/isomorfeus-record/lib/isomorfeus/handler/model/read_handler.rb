@@ -78,7 +78,7 @@ module Isomorfeus
                   end
                 end
 
-                method_result = model.isomorfeus_orm_driver.remote_method(record, sym_method_name, *Oj.load(args, symbol_keys: true))
+                method_result = model.isomorfeus_orm_driver.remote_method(record, sym_method_name, *Oj.load(args, mode: :strict))
 
                 # if Isomorfeus.model_use_pubsub
                 #   Isomorfeus::Model::PubSub.subscribe_remote_method(session_id, record, "#{method_name}_#{args}")
@@ -202,7 +202,7 @@ module Isomorfeus
                   end
                 end
 
-                result = model.isomorfeus_orm_driver.class_remote_method(sym_method_name, *Oj.load(args, symbol_keys: true))
+                result = model.isomorfeus_orm_driver.class_remote_method(sym_method_name, *Oj.load(args, mode: :strict))
                 result_model.merge!(remote_methods: { method_name => { args => result }})
 
                 # if Isomorfeus.model_use_pubsub
@@ -231,7 +231,7 @@ module Isomorfeus
                   end
                 end
 
-                scope_result = model.isomorfeus_orm_driver.scope(sym_scope_name, *Oj.load(args, symbol_keys: true))
+                scope_result = model.isomorfeus_orm_driver.scope(sym_scope_name, *Oj.load(args, mode: :strict))
 
                 result_array = scope_result.map do |scope_record|
                                  scope_record.to_transport_hash
@@ -249,7 +249,7 @@ module Isomorfeus
 
         def process_class_where(session_id, current_user, request_model, result_model, model)
           request_model['where'].keys.each do |args|
-            where_args = Oj.load(args, symbol_keys: true).first
+            where_args = Oj.load(args, mode: :strict).first
 
             if where_args.class == Hash # security guard
 

@@ -21,16 +21,18 @@ module Isomorfeus
           #    on failure the .fail block will receive some error indicator or nothing
           collection_queries[name] = {}
           define_method("promise_#{name}") do
-            Isomorfeus::DataAccess.promise_fetch(:record, self.class.model_name, :instances, @id, :collection_query, name).then do |response|
+            Isomorfeus::DataAccess.promise_fetch('isomorfeus/handler/model/read', self.class.model_name, :instances, @id,
+                                                 :collection_query, name).then do |response|
               # TODO response
-              Isomorfeus.store.dispatch(type: 'RECORD_SET_COLLECTION_QUERY', model: self.class.model_name, id: @id, object_id: object_id, value: response)
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_COLLECTION_QUERY', model: self.class.model_name, id: @id, object_id: object_id,
+                                        value: response)
             end
           end
           # @!method [name]
           # @return result either a empty collection or the real result if the RPC call already finished
           define_method(name) do
-            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :collection_query, name)
-            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :collection_query, name)
+            Isomorfeus::DataAccess.register_used_store_path(:record_state, self.class.model_name, :instances, @id, :collection_query, name)
+            result = Isomorfeus::DataAccess.local_fetch(:record_state, self.class.model_name, :instances, @id, :collection_query, name)
             return result if result
             send("promise_#{name}")
             Isomorfeus::Record::Collection.new

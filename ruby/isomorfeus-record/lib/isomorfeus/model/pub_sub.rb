@@ -5,7 +5,7 @@ module Isomorfeus
         def publish_record(record)
           message = { notification:
                         { record.class.to_s.underscore => { instances: { record.id => { properties: record.as_json, destroyed: record.destroyed? }}}}}
-          object_string = "HRPS__#{record.class}__#{record.id}"
+          object_string = "IRPS__#{record.class}__#{record.id}"
 
           Isomorfeus::Transport::ServerPubSub.publish(object_string, message)
           Isomorfeus::Transport::ServerPubSub.unsubscribe_all(object_string) if record.destroyed?
@@ -21,7 +21,7 @@ module Isomorfeus
                             destroyed: record.destroyed?
                           }}}}}}}}}}}}
 
-          object_string = "HRPS__#{base_record.class}__#{base_record.id}__#{relation_name}"
+          object_string = "IRPS__#{base_record.class}__#{base_record.id}__#{relation_name}"
 
           Isomorfeus::Transport::ServerPubSub.publish(object_string, message)
         end
@@ -31,7 +31,7 @@ module Isomorfeus
           s_method_args = s_method_args ? '[' + s_method_args : '[]'
           message = { notification: { record_class.to_s.underscore => { methods: { s_method_name => { s_method_args => nil } }}}}
 
-          object_string = "HRPS__#{record_class}__rest_class_method__#{method_name}"
+          object_string = "IRPS__#{record_class}__rest_class_method__#{method_name}"
           Isomorfeus::Transport::ServerPubSub.publish(object_string, message)
         end
 
@@ -43,7 +43,7 @@ module Isomorfeus
             destroyed: record.destroyed?
           }, methods: { s_method_name => { s_method_args => nil } }}}}}}
 
-          object_string = "HRPS__#{record.class}__#{record.id}__remote_method__#{method_name}"
+          object_string = "IRPS__#{record.class}__#{record.id}__remote_method__#{method_name}"
           Isomorfeus::Transport::ServerPubSub.publish(object_string, message)
         end
 
@@ -52,13 +52,13 @@ module Isomorfeus
           s_scope_args = s_scope_args ? '[' + s_scope_args : '[]'
           message = { notification: { record_class.to_s.underscore => { scopes: { s_scope_name => { s_scope_args => nil } }}}}
 
-          object_string = "HRPS__#{record_class}__scope__#{scope_name}"
+          object_string = "IRPS__#{record_class}__scope__#{scope_name}"
           Isomorfeus::Transport::ServerPubSub.publish(object_string, message)
         end
 
         def subscribe_record(session_id, record)
           return unless session_id
-          object_string = "HRPS__#{record.class}__#{record.id}"
+          object_string = "IRPS__#{record.class}__#{record.id}"
           Isomorfeus::Transport::ServerPubSub.subscribe(object_string, session_id)
         end
 
@@ -68,25 +68,25 @@ module Isomorfeus
           if relation.is_a?(Enumerable)
             # has_many
             relation.each do |record|
-              object_strings << "HRPS__#{record.class}__#{record.id}"
+              object_strings << "IRPS__#{record.class}__#{record.id}"
             end
           elsif !relation.nil?
             # has_one, belongs_to, relation is actually a record
-            object_strings << "HRPS__#{relation.class}__#{relation.id}"
+            object_strings << "IRPS__#{relation.class}__#{relation.id}"
           end
-          object_strings << "HRPS__#{base_record.class}__#{base_record.id}__#{relation_name}" if base_record && relation_name
+          object_strings << "IRPS__#{base_record.class}__#{base_record.id}__#{relation_name}" if base_record && relation_name
           Isomorfeus::Transport::ServerPubSub.subscribe_to_many(object_strings, session_id)
         end
 
         def subscribe_rest_class_method(session_id, record_class, rest_class_method_name)
           return unless session_id
-          object_string = "HRPS__#{record_class}__rest_class_method_name__#{rest_class_method_name}"
+          object_string = "IRPS__#{record_class}__rest_class_method_name__#{rest_class_method_name}"
           Isomorfeus::Transport::ServerPubSub.subscribe(object_string, session_id)
         end
 
         def subscribe_remote_method(session_id, record, remote_method_name)
           return unless session_id
-          object_string = "HRPS__#{record.class}__#{record.id}__remote_method__#{remote_method_name}"
+          object_string = "IRPS__#{record.class}__#{record.id}__remote_method__#{remote_method_name}"
           Isomorfeus::Transport::ServerPubSub.subscribe(object_string, session_id)
         end
 
@@ -96,10 +96,10 @@ module Isomorfeus
 
           if collection.is_a?(Enumerable)
             collection.each do |record|
-              object_strings << "HRPS__#{record.class}__#{record.id}"
+              object_strings << "IRPS__#{record.class}__#{record.id}"
             end
           end
-          object_strings <<  "HRPS__#{record_class}__scope__#{scope_name}" if record_class && scope_name
+          object_strings <<  "IRPS__#{record_class}__scope__#{scope_name}" if record_class && scope_name
           Isomorfeus::Transport::ServerPubSub.subscribe_to_many(object_strings, session_id)
         end
 
