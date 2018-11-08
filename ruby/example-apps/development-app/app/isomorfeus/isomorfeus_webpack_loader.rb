@@ -1,8 +1,11 @@
 require 'opal'
 require 'opal-autoloader'
 require 'isomorfeus-redux'
+require 'isomorfeus-transport-http'
 require 'isomorfeus-record'
 require 'isomorfeus-react'
+
+Isomorfeus.client_transport_driver = Isomorfeus::Transport::HTTP
 
 require_tree 'components'
 require_tree 'models'
@@ -19,7 +22,7 @@ require_tree 'models'
     }
     render() {
       var rounds = parseInt(this.props.match.params.count);
-      var result = []
+      var result = [];
       for (var i = 0; i < rounds; i ++) {
         result.push(React.createElement(ExampleJS.AnotherComponent, {key: i}));
       }
