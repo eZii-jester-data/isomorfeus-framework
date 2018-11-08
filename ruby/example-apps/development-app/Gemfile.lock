@@ -38,6 +38,21 @@ PATH
       oj (~> 3.6.0)
       opal (~> 0.11.0)
 
+PATH
+  remote: /Users/jan/workspace/isomorfeus-react/ruby
+  specs:
+    isomorfeus-react (16.6.2)
+      isomorfeus-redux (~> 4.0.0)
+      opal (>= 0.11.0, < 0.12.0)
+      opal-activesupport (~> 0.3.1)
+      opal-browser (~> 0.2.0)
+
+PATH
+  remote: /Users/jan/workspace/isomorfeus-redux/ruby
+  specs:
+    isomorfeus-redux (4.0.0)
+      opal (>= 0.11.0, < 0.12.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -93,7 +108,7 @@ GEM
       msgpack (~> 1.0)
     builder (3.2.3)
     byebug (10.0.2)
-    capybara (3.10.0)
+    capybara (3.10.1)
       addressable
       mini_mime (>= 0.1.3)
       nokogiri (~> 1.8)
@@ -113,7 +128,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
-    concurrent-ruby (1.0.5)
+    concurrent-ruby (1.1.2)
     crass (1.0.4)
     erubi (1.7.1)
     eventmachine (1.2.7)
@@ -125,14 +140,7 @@ GEM
     i18n (1.1.1)
       concurrent-ruby (~> 1.0)
     io-like (0.3.0)
-    isomorfeus-react (16.6.2)
-      isomorfeus-redux (~> 4.0.0)
-      opal (>= 0.11.0, < 0.12.0)
-      opal-activesupport (~> 0.3.1)
-      opal-browser (~> 0.2.0)
-    isomorfeus-redux (4.0.0)
-      opal (>= 0.11.0, < 0.12.0)
-    jbuilder (2.7.0)
+    jbuilder (2.8.0)
       activesupport (>= 4.2.0)
       multi_json (>= 1.2)
     listen (3.1.5)
@@ -146,7 +154,7 @@ GEM
       mini_mime (>= 0.1.1)
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
-    method_source (0.9.0)
+    method_source (0.9.1)
     mimemagic (0.3.2)
     mini_mime (1.0.1)
     mini_portile2 (2.3.0)
@@ -174,7 +182,7 @@ GEM
       ast (~> 2.4.0)
     public_suffix (3.0.3)
     puma (3.12.0)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.1)
@@ -219,7 +227,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.14.1)
+    selenium-webdriver (3.141.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.2, >= 1.2.2)
     sourcemap (0.1.1)
@@ -266,9 +274,9 @@ DEPENDENCIES
   capybara (>= 2.15)
   chromedriver-helper
   coffee-rails (~> 4.2)
-  isomorfeus-react (~> 16.6.2)
+  isomorfeus-react!
   isomorfeus-record!
-  isomorfeus-redux (~> 4.0.0)
+  isomorfeus-redux!
   isomorfeus-transport!
   isomorfeus-transport-actioncable!
   jbuilder (~> 2.5)
