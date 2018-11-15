@@ -3,21 +3,85 @@ module Isomorfeus
     module Reducers
       def self.add_record_reducer_to_store
         record_reducer = Redux.create_reducer do |prev_state, action|
+          # for better performance this should all be javascript
           action_type = action[:type]
           if action_type.JS.startsWith('RECORD_')
             case action_type
+              # structure:
+              # records: model_name => instances => id => properties|changed_properties => prop => value
+              #                                           collection_queries => query_name => args => value
+              #                                           remote_methods => method_name => args => result
+              #                                           relations => relation_name => value
+              #                                           relation_participation => model_name => id => relation_name
+              #                                           edge_participation => type => edge_id
+              #                                           scope_participation => model_name => scope_name
+              #                                           collection_query_participation => model_name => id => query_name
+              #                         remote_class_methods => method_name => args => result
+              #                         scopes => scope_name => args => value
+              #
+              # edges: type => id => from/to => [model_name, id]
+              #              prop => value
             when 'RECORD_SET_PROPERTY'
               new_state = {}.merge!(prev_state)
-              Redux.set_state_path(new_state, action[:model], :instances. action[:id], :changed_properties, action[:object_id], action[:property],
+              Redux.set_state_path(new_state, :records, action[:model], :instances. action[:id], :changed_properties, action[:object_id], action[:property],
                                    action[:value])
               new_state
             when 'RECORD_SET_PROPERTIES'
               new_state = {}.merge!(prev_state)
-              Redux.set_state_path(new_state, action[:model], :instances, action[:id], :properties, action[:properties])
+              prev_props = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :changed_properties, action[:object_id])
+              prev_props = {} unless prev_props
+              Redux.set_state_path(new_state, :records, action[:model], :instances, action[:id], :changed_properties, action[:object_id],
+                                   prev_props.merge!(action[:properties]))
               new_state
             when 'RECORD_SET_ID'
               new_state = {}.merge!(prev_state)
-              Redux.set_state_path(new_state, action[:model], :instances, action[:id], new_state[action[:model]][:instances].delete(action[:id]))
+              Redux.set_state_path(new_state, :records, action[:model], :instances, action[:new_id], new_state[action[:model]][:instances].delete(action[:id]))
+              # update relations
+              relation_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation)
+              relation_participation.each do |model_name, _|
+                records = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation, model_name)
+                records.each do |id, _|
+                  relations = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation, model_name, id)
+                  relations.each do |relation_name, _|
+                    relation = Redux.get_state_path(new_state, :records, model_name, id, :relations, relation_name)
+                    index = relation.index([action[:model], action[:id]])
+                    relation[index] = [action[:model], action[:new_id]]
+                  end
+                end
+              end
+              # update scopes
+              scope_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :scope_participation)
+              scope_participation.each do |model_name, _|
+                scopes = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :scope_participation, model_name)
+                scopes.each do |scope_name, _|
+                  scope = Redux.get_state_path(new_state, :records, model_name, :sopes, scope_name)
+                  index = relation.index([action[:model], action[:id]])
+                  scope[index] = [action[:model], action[:new_id]]
+                end
+              end
+              # update collection_queries
+              collection_query_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation)
+              collection_query_participation.each do |model_name, _|
+                records = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation, model_name)
+                records.each do |id, _|
+                  collection_queries = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation, model_name, id)
+                  collection_queries.each do |relation_name, _|
+                    collection_query = Redux.get_state_path(new_state, :records, model_name, id, :collection_queries, relation_name)
+                    index = collection_query.index([action[:model], action[:id]])
+                    collection_query[index] = [action[:model], action[:new_id]]
+                  end
+                end
+              end
+              # update edges
+              edge_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :edge_participation)
+              edge_participation.each do |type, _|
+                edges = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :edge_participation, type)
+                edges.each do |id, _|
+                  edge = Redux.get_state_path(new_state, :edges, type, id)
+                  edge[:from] == [action[:model], action[:new_id]] if edge[:from] == [action[:model], action[:id]]
+                  edge[:to] == [action[:model], action[:new_id]] if edge[:to] == [action[:model], action[:id]]
+                end
+              end
               new_state
             when 'RECORD_SET_RELATION'
               new_state = {}.merge!(prev_state)
@@ -46,8 +110,78 @@ module Isomorfeus
               new_state
             when 'RECORD_DESTROY'
               new_state = {}.merge!(prev_state)
-              instances = Redux.get_state_path(new_state, action[:model], :instances)
+              # update relations
+              relation_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation)
+              relation_participation.each do |model_name, _|
+                records = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation, model_name)
+                records.each do |id, _|
+                  relations = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation, model_name, id)
+                  relations.each do |relation_name, _|
+                    relation = Redux.get_state_path(new_state, :records, model_name, id, :relations, relation_name)
+                    relation.delete([action[:model], action[:id]])
+                  end
+                end
+              end
+              # update scopes
+              scope_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :scope_participation)
+              scope_participation.each do |model_name, _|
+                scopes = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :scope_participation, model_name)
+                scopes.each do |scope_name, _|
+                  scope = Redux.get_state_path(new_state, :records, model_name, :sopes, scope_name)
+                  scope.delete([action[:model], action[:new_id]])
+                end
+              end
+              # update collection_queries
+              collection_query_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation)
+              collection_query_participation.each do |model_name, _|
+                records = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation, model_name)
+                records.each do |id, _|
+                  collection_queries = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation, model_name, id)
+                  collection_queries.each do |relation_name, _|
+                    collection_query = Redux.get_state_path(new_state, :records, model_name, id, :collection_queries, relation_name)
+                    collection_query.delete([action[:model], action[:new_id]])
+                  end
+                end
+              end
+              # update edges
+              edge_participation = Redux.get_state_path(new_state, :records action[:model], :instances, action[:id], :edge_participation)
+              edge_participation.each do |type, _|
+                edges = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :edge_participation, type)
+                edges.each do |id, _|
+                  edge = Redux.get_state_path(new_state, :edges, type, id)
+                  other_record = nil
+                  other_record = edge[:to] if edge[:from] == [action[:model], action[:id]]
+                  other_record = edge[:from] if edge[:to] == [action[:model], action[:id]]
+                  if other_record
+                    edges = Redux.get_state_path(new_state, :edges, type)
+                    edges.delete!(id)
+                    other_model = other_record[0]
+                    other_id = other_record[1]
+                    other_participation = Redux.get_state_path(new_state, :records, other_model, :instances, other_id, :edge_participation, type)
+                    other_participation.delete(id)
+                  end
+                end
+              end
+              instances = Redux.get_state_path(new_state, :records, action[:model], :instances)
               instances.delete(action[:id]) if instances
+              new_state
+            when 'RECORD_ADD_TO_RELATION'
+              new_state = {}.merge!(prev_state)
+              relation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relations, action[:relation])
+              if relation
+                relation << [action[:other_model], action[:other_id]]
+              else
+                Redux.set_state_path(new_state, :records, action[:model], :instances, action[:id], :relations, action[:relation],
+                                     [action[:other_model], action[:other_id]])
+              end
+              Redux.set_state_path(new_state, :records, action[:other_model], :instances, action[:other_id], :relation_participation, action[:model], action[:id], action[:relation])
+              new_state
+            when 'RECORD_REMOVE_FROM_RELATION'
+              new_state = {}.merge!(prev_state)
+              relation = Redux.get_state_path(new_state, action[:model], :instances, action[:id], :relations, action[:relation])
+              if relation
+                relation.delete([action[:other_model], action[:other_id]])
+              end
               new_state
             when 'RECORD_LINK'
               new_state = {}.merge!(prev_state)
@@ -62,25 +196,7 @@ module Isomorfeus
               left_instances.delete(action[:other_id]) if left_instances
               right_instances.delete(action[:id]) if right_instances
               new_state
-            when 'RECORD_ADD_TO_RELATION'
-              new_state = {}.merge!(prev_state)
-              relation = Redux.get_state_path(new_state, action[:model], :instances, action[:id], :relations, action[:relation])
-              if relation
-                relation << { action[:other_model] => action[:other_id] }
-              else
-                Redux.set_state_path(new_state, action[:model], :instances, action[:id], :relations, action[:relation],
-                                     [action[:other_model] => action[:other_id]])
-              end
-              new_state
-            when 'RECORD_REMOVE_FROM_RELATION'
-              new_state = {}.merge!(prev_state)
-              relation = Redux.get_state_path(new_state, action[:model], :instances, action[:id], :relations, action[:relation])
-              if relation
-                relation.delete(action[:other_model] => action[:other_id])
-              end
-              new_state
-            when 'INIT'
-              {}
+
             else
               prev_state
             end
