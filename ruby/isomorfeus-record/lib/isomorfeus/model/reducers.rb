@@ -14,7 +14,7 @@ module Isomorfeus
               #                                           relations => relation_name => value
               #                                           relation_participation => model_name => id => relation_name
               #                                           edge_participation => type => edge_id
-              #                                           scope_participation => model_name => scope_name
+              #                                           scope_participation => model_name => scope_name => scope_args
               #                                           collection_query_participation => model_name => id => query_name
               #                         remote_class_methods => method_name => args => result
               #                         scopes => scope_name => args => value
@@ -85,11 +85,17 @@ module Isomorfeus
               new_state
             when 'RECORD_SET_RELATION'
               new_state = {}.merge!(prev_state)
-              Redux.set_state_path(new_state, action[:model], :instances, action[:id], :relations, action[:relation], action[:value])
+              Redux.set_state_path(new_state, :records, action[:model], :instances, action[:id], :relations, action[:relation], action[:value])
+              action[:value].each do |record|
+                Redux.set_state_path(new_state, :records, record[0], :instances, record[1], :relation_participation, action[:model], action[:id], action[:relation])
+              end
               new_state
             when 'RECORD_SET_COLLECTION_QUERY'
               new_state = {}.merge!(prev_state)
               Redux.set_state_path(new_state, action[:model], :instances, action[:id], :collection_queries, action[:query], action[:value])
+              action[:value].each do |record|
+                Redux.set_state_path(new_state, :records, record[0], :instances, record[1], :collection_query_participation, action[:model], action[:id], action[:query])
+              end
               new_state
             when 'RECORD_SET_REMOTE_CLASS_METHOD'
               new_state = {}.merge!(prev_state)
@@ -102,16 +108,18 @@ module Isomorfeus
             when 'RECORD_SET_SCOPE'
               new_state = {}.merge!(prev_state)
               Redux.set_state_path(new_state, action[:model], :scopes, action[:args], action[:value])
+              action[:value].each do |record|
+                Redux.set_state_path(new_state, :records, record[0], :instances, record[1], :scope_participation, action[:model], action[:scope], action[:args])
+              end
               new_state
             when 'RECORD_RESET'
               new_state = {}.merge!(prev_state)
-              changed_props = Redux.get_state_path(new_state, action[:model], :instances, action[:id], :changed_properties)
-              changed_props.delete(action[:object_id]) if changed_props
+              Redux.delete_state_path(new_state, action[:model], :instances, action[:id], :changed_properties, action[:object_id])
               new_state
             when 'RECORD_DESTROY'
               new_state = {}.merge!(prev_state)
-              # update relations
-              relation_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation)
+              # remove from relations
+              relat ion_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation)
               relation_participation.each do |model_name, _|
                 records = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :relation_participation, model_name)
                 records.each do |id, _|
@@ -122,16 +130,19 @@ module Isomorfeus
                   end
                 end
               end
-              # update scopes
+              # remove from scopes
               scope_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :scope_participation)
               scope_participation.each do |model_name, _|
                 scopes = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :scope_participation, model_name)
                 scopes.each do |scope_name, _|
-                  scope = Redux.get_state_path(new_state, :records, model_name, :sopes, scope_name)
-                  scope.delete([action[:model], action[:new_id]])
+                  scope_args = scopes[scope_name]
+                  scope_args.each do |scope_arg, _| 
+                    scope = Redux.get_state_path(new_state, :records, model_name, :sopes, scope_name, scope_arg)
+                    scope.delete([action[:model], action[:new_id]])
+                  end
                 end
               end
-              # update collection_queries
+              # remove from collection_queries
               collection_query_participation = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation)
               collection_query_participation.each do |model_name, _|
                 records = Redux.get_state_path(new_state, :records, action[:model], :instances, action[:id], :collection_query_participation, model_name)
@@ -153,12 +164,8 @@ module Isomorfeus
                   other_record = edge[:to] if edge[:from] == [action[:model], action[:id]]
                   other_record = edge[:from] if edge[:to] == [action[:model], action[:id]]
                   if other_record
-                    edges = Redux.get_state_path(new_state, :edges, type)
-                    edges.delete!(id)
-                    other_model = other_record[0]
-                    other_id = other_record[1]
-                    other_participation = Redux.get_state_path(new_state, :records, other_model, :instances, other_id, :edge_participation, type)
-                    other_participation.delete(id)
+                    Redux.delete_state_path(new_state, :edges, type, id)
+                    Redux.delete_state_path(new_state, :records, other_record[0], :instances, other_record[1], :edge_participation, type, id)
                   end
                 end
               end
@@ -182,6 +189,7 @@ module Isomorfeus
               if relation
                 relation.delete([action[:other_model], action[:other_id]])
               end
+              Redux.delete_state_path(new_state, :records, action[:other_model], :instances, action[:other_id], :relation_participation, action[:model], action[:id])
               new_state
             when 'RECORD_LINK'
               new_state = {}.merge!(prev_state)
