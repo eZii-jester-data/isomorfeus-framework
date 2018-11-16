@@ -21,6 +21,11 @@ module Isomorfeus
               #
               # edges: type => instances => id => from/to => [model_name, id]
               #                                   properties|changed_properties => prop => value
+              #
+              # a collection of records is represented as a array: [ [model_name, id], ... ]
+              # edge from and to is represented as [model_name, id]
+              # so in various places below array[0] refers to the model_name and array[1] to the id
+              #
             when 'RECORD_SET_PROPERTY'
               new_state = {}.merge!(prev_state)
               Redux.set_state_path(new_state, :records, action[:model], :instances, action[:id], :changed_properties, action[:object_id], action[:property],
