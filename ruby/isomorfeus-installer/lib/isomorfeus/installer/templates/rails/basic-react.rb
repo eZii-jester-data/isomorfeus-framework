@@ -10,7 +10,6 @@ git commit: "-m 'Initial commit: Rails base'"
 
 gem 'opal', github: 'janbiedermann/opal', branch: 'es6_import_export'
 gem 'opal-autoloader', '~> 0.0.2'
-gem 'opal-webpack-loader', '~> 0.3.7'
 gem 'isomorfeus-react', github: 'isomorfeus/isomorfeus-framework', branch: 'ulysses', glob: 'ruby/isomorfeus-react/*.gemspec'
 
 # ----------------------------------- Create the folders
@@ -435,7 +434,7 @@ end
 inject_into_file 'app/views/layouts/application.html.erb', after: %r{<%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>} do
   <<-CODE
 
-    <%= owl_include_tag '/packs/app.js' %>
+    <%= owl_script_tag '/packs/app.js' %>
   CODE
 end
 

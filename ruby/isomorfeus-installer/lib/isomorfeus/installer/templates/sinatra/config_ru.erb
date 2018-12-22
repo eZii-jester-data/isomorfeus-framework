@@ -1,0 +1,38 @@
+<%= requires %>
+
+<%= asset_bundler_config %>
+
+class App < Sinatra::Base
+  <%= asset_bundler_includes %>
+
+  get '/' do
+    <<~HTML
+    <html>
+      <head>
+        <title>Welcome</title>
+        #{<%= script_tag %>}
+      </head>
+      <body>
+        <div></div>
+      </body>
+    </html>
+    HTML
+  end
+
+  get /.*/ do
+    # wildcard to access any component
+    <<~HTML
+    <html>
+      <head>
+        <title>Welcome</title>
+        #{<%= script_tag %>}
+      </head>
+      <body>
+        <div></div>
+      </body>
+    </html>
+    HTML
+  end
+end
+
+run App

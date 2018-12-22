@@ -1,0 +1,21 @@
+{
+  "name": "<%= application_name %>",
+  "private": true,
+  "dependencies": {
+    <%= npm_packages %>
+    "react": "16.6",
+    "react-dom": "16.6",
+    "react-hot-loader": "^4.3.11",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1"
+  },
+<%= scripts %>
+  "devDependencies": {
+    "compression-webpack-plugin": "^2.0.0",
+    "webpack": "^4.27.0",
+    "webpack-cli": "^3.1.1",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-manifest-plugin": "^2.0.4"
+  }
+}

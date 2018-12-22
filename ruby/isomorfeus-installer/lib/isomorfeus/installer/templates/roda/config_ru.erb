@@ -1,0 +1,39 @@
+<%= requires %>
+
+<%= asset_bundler_config %>
+
+class App < Roda
+  <%= asset_bundler_includes %>
+  route do |r|
+    r.root do
+      <<~HTML
+      <html>
+        <head>
+          <title>Welcome</title>
+          #{<%= script_tag %>}
+        </head>
+        <body>
+          <div></div>
+        </body>
+      </html>
+      HTML
+    end
+
+    r.on /.*/ do
+      # wildcard to access any component
+      <<~HTML
+      <html>
+        <head>
+        <title>Welcome</title>
+          #{<%= script_tag %>}
+        </head>
+        <body>
+          <div></div>
+        </body>
+      </html>
+      HTML
+    end
+  end
+end
+
+run App.freeze.app

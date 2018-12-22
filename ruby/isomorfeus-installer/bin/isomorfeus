@@ -1,0 +1,137 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'erb'
+require 'active_support/core_ext/string'
+
+require_relative '../lib/isomorfeus/installer'
+
+Isomorfeus::Installer.module_directories.each do |mod_dir|
+  mod_path = File.realpath(File.join(Isomorfeus::Installer.base_path, mod_dir))
+  modules = Dir.glob('*.rb', base: mod_path)
+  modules.each do |mod|
+    require_relative File.join(mod_path, mod)
+  end
+end
+
+options = {}
+sorted_frameworks = Isomorfeus::Installer.frameworks.keys.sort
+sorted_asset_bundlers = Isomorfeus::Installer.asset_bundlers.keys
+sorted_databases = Isomorfeus::Installer.databases.keys.sort
+sorted_transports = Isomorfeus::Installer.transports.keys
+
+OptionParser.new do |opts|
+  opts.banner = 'Usage: isomorfeus options...'
+  opts.separator ''
+  opts.separator 'Required:'
+  opts.on('-nNAME', '--new=NAME', String, "Create new project with NAME and install isomorfeus.") do |v|
+    options[:new] = v
+  end
+  # opts.on('-e', '--existing', "Install Isomorfeus into existing project.") do |v|
+  #  options[:existing] = v
+  # end
+  opts.separator ''
+  opts.separator 'Also required in any case is:'
+  opts.on('-fNAME', '--framework=FRAMEWORK', String, :REQUIRED, "Select base Framework, one of: #{sorted_frameworks.join(', ')}.") do |v|
+    if sorted_frameworks.include?(v)
+      options[:framework] = v
+      Isomorfeus::Installer.framework = Isomorfeus::Installer.frameworks[v]&.fetch(:installer)
+    else
+      puts "Framework #{v} not available!"
+      exit 1
+    end
+  end
+  opts.separator ''
+  opts.separator 'Other options:'
+  opts.on('-aBUNDLER', '--asset-bundler=BUNDLER', String, "Select asset bundler, one of: #{sorted_asset_bundlers.join(', ')}. (optional)") do |v|
+    if sorted_asset_bundlers.include?(v)
+      options[:asset_bundler] = v
+      Isomorfeus::Installer.asset_bundler = Isomorfeus::Installer.asset_bundlers[v]&.fetch(:installer)
+    else
+      puts "Asset bundler #{v} not available!"
+      exit 1
+    end
+  end
+  # opts.on('-dDATABASE', '--database=DATABASE', String, "Select database, one of: #{sorted_databases.join(', ')}. (optional, default: none)") do |v|
+  #   if sorted_frameworks.include?(v)
+  #     options[:database] = v
+  #   else
+  #     puts "Database #{v} not available!"
+  #     exit 1
+  #   end
+  # end
+  # opts.on('-tTRANSPORT', '--transport=TRANSPORT', String, "Select transport, one of: #{sorted_transports.join(', ')}. (optional, default: actioncable)") do |v|
+  #   if sorted_frameworks.include?(v)
+  #     options[:database] = v
+  #   else
+  #     puts "Database #{v} not available!"
+  #     exit 1
+  #   end
+  # end
+
+  opts.separator ''
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+Isomorfeus::Installer.options = options
+Isomorfeus::Installer.structure= Isomorfeus::Installer.frameworks[options[:framework]][:structure]
+
+if options[:new] && options[:existing]
+  puts "Either choose a new installation (-n), or installation into a existing project (-e), both won't work!"
+end
+if !options[:new] && !options[:existing]
+  puts "Don't know what to do! Either choose a new installation (-n), or installation into a existing project (-e)."
+end
+
+if options[:new]
+  begin
+    if Isomorfeus::Installer.framework.respond_to?(:create_project)
+      Isomorfeus::Installer.framework.create_project(options[:new])
+    else
+      Dir.mkdir(options[:new])
+    end
+    Dir.chdir(options[:new])
+  rescue
+    puts "Directory #{options[:new]} could not be created!"
+    exit 1
+  end
+end
+
+root = Dir.open('.')
+
+begin
+  Isomorfeus::Installer.create_directories
+  Isomorfeus::Installer.framework.install(root)
+  Isomorfeus::Installer.asset_bundler&.install(root)
+
+  camelized_dir = if options[:new]
+                    options[:new].camelize
+                  else
+                    File.split(File.realpath(Dir.new('.'))).last.camelize
+                  end
+
+  app_name = camelized_dir + 'App'
+  component_name = camelized_dir + 'Component'
+
+  Isomorfeus::Installer.create_loader(app_name)
+  Isomorfeus::Installer.create_toplevel(app_name, component_name)
+  Isomorfeus::Installer.create_component(component_name)
+
+  Isomorfeus::Installer.create_entrypoint
+  Isomorfeus::Installer.create_package_json
+  Isomorfeus::Installer.create_gemfile(Isomorfeus::Installer.frameworks[options[:framework]][:gems],
+                                       Isomorfeus::Installer.asset_bundlers[options[:asset_bundler]]&.fetch(:gems))
+  Isomorfeus::Installer.create_procfile
+
+  puts 'Installation finished, make your dreams come true :)'
+  puts
+  puts 'But first execute in the project directory:'
+  puts 'bundle install'
+  puts 'yarn install (or npm install)'
+rescue Exception => e
+  puts e.backtrace.join("\n")
+  puts "Installation failed: #{e.message}"
+end

@@ -1,0 +1,48 @@
+<%= requires %>
+
+<%= asset_bundler_config %>
+
+require 'cuba/safe'
+
+Cuba.plugin Cuba::Safe
+
+class Cuba
+  <%= asset_bundler_includes %>
+end
+
+Cuba.define do
+  on get do
+    on root do
+      html =  <<~HTML
+              <html>
+                <head>
+                  <title>Welcome</title>
+                  #{<%= script_tag %>}
+                </head>
+                <body>
+                  <div></div>
+                </body>
+              </html>
+              HTML
+      res.write html
+    end
+
+    on /.*/ do |path|
+      # wildcard to access any component
+      html =  <<~HTML
+              <html>
+                <head>
+                  <title>Welcome</title>
+                  #{<%= script_tag %>}
+                </head>
+                <body>
+                  <div></div>
+                </body>
+              </html>
+              HTML
+      res.write html
+    end
+  end
+end
+
+run Cuba
