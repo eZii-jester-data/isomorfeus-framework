@@ -31,10 +31,10 @@ module.exports = {
             // resolve ruby files
             new OwlResolver('resolve', 'resolved')
         ],
-        alias: {
-            'react-dom': 'react-dom/profiling',
-            'schedule/tracing': 'schedule/tracing-profiling',
-        }
+        //alias: {
+        //    'react-dom': 'react-dom/profiling',
+        //    'schedule/tracing': 'schedule/tracing-profiling',
+        //}
     },
     module: {
         rules: [

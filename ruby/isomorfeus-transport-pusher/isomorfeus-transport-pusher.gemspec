@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version      = Isomorfeus::VERSION
   s.author       = 'Jan Biedermann'
   s.email        = 'jan@kursator.de'
-  s.homepage     = 'http://isomorfeus.org'
+  s.homepage     = 'http://isomorfeus.com'
   s.summary      = 'Driver for Pusher.com pub sub service for isomorfeus-transport for Isomorfeus.'
   s.description  = 'Driver for Pusher.com pub sub service for isomorfeus-transport for Isomorfeus.'
 

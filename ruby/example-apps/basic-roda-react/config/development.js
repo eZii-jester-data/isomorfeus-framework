@@ -1,20 +1,18 @@
 // require requirements used below
 const path = require('path');
 const webpack = require('webpack');
-const chokidar = require('chokidar'); // for watching app/view
-const WebSocket = require('ws');
 const OwlResolver = require('opal-webpack-loader/resolver'); // to resolve ruby files
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     parallelism: 8,
-    context: path.resolve(__dirname, '../../app/isomorfeus'),
+    context: path.resolve(__dirname, '../isomorfeus'),
     mode: "development",
     optimization: {
         minimize: false // dont minimize in development, to speed up hot reloads
     },
     performance: {
-        maxAssetSize: 20000000, // isomorfeus is some code
+        maxAssetSize: 20000000, // isomorfeus can be some code
         maxEntrypointSize: 20000000
     },
     // use this or others below, disable for faster hot reloads
@@ -130,4 +128,3 @@ module.exports = {
         }
     }
 };
-

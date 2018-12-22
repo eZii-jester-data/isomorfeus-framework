@@ -9,10 +9,15 @@ class ReduxExample < React::ReduxComponent::Base
         end
       end
       TBODY do
-        ElectricCar.all.each do |car|
+        all_cars = ElectricCar.all
+        all_cars.each do |car|
           TR do
-            TD { car.brand }
-            TD { car.model }
+            TD do
+              car.brand
+            end
+            TD do
+              car.model
+            end
           end
         end
       end
