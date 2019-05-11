@@ -1,6 +1,0 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>IntestRails</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
