@@ -1,2 +1,0 @@
-class ElectricCar < ApplicationRecord
-end

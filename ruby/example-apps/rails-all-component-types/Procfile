@@ -1,2 +1,0 @@
-app  :         bundle exec puma
-webpack_serve: yarn run start
