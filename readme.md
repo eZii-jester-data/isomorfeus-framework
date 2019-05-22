@@ -3,9 +3,9 @@
 -> Make your dreams come true :)
 
 A easy to use application framework, made for a highly productive development experience.
-Its internally based on React and Redux.
-## Chat
-At our [Gitter Isomorfeus Lobby](http://gitter.im/isomorfeus/Lobby) 
+
+### Community and Support
+At the [Isomorfeus Framework Project](http://isomorfeus.com) 
 
 ## Ruby
 Currently there is a Opal Ruby implementation in the ruby directory of this repo:
