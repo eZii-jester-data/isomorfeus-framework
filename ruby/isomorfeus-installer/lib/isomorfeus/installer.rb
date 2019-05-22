@@ -60,7 +60,6 @@ module Isomorfeus
 
     def self.options=(options)
       Isomorfeus::Installer::OptionsMangler.mangle_options(options)
-      puts "options: #{options}"
       @options = options
     end
 
