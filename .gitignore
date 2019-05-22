@@ -21,9 +21,10 @@
 /storage/*
 !/storage/.keep
 
-/node_modules
-/yarn-error.log
-/.owl_cache
+node_modules
+yarn-error.log
+.owl_cache
+yarn.lock
 
 /public/assets
 /public/packs
