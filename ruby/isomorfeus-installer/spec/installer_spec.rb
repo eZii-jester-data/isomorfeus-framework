@@ -38,6 +38,29 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?('morphing_app.rb')).to be true
       expect(File.exist?('Gemfile')).to be true
     end
+
+    it 'with the cmd it can' do
+      `bundle exec isomorfeus new morphing`
+      Dir.chdir('morphing')
+      expect(File.exist?(File.join('isomorfeus','styles', 'application.css'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'imports', 'application.js'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'imports', 'application_common.js'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'imports', 'application_debug.js'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'imports', 'application_ssr.js'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'isomorfeus_loader.rb'))).to be true
+      expect(File.exist?(File.join('owl_init.rb'))).to be true
+      expect(File.exist?(File.join('app_loader.rb'))).to be true
+      expect(File.exist?(File.join('webpack', 'debug.js'))).to be true
+      expect(File.exist?(File.join('webpack', 'development.js'))).to be true
+      expect(File.exist?(File.join('webpack', 'production.js'))).to be true
+      expect(Dir.exist?(File.join('public', 'assets'))).to be true
+      expect(File.exist?('package.json')).to be true
+      expect(File.exist?('Procfile')).to be true
+      expect(File.exist?('ProcfileDebug')).to be true
+      expect(File.exist?('config.ru')).to be true
+      expect(File.exist?('morphing_app.rb')).to be true
+      expect(File.exist?('Gemfile')).to be true
+    end
   end
 
   context 'in a new app' do
