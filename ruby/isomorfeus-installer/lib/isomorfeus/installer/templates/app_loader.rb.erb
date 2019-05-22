@@ -1,0 +1,13 @@
+require 'bundler/setup'
+if ENV['<%= project_env %>'] && ENV['<%= project_env %>'] == 'production'
+  ENV['OWL_ENV'] = 'production'
+  Bundler.require(:default, :production)
+elsif ENV['<%= project_env %>'] && ENV['<%= project_env %>'] == 'test'
+  ENV['OWL_ENV'] = 'production'
+  Bundler.require(:default, :test)
+else
+  ENV['OWL_ENV'] = 'development'
+  Bundler.require(:default, :development)
+end
+
+Opal.append_path(File.expand_path('isomorfeus'))

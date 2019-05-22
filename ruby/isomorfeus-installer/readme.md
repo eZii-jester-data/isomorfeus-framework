@@ -2,11 +2,8 @@
 
 Create new isomorfeus applications with ease.
 
-#### Supported Frameworks
-- Cuba
-- Rails
-- Roda
-- Sinatra
+### Community and Support
+At the [Isomorfeus Framework Project](http://isomorfeus.com) 
 
 #### Supported Isomorfeus modules
 - isomorfeus-react

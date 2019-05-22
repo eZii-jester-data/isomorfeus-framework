@@ -2,7 +2,16 @@ require 'opal'
 require 'opal-autoloader'
 require 'isomorfeus-redux'
 require 'isomorfeus-react'
+<% if use_transport %>
+require 'isomorfeus-transport'
+<%= transport_requires %>
+<% end %>
+<% if use_database %>require 'isomorfeus-record'<% end %>
+<% if use_policy %>require 'isomorfeus-policy'<% end %>
+<% if use_operation %>require 'isomorfeus-operation'<% end %>
+<% if use_i18n %>require 'isomorfeus-i18n'<% end %>
 
+<% if use_policy %>require_tree 'policies'<% end %>
+<% if use_database %>require_tree 'models'<% end %>
+<% if use_operation %>require_tree 'operations'<% end %>
 require_tree 'components'
-
-Isomorfeus::TopLevel.on_ready_mount(<%= app_name %>)
