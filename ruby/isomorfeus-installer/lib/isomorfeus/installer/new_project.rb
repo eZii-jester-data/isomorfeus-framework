@@ -10,7 +10,7 @@ module Isomorfeus
         Isomorfeus::Installer
       end
 
-      def self.execute
+      def self.execute(yarn_and_bundle: true)
         begin
           Dir.mkdir(installer.project_name)
           Dir.chdir(installer.project_name)
@@ -41,8 +41,12 @@ module Isomorfeus
           Isomorfeus::Installer.create_gemfile
           Isomorfeus::Installer.create_procfile
 
-          `bundle install`
-          `yarn install`
+          if yarn_and_bundle
+            puts 'Executing yarn install'
+            puts `yarn install`
+            puts 'Executing bundle install'
+            puts `bundle install`
+          end
 
           Dir.chdir('..')
           puts 'Installation finished, make your dreams come true :)'
