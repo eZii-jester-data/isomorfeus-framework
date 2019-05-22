@@ -1,6 +1,5 @@
 module Isomorfeus
   module Installer
-    VERSION = File.read(File.expand_path("../../../../ISOMORFEUS_VERSION", __dir__)).strip
     # driver support
 
     def self.add_database(name, props)
