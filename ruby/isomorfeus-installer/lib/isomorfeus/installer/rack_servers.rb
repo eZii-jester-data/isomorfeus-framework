@@ -9,7 +9,7 @@ Isomorfeus::Installer.add_rack_server('falcon', {
 })
 
 Isomorfeus::Installer.add_rack_server('iodine', {
-  gems: [ { name: 'falcon', version: "~> 0.7.31", require: false } ],
+  gems: [ { name: 'iodine', version: "~> 0.7.31", require: false } ],
   start_command: 'bundle exec iodine'
 })
 

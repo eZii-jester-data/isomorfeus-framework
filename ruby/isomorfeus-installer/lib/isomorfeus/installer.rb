@@ -43,6 +43,7 @@ module Isomorfeus
       attr_reader   :project_env
       attr_reader   :project_name
       attr_accessor :rack_server
+      attr_accessor :rack_server_name
       attr_accessor :transport
       attr_accessor :transport_store
 
@@ -306,7 +307,7 @@ module Isomorfeus
     end
 
     def self.create_spec
-      data_hash = { app_class: app_class, app_require: app_require, project_env: project_env }
+      data_hash = { app_class: app_class, app_require: app_require, project_env: project_env, rack_server: rack_server_name }
       create_file_from_template('spec_helper.rb.erb', File.join('spec', 'spec_helper.rb'), data_hash)
       create_file_from_template('test_spec.rb.erb', File.join('spec', 'test_spec.rb'), {})
     end

@@ -40,6 +40,7 @@ module Isomorfeus
 
         if options.key?(:rack_server) && installer.sorted_rack_servers.include?(options[:rack_server])
           installer.rack_server = installer.rack_servers[options[:rack_server]]
+          installer.rack_server_name = options[:rack_server]
         else
           installer.rack_server = installer.rack_servers['puma']
         end
