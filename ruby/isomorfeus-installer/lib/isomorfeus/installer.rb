@@ -40,6 +40,7 @@ module Isomorfeus
       attr_accessor :i18n
       attr_accessor :operation
       attr_accessor :policy
+      attr_reader   :project_dir
       attr_reader   :project_env
       attr_reader   :project_name
       attr_accessor :rack_server
@@ -51,12 +52,13 @@ module Isomorfeus
       attr_reader :options
     end
 
-    def self.set_project_names(pro_name)
-      @project_name   = pro_name.underscore
-      @app_class      = pro_name.camelize + 'App'
-      @app_require    = pro_name.underscore + '_app'
-      @component_name = pro_name.camelize + 'Component'
-      @project_env    = pro_name.underscore.upcase + '_ENV'
+    def self.set_project_names(pro_dir)
+      @project_dir    = pro_dir
+      @project_name   = pro_dir.underscore
+      @app_class      = @project_name.camelize + 'App'
+      @app_require    = @project_name + '_app'
+      @component_name = @app_class + 'Component'
+      @project_env    = @project_name.upcase + '_ENV'
     end
 
     def self.options=(options)
@@ -180,6 +182,7 @@ module Isomorfeus
       unless Dir.exist?(directory)
         puts "Creating directory #{directory}."
         FileUtils.mkdir_p(directory)
+        FileUtils.touch(File.join(directory, '.keep'))
       end
     end
 

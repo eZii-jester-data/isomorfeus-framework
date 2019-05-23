@@ -12,10 +12,10 @@ module Isomorfeus
 
       def self.execute(yarn_and_bundle: true)
         begin
-          Dir.mkdir(installer.project_name)
-          Dir.chdir(installer.project_name)
+          Dir.mkdir(installer.project_dir)
+          Dir.chdir(installer.project_dir)
         rescue
-          puts "Directory #{installer.project_name} could not be created!"
+          puts "Directory #{installer.project_dir} could not be created!"
           exit 1
         end
 
@@ -42,10 +42,10 @@ module Isomorfeus
           Isomorfeus::Installer.create_procfile
 
           if yarn_and_bundle
-            puts 'Executing yarn install'
-            puts `yarn install`
-            puts 'Executing bundle install'
-            puts `bundle install`
+            puts 'Executing yarn install:'
+            system('yarn install')
+            puts 'Executing bundle install:'
+            system('bundle install')
           end
 
           Dir.chdir('..')
