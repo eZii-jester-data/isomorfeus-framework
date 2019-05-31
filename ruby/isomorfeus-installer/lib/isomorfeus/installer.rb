@@ -34,14 +34,12 @@ module Isomorfeus
       # application options
       attr_reader   :app_class
       attr_reader   :app_require
-      attr_reader   :component_name
       attr_accessor :database
       attr_accessor :framework
       attr_accessor :i18n
       attr_accessor :operation
       attr_accessor :policy
       attr_reader   :project_dir
-      attr_reader   :project_env
       attr_reader   :project_name
       attr_accessor :rack_server
       attr_accessor :rack_server_name
@@ -57,8 +55,6 @@ module Isomorfeus
       @project_name   = pro_dir.underscore
       @app_class      = @project_name.camelize + 'App'
       @app_require    = @project_name + '_app'
-      @component_name = @app_class + 'Component'
-      @project_env    = @project_name.upcase + '_ENV'
     end
 
     def self.options=(options)
@@ -205,9 +201,8 @@ module Isomorfeus
                     use_transport_rack_app:         use_transport_rack_app? }
       create_file_from_template('app.rb.erb', "#{@project_name}_app.rb", data_hash)
       data_hash = { app_require: app_require, app_class: app_class }
-      create_file_from_template('config_ru.erb', 'config.ru', data_hash)
-      data_hash = { project_env: @project_env }
-      create_file_from_template(File.join('app_loader.rb.erb'), 'app_loader.rb', data_hash)
+      create_file_from_template('config.ru.erb', 'config.ru', data_hash)
+      create_file_from_template(File.join('app_loader.rb.erb'), 'app_loader.rb', {})
     end
 
     def self.install_isomorfeus_entries
@@ -277,10 +272,16 @@ module Isomorfeus
       create_file_from_template('Gemfile.erb', 'Gemfile', data_hash)
     end
 
-    def self.create_component
-      data_hash = { component_name: component_name }
-      create_file_from_template('my_component.rb.erb',
-                                File.join(isomorfeus_path, 'components', component_name.underscore + '.rb'), data_hash)
+    def self.create_components
+      data_hash = { app_class: app_class }
+      create_file_from_template('my_app.rb.erb',
+                                File.join(isomorfeus_path, 'components', app_class.underscore + '.rb'), data_hash)
+      create_file_from_template('hello_component.rb.erb',
+                                File.join(isomorfeus_path, 'components', 'hello_component.rb'), {})
+      create_file_from_template('navigation_links.rb.erb',
+                                File.join(isomorfeus_path, 'components', 'navigation_links.rb'), {})
+      create_file_from_template('welcome_component.rb.erb',
+                                File.join(isomorfeus_path, 'components', 'welcome_component.rb'), {})
     end
 
     def self.create_middlewares
@@ -310,15 +311,9 @@ module Isomorfeus
     end
 
     def self.create_spec
-      data_hash = { app_class: app_class, app_require: app_require, project_env: project_env, rack_server: rack_server_name }
+      data_hash = { app_class: app_class, app_require: app_require, rack_server: rack_server_name }
       create_file_from_template('spec_helper.rb.erb', File.join('spec', 'spec_helper.rb'), data_hash)
       create_file_from_template('test_spec.rb.erb', File.join('spec', 'test_spec.rb'), {})
-    end
-
-    def self.create_toplevel
-      data_hash = { app_class: app_class, component_name: component_name }
-      create_file_from_template('my_app.rb.erb',
-                                File.join(isomorfeus_path, 'components', app_class.underscore + '.rb'), data_hash)
     end
 
     def self.use_asset_bundler?
