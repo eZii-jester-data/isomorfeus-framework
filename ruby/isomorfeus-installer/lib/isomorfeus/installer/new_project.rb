@@ -31,8 +31,7 @@ module Isomorfeus
           Isomorfeus::Installer.install_js_entries
           Isomorfeus::Installer.install_isomorfeus_entries
 
-          Isomorfeus::Installer.create_toplevel
-          Isomorfeus::Installer.create_component
+          Isomorfeus::Installer.create_components
           Isomorfeus::Installer.create_spec
 
           Isomorfeus::Installer.transport&.install(root)
