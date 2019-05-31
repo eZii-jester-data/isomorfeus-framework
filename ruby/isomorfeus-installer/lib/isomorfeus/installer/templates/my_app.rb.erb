@@ -1,17 +1,10 @@
 class <%= app_class %> < LucidApp::Base
   render do
-    # here may be a router for example:
-    # DIV do
-    #   BrowserRouter do
-    #     Switch do
-    #       Route(path: '/fun/:count', exact: true, component: <%= component_name %>.JS[:react_component])
-    #     end
-    #   end
-    # end
-
-    # or a component:
-    DIV do
-      <%= component_name %>()
+    LucidRouter do
+      Switch do
+        Route(path: '/', exact: true, component: HelloComponent.JS[:react_component])
+        Route(path: '/welcome', exact: true, component: WelcomeComponent.JS[:react_component])
+      end
     end
   end
 end
