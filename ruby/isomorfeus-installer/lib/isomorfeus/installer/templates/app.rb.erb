@@ -1,13 +1,15 @@
-require './app_loader'
-require './owl_init'
+require_relative 'app_loader'
+require_relative 'owl_init'
 <%= isomorfeus_config %>
 <% if use_transport %><%= transport_config %><% end %>
 
 class <%= app_class %> < Roda
   include OpalWebpackLoader::ViewHelper
+  include Isomorfeus::ReactViewHelper
+
   plugin :public, root: 'public'
 
-  def default_content
+  def page_content(location)
     <<~HTML
       <html>
         <head>
@@ -15,7 +17,7 @@ class <%= app_class %> < Roda
           #{owl_script_tag 'application.js'}
         </head>
         <body>
-          <div></div>
+          #{mount_component('<%= app_class %>', location: location)}
         </body>
       </html>
     HTML
@@ -23,13 +25,17 @@ class <%= app_class %> < Roda
 
   route do |r|
     r.root do
-      default_content
+      page_content('/')
     end
 
     r.public
 
+    r.get 'favicon.ico' do
+      r.public
+    end
+
     r.get do
-      default_content
+      page_content(env['REQUEST_PATH'])
     end
   end
 end

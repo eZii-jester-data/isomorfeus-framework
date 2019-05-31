@@ -1,23 +1,11 @@
+// import javascript modules common to browser and server side rendering environments
 import * as Redux from 'redux';
+global.Redux = Redux;
 import React from 'react';
-import ReactDOM from 'react-dom';
-// import * as History from 'history';
+global.React = React;
 import * as ReactRouter from 'react-router';
 import * as ReactRouterDOM from 'react-router-dom';
-import { BrowserRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
-<% if use_transport %><%= transport_import %><% end %>
-
-global.Redux = Redux;
-global.React = React;
-global.ReactDOM = ReactDOM;
-// global.History = History;
 global.ReactRouter = ReactRouter;
 global.ReactRouterDOM = ReactRouterDOM;
-global.BrowserRouter = BrowserRouter;
-global.Link = Link;
-global.NavLink = NavLink;
-global.Route = Route;
-global.Switch = Switch;
-<% if use_transport %><%= transport_global %><% end %>
 
 if (module.hot) { module.hot.accept(); }
