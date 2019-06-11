@@ -1,10 +1,10 @@
-class MyApp < LucidApp::Base
+class MyApp < LucidMaterial::App::Base
   render do
     DIV do
-      BrowserRouter do
+      Router(location: props.location) do
         Switch do
-          Route(path: '/fun_fun/:count', exact: true, component: `ExampleFunction.Fun`)
-          Route(path: '/fun_run/:count', exact: true, component: `ExampleFunction.Run`)
+          Route(path: '/fun_fun/:count', exact: true, component: ExampleFunction::Fun.JS[:react_component])
+          Route(path: '/fun_run/:count', exact: true, component: ExampleFunction::Run.JS[:react_component])
           Route(path: '/pure_fun/:count', exact: true, component: ExamplePure::Fun.JS[:react_component])
           Route(path: '/pure_run/:count', exact: true, component: ExamplePure::Run.JS[:react_component])
           Route(path: '/com_fun/:count', exact: true, component: ExampleReact::Fun.JS[:react_component])
@@ -19,8 +19,12 @@ class MyApp < LucidApp::Base
           Route(path: '/lucsy_run/:count', exact: true, component: ExampleLucidSyntax::Run.JS[:react_component])
           Route(path: '/lucssy_fun/:count', exact: true, component: ExampleLucidSyntax::Jogging.JS[:react_component])
           Route(path: '/lucssy_run/:count', exact: true, component: ExampleLucidSyntax::Jogging.JS[:react_component])
-          Route(path: '/js_fun/:count', exact: true, component: `ExampleJS.Fun`)
-          Route(path: '/js_run/:count', exact: true, component: `ExampleJS.Run`)
+          Route(path: '/mat_fun/:count', exact: true, component: ExampleMaterial::Fun.JS[:react_component])
+          Route(path: '/mat_run/:count', exact: true, component: ExampleMaterial::Run.JS[:react_component])
+          Route(path: '/mats_fun/:count', exact: true, component: ExampleMaterial::Jogging.JS[:react_component])
+          Route(path: '/mats_run/:count', exact: true, component: ExampleMaterial::Jogging.JS[:react_component])
+          Route(path: '/js_fun/:count', exact: true, component: `global.ExampleJS.Fun`)
+          Route(path: '/js_run/:count', exact: true, component: `global.ExampleJS.Run`)
           Route(path: '/all_the_fun/:count', exact: true, component: AllTheFun.JS[:react_component])
           Route(path: '/', strict: true, component: ShowLinks.JS[:react_component])
         end
