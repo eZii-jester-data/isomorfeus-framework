@@ -27,6 +27,7 @@ yarn-error.log
 yarn.lock
 
 /public/assets
+/ruby/example-apps/*/public/assets
 /public/packs
 .byebug_history
 
