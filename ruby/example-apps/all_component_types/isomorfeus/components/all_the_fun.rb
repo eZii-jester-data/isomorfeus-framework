@@ -1,6 +1,6 @@
 class AllTheFun < LucidComponent::Base
   render do
-    DIV { AnotherFunComponent() }
+    DIV { ExampleFunction::AnotherFunComponent() }
     DIV { ExamplePure::AnotherPureComponent() }
     DIV { ExampleReact::AnotherComponent() }
     DIV { ExampleRedux::AnotherReduxComponent() }

@@ -9,7 +9,7 @@ module ExampleFunction
     end
 
     create_function do
-      AFunComponent(on_click: :show_orange_alert, text: 'Yes') do
+      ExampleFunction::AFunComponent(on_click: :show_orange_alert, text: 'Yes') do
         SPAN(on_click: :show_red_alert) { 'Click for red alert! (Child 1), ' }
         SPAN { 'Child 2, '}
         SPAN { 'Child 3, '}
