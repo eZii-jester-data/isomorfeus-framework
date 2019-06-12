@@ -225,7 +225,6 @@ module Isomorfeus
                     transport_global: (use_transport_import? ? transport.js_global : nil) }
       create_file_from_template('application.js.erb', entrypoint_path('application.js'), data_hash)
       create_file_from_template('application_common.js.erb', entrypoint_path('application_common.js'), data_hash)
-      create_file_from_template('application_debug.js.erb', entrypoint_path('application_debug.js'), data_hash)
       create_file_from_template('application_ssr.js.erb', entrypoint_path('application_ssr.js'), data_hash)
       create_file_from_template('application_web_worker.js.erb', entrypoint_path('application_web_worker.js'), data_hash)
     end

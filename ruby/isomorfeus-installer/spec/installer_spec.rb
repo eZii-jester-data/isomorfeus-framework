@@ -22,7 +22,6 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?(File.join('isomorfeus','styles', 'application.css'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application_common.js'))).to be true
-      expect(File.exist?(File.join('isomorfeus', 'imports', 'application_debug.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application_ssr.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'welcome_component.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'hello_component.rb'))).to be true
@@ -49,7 +48,6 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?(File.join('isomorfeus','styles', 'application.css'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application_common.js'))).to be true
-      expect(File.exist?(File.join('isomorfeus', 'imports', 'application_debug.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application_ssr.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'welcome_component.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'hello_component.rb'))).to be true
