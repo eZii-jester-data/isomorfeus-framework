@@ -28,6 +28,7 @@ yarn.lock
 
 /public/assets
 /ruby/example-apps/*/public/assets
+/ruby/*/test_app/public/assets
 /public/packs
 .byebug_history
 
