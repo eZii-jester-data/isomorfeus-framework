@@ -135,6 +135,7 @@ RSpec.describe 'isomorfeus installer' do
     end
 
     it 'iodine' do
+      skip 'disabled, need better way stopping iodine'
       Isomorfeus::Installer::CLI.start(%w[new morphing -r iodine --no-yarn-and-bundle])
       Dir.chdir('morphing')
       system('env -i PATH=$PATH yarn install')
