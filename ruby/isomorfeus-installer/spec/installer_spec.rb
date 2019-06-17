@@ -116,36 +116,17 @@ RSpec.describe 'isomorfeus installer' do
       Dir.chdir('..')
     end
 
-    it 'agoo' do
-      Isomorfeus::Installer::CLI.start(%w[new morphing -r agoo --no-yarn-and-bundle])
-      Dir.chdir('morphing')
-      system('env -i PATH=$PATH yarn install')
-      system('env -i PATH=$PATH bundle install')
-      test_result = `env -i PATH=$PATH bundle exec rspec`
-      expect(test_result).to include('1 example, 0 failures')
-    end
-
-    it 'falcon' do
-      Isomorfeus::Installer::CLI.start(%w[new morphing -r falcon --no-yarn-and-bundle])
-      Dir.chdir('morphing')
-      system('env -i PATH=$PATH yarn install')
-      system('env -i PATH=$PATH bundle install')
-      test_result = `env -i PATH=$PATH bundle exec rspec`
-      expect(test_result).to include('1 example, 0 failures')
-    end
+    # it 'agoo' do
+    #   Isomorfeus::Installer::CLI.start(%w[new morphing -r agoo --no-yarn-and-bundle])
+    #   Dir.chdir('morphing')
+    #   system('env -i PATH=$PATH yarn install')
+    #   system('env -i PATH=$PATH bundle install')
+    #   test_result = `env -i PATH=$PATH bundle exec rspec`
+    #   expect(test_result).to include('1 example, 0 failures')
+    # end
 
     it 'iodine' do
-      skip 'disabled, need better way stopping iodine'
       Isomorfeus::Installer::CLI.start(%w[new morphing -r iodine --no-yarn-and-bundle])
-      Dir.chdir('morphing')
-      system('env -i PATH=$PATH yarn install')
-      system('env -i PATH=$PATH bundle install')
-      test_result = `env -i PATH=$PATH bundle exec rspec`
-      expect(test_result).to include('1 example, 0 failures')
-    end
-
-    it 'puma' do
-      Isomorfeus::Installer::CLI.start(%w[new morphing -r puma --no-yarn-and-bundle])
       Dir.chdir('morphing')
       system('env -i PATH=$PATH yarn install')
       system('env -i PATH=$PATH bundle install')
