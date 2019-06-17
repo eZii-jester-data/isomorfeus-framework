@@ -9,7 +9,7 @@ module Isomorfeus
       option :i18n, default: false, type: :boolean, aliases: '-i', desc: "Use i18n module. (optional, requires transport)"
       option :operation, default: false, type: :boolean, aliases: '-o', desc: "Use operation module. (optional, requires transport)"
       option :policy, default: false, type: :boolean, aliases: '-p', desc: "Use policy module. (optional, requires transport)"
-      option :rack_server, default: 'puma', aliases: '-r',
+      option :rack_server, default: 'iodine', aliases: '-r',
              desc: "Select rack server, one of: #{Isomorfeus::Installer.sorted_rack_servers.join(', ')}. (optional)"
       option :transport, required: false, aliases: '-t',
              desc: "Select transport, one of: #{Isomorfeus::Installer.sorted_transports.join(', ')}. (optional if no other features that depend on a transport are used)"
