@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.version      = Isomorfeus::Installer::VERSION
   s.author       = 'Jan Biedermann'
   s.email        = 'jan@kursator.de'
-  s.licenses     = %w[MIT]
+  s.license      = 'MIT'
   s.homepage     = 'http://isomorfeus.com'
   s.summary      = 'Create new isomorfeus-framework applications with ease.'
   s.description  = 'Create new isomorfeus-framework applications with ease.'
