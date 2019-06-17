@@ -4,6 +4,6 @@
 # })
 
 Isomorfeus::Installer.add_rack_server('iodine', {
-  gems: [ { name: 'iodine', version: "~> 0.7.31", require: false } ],
+  gems: [ { name: 'iodine', version: "~> 0.7.31", require: true } ],
   start_command: 'bundle exec iodine'
 })
