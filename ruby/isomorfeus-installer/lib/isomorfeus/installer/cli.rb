@@ -11,10 +11,6 @@ module Isomorfeus
       option :policy, default: false, type: :boolean, aliases: '-p', desc: "Use policy module. (optional, requires transport)"
       option :rack_server, default: 'iodine', aliases: '-r',
              desc: "Select rack server, one of: #{Isomorfeus::Installer.sorted_rack_servers.join(', ')}. (optional)"
-      option :transport, required: false, aliases: '-t',
-             desc: "Select transport, one of: #{Isomorfeus::Installer.sorted_transports.join(', ')}. (optional if no other features that depend on a transport are used)"
-      option :transport_store, required: false, aliases: '-e',
-             desc: "Select transport store, one of: #{Isomorfeus::Installer.sorted_transport_stores.join(', ')}. (optional with no transport, required if a transport is used)"
       option :yarn_and_bundle, default: true, required: false, type: :boolean, aliases: '-y', desc: "Execute yarn install and bundle install. (optional)"
       def new(project_name)
         Isomorfeus::Installer.set_project_names(project_name)

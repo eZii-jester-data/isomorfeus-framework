@@ -26,10 +26,6 @@ module Isomorfeus
       transports[name] = props
     end
 
-    def self.add_transport_store_module(name, props)
-      transport_stores[name] = props
-    end
-
     class << self
       # application options
       attr_reader   :app_class
@@ -44,7 +40,6 @@ module Isomorfeus
       attr_accessor :rack_server
       attr_accessor :rack_server_name
       attr_accessor :transport
-      attr_accessor :transport_store
 
       # installer options
       attr_reader :options
@@ -86,10 +81,6 @@ module Isomorfeus
       transports.keys
     end
 
-    def self.sorted_transport_stores
-      transport_stores.keys
-    end
-
     def self.databases
       @databases ||= {}
     end
@@ -114,14 +105,10 @@ module Isomorfeus
       @transports ||= {}
     end
 
-    def self.transport_stores
-      @transport_stores ||= {}
-    end
-
     # installer options and config
 
     def self.module_directories
-      %w[databases transports transport_stores]
+      %w[databases]
     end
 
     # installer paths
@@ -240,9 +227,6 @@ module Isomorfeus
       end
       transport_gems = ''
       Isomorfeus::Installer.transports[options[:transport]]&.fetch(:gems)&.each do |gem|
-        transport_gems << generate_gem_line(gem)
-      end
-      Isomorfeus::Installer.transport_stores[options[:transport_store]]&.fetch(:gems)&.each do |gem|
         transport_gems << generate_gem_line(gem)
       end
       database_gems = ''
