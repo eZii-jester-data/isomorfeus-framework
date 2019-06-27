@@ -77,6 +77,19 @@ RSpec.describe 'isomorfeus installer' do
       FileUtils.rm_rf('morphing') if Dir.exist?('morphing')
       Isomorfeus::Installer::CLI.start(%w[new morphing --no-yarn-and-bundle])
       Dir.chdir('morphing')
+      gemfile = File.read('Gemfile')
+      new_gemfile_lines = []
+      gemfile.lines.each do |line|
+        if line.start_with?("gem 'isomorfeus-transport") && line.include?(Isomorfeus::Installer::VERSION)
+          new_line_items = line.split(',')
+          gem_name = line.split("'")[1]
+          new_line_items[1] = "path: '../../../../#{gem_name}'"
+          new_gemfile_lines << new_line_items.join(', ')
+        else
+          new_gemfile_lines << line
+        end
+      end
+      File.write('Gemfile', new_gemfile_lines.join("\n"))
       system('env -i PATH=$PATH yarn install')
       system('env -i PATH=$PATH bundle install')
     end
@@ -129,6 +142,19 @@ RSpec.describe 'isomorfeus installer' do
       Isomorfeus::Installer::CLI.start(%w[new morphing -r iodine --no-yarn-and-bundle])
       Dir.chdir('morphing')
       expect(File.exist?('iodine_config.rb')).to be true
+      gemfile = File.read('Gemfile')
+      new_gemfile_lines = []
+      gemfile.lines.each do |line|
+        if line.start_with?("gem 'isomorfeus-transport") && line.include?(Isomorfeus::Installer::VERSION)
+          new_line_items = line.split(',')
+          gem_name = line.split("'")[1]
+          new_line_items[1] = "path: '../../../../#{gem_name}'"
+          new_gemfile_lines << new_line_items.join(', ')
+        else
+          new_gemfile_lines << line
+        end
+      end
+      File.write('Gemfile', new_gemfile_lines.join("\n"))
       system('env -i PATH=$PATH yarn install')
       system('env -i PATH=$PATH bundle install')
       test_result = `env -i PATH=$PATH bundle exec rspec`
