@@ -22,10 +22,6 @@ module Isomorfeus
       rack_servers[name] = props
     end
 
-    def self.add_transport_module(name, props)
-      transports[name] = props
-    end
-
     class << self
       # application options
       attr_reader   :app_class
@@ -39,7 +35,6 @@ module Isomorfeus
       attr_reader   :project_name
       attr_accessor :rack_server
       attr_accessor :rack_server_name
-      attr_accessor :transport
 
       # installer options
       attr_reader :options
@@ -77,10 +72,6 @@ module Isomorfeus
       rack_servers.keys.sort
     end
 
-    def self.sorted_transports
-      transports.keys
-    end
-
     def self.databases
       @databases ||= {}
     end
@@ -99,10 +90,6 @@ module Isomorfeus
 
     def self.rack_servers
       @rack_servers ||= {}
-    end
-
-    def self.transports
-      @transports ||= {}
     end
 
     # installer options and config
@@ -181,12 +168,7 @@ module Isomorfeus
                     isomorfeus_config:              create_isomorfeus_config,
                     middlewares:                    create_middlewares,
                     middlewares_includes:           middlewares_includes,
-                    rack_server_init:               rack_server[:rack_server_init],
-                    transport_rack_app_mount_path:  transport&.rack_app_mount_path,
-                    transport_rack_app:             transport&.rack_app,
-                    transport_config:               transport&.config,
-                    use_transport:                  use_transport?,
-                    use_transport_rack_app:         use_transport_rack_app? }
+                    rack_server_init:               rack_server[:rack_server_init] }
       create_file_from_template('app.rb.erb', "#{@project_name}_app.rb", data_hash)
       create_file_from_template( rack_server[:init_template], rack_server[:init_template][0..-5], {})
       data_hash = { app_require: app_require, app_class: app_class }
@@ -199,19 +181,13 @@ module Isomorfeus
                     use_database:       use_database?,
                     use_i18n:           use_i18n?,
                     use_operation:      use_operation?,
-                    use_policy:         use_policy?,
-                    use_transport:      use_transport?,
-                    transport_requires: use_transport? ? transport.requires : nil }
-
+                    use_policy:         use_policy? }
       create_file_from_template('isomorfeus_loader.rb.erb', File.join(isomorfeus_path, 'isomorfeus_loader.rb'), data_hash)
       create_file_from_template('isomorfeus_web_worker_loader.rb.erb', File.join(isomorfeus_path, 'isomorfeus_web_worker_loader.rb'), data_hash)
     end
 
     def self.install_js_entries
-
-      data_hash = { use_transport:    use_transport_import?,
-                    transport_import: (use_transport_import? ? transport.js_import : nil),
-                    transport_global: (use_transport_import? ? transport.js_global : nil) }
+      data_hash = {}
       create_file_from_template('application.js.erb', entrypoint_path('application.js'), data_hash)
       create_file_from_template('application_common.js.erb', entrypoint_path('application_common.js'), data_hash)
       create_file_from_template('application_ssr.js.erb', entrypoint_path('application_ssr.js'), data_hash)
@@ -228,7 +204,7 @@ module Isomorfeus
         rack_server_gems << generate_gem_line(gem)
       end
       transport_gems = ''
-      Isomorfeus::Installer.transports[options[:transport]]&.fetch(:gems)&.each do |gem|
+      [ { name: 'isomorfeus-transport', version: "~> #{Isomorfeus::Installer::VERSION}", require: true } ]&.each do |gem|
         transport_gems << generate_gem_line(gem)
       end
       database_gems = ''
@@ -270,7 +246,7 @@ module Isomorfeus
     end
 
     def self.create_middlewares
-      "use_isomorfeus_middlewares" if options.has_key?(:transport)
+      "use_isomorfeus_middlewares"
     end
 
     def self.create_isomorfeus_config
@@ -278,14 +254,7 @@ module Isomorfeus
     end
 
     def self.create_package_json
-      npms = ''
-      if use_transport? && transports[options[:transport]].has_key?(:npms)
-        transports[options[:transport]][:npms].each do |npm|
-          npms << "    \"#{npm[:name]}\": \"#{npm[:version]}\",\n"
-        end
-      end
-      data_hash = { application_name: app_class,
-                    npm_packages:     npms.chop }
+      data_hash = { application_name: app_class }
       create_file_from_template('package.json.erb', 'package.json', data_hash)
     end
 
@@ -319,18 +288,6 @@ module Isomorfeus
 
     def self.use_policy?
       options['policy']
-    end
-
-    def self.use_transport?
-      options.has_key?('transport')
-    end
-
-    def self.use_transport_import?
-      use_transport? && transport&.respond_to?(:js_import)
-    end
-
-    def self.use_transport_rack_app?
-      transport&.respond_to?(:rack_app)
     end
   end
 end

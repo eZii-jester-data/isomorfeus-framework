@@ -5,10 +5,10 @@ module Isomorfeus
       desc "new project_name", "create a new isomorfeus project with project_name"
 
       option :database, required: false, aliases: '-d',
-             desc: "Select database, one of: #{Isomorfeus::Installer.sorted_databases.join(', ')}. (optional, requires transport)"
-      option :i18n, default: false, type: :boolean, aliases: '-i', desc: "Use i18n module. (optional, requires transport)"
-      option :operation, default: false, type: :boolean, aliases: '-o', desc: "Use operation module. (optional, requires transport)"
-      option :policy, default: false, type: :boolean, aliases: '-p', desc: "Use policy module. (optional, requires transport)"
+             desc: "Select database, one of: #{Isomorfeus::Installer.sorted_databases.join(', ')}. (optional)"
+      option :i18n, default: false, type: :boolean, aliases: '-i', desc: "Use i18n module. (optional)"
+      option :operation, default: false, type: :boolean, aliases: '-o', desc: "Use operation module. (optional)"
+      option :policy, default: false, type: :boolean, aliases: '-p', desc: "Use policy module. (optional)"
       option :rack_server, default: 'iodine', aliases: '-r',
              desc: "Select rack server, one of: #{Isomorfeus::Installer.sorted_rack_servers.join(', ')}. (optional)"
       option :yarn_and_bundle, default: true, required: false, type: :boolean, aliases: '-y', desc: "Execute yarn install and bundle install. (optional)"

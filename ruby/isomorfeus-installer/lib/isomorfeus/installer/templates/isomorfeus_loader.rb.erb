@@ -1,11 +1,9 @@
 require 'opal'
 require 'opal-autoloader'
 require 'isomorfeus-redux'
-require 'isomorfeus-react'
-<% if use_transport %>
 require 'isomorfeus-transport'
-<%= transport_requires %>
-<% end %>
+require 'isomorfeus-react'
+
 <% if use_database %>require 'isomorfeus-record'<% end %>
 <% if use_policy %>require 'isomorfeus-policy'<% end %>
 <% if use_operation %>require 'isomorfeus-operation'<% end %>

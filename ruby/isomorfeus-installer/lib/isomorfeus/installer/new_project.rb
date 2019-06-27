@@ -34,8 +34,6 @@ module Isomorfeus
           Isomorfeus::Installer.create_components
           Isomorfeus::Installer.create_spec
 
-          Isomorfeus::Installer.transport&.install(root)
-
           Isomorfeus::Installer.create_package_json
           Isomorfeus::Installer.create_gemfile
           Isomorfeus::Installer.create_procfile
