@@ -1,5 +1,5 @@
 module Isomorfeus
   module Installer
-    VERSION = '1.0.0.delta7'
+    VERSION = '1.0.0.delta8'
   end
 end
