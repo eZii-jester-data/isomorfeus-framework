@@ -128,6 +128,7 @@ RSpec.describe 'isomorfeus installer' do
     it 'iodine' do
       Isomorfeus::Installer::CLI.start(%w[new morphing -r iodine --no-yarn-and-bundle])
       Dir.chdir('morphing')
+      expect(File.exist?('iodine_config.rb')).to be true
       system('env -i PATH=$PATH yarn install')
       system('env -i PATH=$PATH bundle install')
       test_result = `env -i PATH=$PATH bundle exec rspec`

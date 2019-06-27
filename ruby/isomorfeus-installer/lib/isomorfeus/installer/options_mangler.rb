@@ -18,7 +18,7 @@ module Isomorfeus
           installer.rack_server = installer.rack_servers[options[:rack_server]]
           installer.rack_server_name = options[:rack_server]
         else
-          installer.rack_server = installer.rack_servers['puma']
+          installer.rack_server = installer.rack_servers['iodine']
         end
       end
     end

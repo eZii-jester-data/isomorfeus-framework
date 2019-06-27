@@ -181,12 +181,14 @@ module Isomorfeus
                     isomorfeus_config:              create_isomorfeus_config,
                     middlewares:                    create_middlewares,
                     middlewares_includes:           middlewares_includes,
+                    rack_server_init:               rack_server[:rack_server_init],
                     transport_rack_app_mount_path:  transport&.rack_app_mount_path,
                     transport_rack_app:             transport&.rack_app,
                     transport_config:               transport&.config,
                     use_transport:                  use_transport?,
                     use_transport_rack_app:         use_transport_rack_app? }
       create_file_from_template('app.rb.erb', "#{@project_name}_app.rb", data_hash)
+      create_file_from_template( rack_server[:init_template], rack_server[:init_template][0..-5], {})
       data_hash = { app_require: app_require, app_class: app_class }
       create_file_from_template('config.ru.erb', 'config.ru', data_hash)
       create_file_from_template(File.join('app_loader.rb.erb'), 'app_loader.rb', {})
