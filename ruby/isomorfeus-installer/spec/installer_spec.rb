@@ -109,7 +109,7 @@ RSpec.describe 'isomorfeus installer' do
     end
 
     it 'can execute tests' do
-      test_result = `env -i PATH=$PATH bundle exec rspec`
+      test_result = `env -i PATH=$PATH THREADS=4 WORKERS=1 bundle exec rspec`
       expect(test_result).to include('1 example, 0 failures')
     end
   end
@@ -157,7 +157,7 @@ RSpec.describe 'isomorfeus installer' do
       File.write('Gemfile', new_gemfile_lines.join("\n"))
       system('env -i PATH=$PATH yarn install')
       system('env -i PATH=$PATH bundle install')
-      test_result = `env -i PATH=$PATH bundle exec rspec`
+      test_result = `env -i PATH=$PATH THREADS=4 WORKERS=1 bundle exec rspec`
       expect(test_result).to include('1 example, 0 failures')
     end
   end

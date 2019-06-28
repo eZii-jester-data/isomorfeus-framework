@@ -21,28 +21,33 @@ module Isomorfeus
           #    on failure the .fail block will receive some error indicator or nothing
           collection_queries[name] = {}
           define_method("promise_#{name}") do
-            Isomorfeus::DataAccess.promise_fetch('isomorfeus/handler/model/read', self.class.model_name, :instances, @id,
-                                                 :collection_query, name).then do |response|
-              # TODO response
-              Isomorfeus.store.dispatch(type: 'RECORD_SET_COLLECTION_QUERY', model: self.class.model_name, id: @id, object_id: object_id,
-                                        value: response)
+            Isomorfeus::Transport.promise_send_path('isomorfeus/handler/model/read', @singular_model_name, :instances, @id,
+                                                 :collection_query, name) do |response|
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_COLLECTION_QUERY', model: @singular_model_name, id: @id,
+                                        collection: response[:agent_response][@singular_model_name][:instances][@id][:collection_queries][name],
+                                        records: response[:records])
+              reference_array = Redux.fetch_by_path(:record_state, :records, @singular_model_name, :instances, @id, :collection_query, name)
+              Isomorfeus::Record::Collection.new(reference_array)
             end
           end
           # @!method [name]
           # @return result either a empty collection or the real result if the RPC call already finished
           define_method(name) do
-            Isomorfeus::DataAccess.register_used_store_path(:record_state, self.class.model_name, :instances, @id, :collection_query, name)
-            result = Isomorfeus::DataAccess.local_fetch(:record_state, self.class.model_name, :instances, @id, :collection_query, name)
-            return result if result
-            send("promise_#{name}")
-            Isomorfeus::Record::Collection.new
+            Redux.register_used_store_path(:record_state, :records, @singular_model_name, :instances, @id, :collection_query, name)
+            result = Redux.fetch_by_path(:record_state, :records, @singular_model_name, :instances, @id, :collection_query, name)
+            if result
+              result
+            else
+              send("promise_#{name}")
+              Isomorfeus::Record::Collection.new
+            end
           end
         end
 
         # introspect on available remote_class_methods
         # @return [Hash]
         def remote_class_methods
-          @remote_class_methods ||= {}
+          @_remote_class_methods ||= {}
         end
 
         # macro define remote_class_methods, RPC on class level of current Isomorfeus::Record class
@@ -52,26 +57,30 @@ module Isomorfeus
         #   default_result: result to present during render during method call in progress for the non promise_ version
         #
         # This macro defines additional methods:
-        def remote_class_method(name, options = { default_result: '' })
+        def remote_class_method(name, options = { default_result: nil })
           remote_class_methods[name] = options
           # @!method promise_[name]
           # @return [Promise] on success the .then block will receive the result of the RPC call as arg
           #    on failure the .fail block will receive some error indicator or nothing
           define_singleton_method("promise_#{name}") do |*args|
-            Isomorfeus::DataAccess.promise_fetch(:record, model_name, :remote_class_methods, name, args).then do |response|
-              # TODO response
-              Isomorfeus.store.dispatch(type: 'RECORD_SET_REMOTE_CLASS_METHOD', model: self.class.model_name, id: @id, object_id: object_id,
-                                        value: response)
+            Isomorfeus::Transport.promise_send_path('isomorfeus/handler/model/read', singular_model_name,
+                                                    :remote_class_methods, name, args) do |response|
+              result = response[:agent_response][singular_model_name][:remote_class_methods][name][args]
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_REMOTE_CLASS_METHOD', model: singular_model_name, method: name, value: result)
+              result
             end
           end
           # @!method [name]
           # @return result either the default_result ass specified in the options or the real result if the RPC call already finished
           define_singleton_method(name) do |*args|
-            Isomorfeus::DataAccess.register_used_store_path(:record, model_name, :remote_class_methods, name, args)
-            result = Isomorfeus::DataAccess.local_fetch(:record, model_name, :remote_class_methods, name, args)
-            return result if result
-            send("promise_#{name}", args)
-            remote_class_methods[name][:default_result].dup
+            Redux.register_used_store_path(:record, model_name, :remote_class_methods, name, args)
+            result = Redux.fetch_by_path(:record, model_name, :remote_class_methods, name, args)
+            if result
+              result
+            else
+              send("promise_#{name}", args)
+              remote_class_methods[name][:default_result].dup
+            end
           end
         end
 
@@ -82,36 +91,30 @@ module Isomorfeus
         #   default_result: result to present during render during method call in progress for the non promise_ version
         #
         # This macro defines additional methods:
-        def remote_method(name, options = { default_result: '' })
+        def remote_method(name, options = { default_result: nil })
           # @!method promise_[name]
           # @return [Promise] on success the then block will receive the result of the RPC call as arg
           #    on failure the .fail block will receive some error indicator or nothing
           define_method("promise_#{name}") do |*args|
-            Isomorfeus::DataAccess.promise_fetch(:record_state, self.class.model_name, :instances, @id, :remote_methods, name, args)
-              .then do |response|
-              # TODO response
-              Isomorfeus.store.dispatch(type: 'RECORD_SET_REMOTE_METHOD', model: self.class.model_name, id: @id, object_id: object_id, value: response)
+            Isomorfeus::Transport.promise_send_path('isomorfeus/handler/model/read', @singular_model_name, :instances, @id,
+                                                    :remote_methods, name, args) do |response|
+              result = response[:agent_response][singular_model_name][:instances][@id][:remote_methods][name][args]
+              Isomorfeus.store.dispatch(type: 'RECORD_SET_REMOTE_METHOD', model: @singular_model_name, id: @id, method: name, value: result)
+              result
             end
           end
           # @!method [name]
           # @return result either the default_result ass specified in the options or the real result if the RPC call already finished
           define_method(name) do |*args|
-            Isomorfeus::DataAccess.register_used_store_path(:record, self.class.model_name, :instances, @id, :remote_methods, name, args)
-            result = Isomorfeus::DataAccess.local_fetch(:record, self.class.model_name, :instances, @id, :remote_methods, name, args)
-            return result if result
-            send("promise_#{name}", args)
-            options[:default_result]
+            Redux.register_used_store_path(:record, @singular_model_name, :instances, @id, :remote_methods, name, args)
+            result = Redux.fetch_by_path(:record, @singular_model_name, :instances, @id, :remote_methods, name, args)
+            if result
+              result
+            else
+              send("promise_#{name}", args)
+              options[:default_result].dup
+            end
           end
-        end
-
-        # Find a collection of records by example properties.
-        #
-        # @param property_hash [Hash] properties with values used to identify wanted records
-        #
-        # @return [Promise] on success the .then block will receive a [Isomorfeus::Record::Collection] as arg
-        #     on failure the .fail block will receive some error indicator or nothing
-        def promise_where(property_hash)
-          Isomorfeus::DataAccess.promise_store(:record, self.class.model_name, :where, property_hash)
         end
       end
     end
