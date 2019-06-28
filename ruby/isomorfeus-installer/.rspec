@@ -1,1 +1,1 @@
---exclude-pattern "**/{fixtures,test_apps}/**/*_spec.rb"
+--exclude-pattern "**/{fixtures,test_apps}/**/*_spec.rb" -fd
