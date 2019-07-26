@@ -4,8 +4,7 @@ module Isomorfeus
 
       desc "new project_name", "create a new isomorfeus project with project_name"
 
-      option :database, required: false, aliases: '-d',
-             desc: "Select database, one of: #{Isomorfeus::Installer.sorted_databases.join(', ')}. (optional)"
+      option :data, default: false, type: :boolean, aliases: '-d', desc: "Use data module. (optional, required by other modules)"
       option :i18n, default: false, type: :boolean, aliases: '-i', desc: "Use i18n module. (optional)"
       option :operation, default: false, type: :boolean, aliases: '-o', desc: "Use operation module. (optional)"
       option :policy, default: false, type: :boolean, aliases: '-p', desc: "Use policy module. (optional)"

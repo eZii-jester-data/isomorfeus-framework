@@ -1,24 +1,14 @@
 module Isomorfeus
   module Installer
     module OptionsMangler
-      def self.installer
-        Isomorfeus::Installer
-      end
-
       def self.mangle_options(options)
-        if options.key?(:database)
-          if installer.sorted_databases.include?(options[:database])
-            installer.database = installer.databases[options[:database]]&.fetch(:installer)
-          else
-            puts "Database #{options[:database]} not available!"; exit 1
-          end
-        end
+        Isomorfeus::Installer.use_data = true if options[:i18n]
 
-        if options.key?(:rack_server) && installer.sorted_rack_servers.include?(options[:rack_server])
-          installer.rack_server = installer.rack_servers[options[:rack_server]]
-          installer.rack_server_name = options[:rack_server]
+        if options.key?(:rack_server) && Isomorfeus::Installer.sorted_rack_servers.include?(options[:rack_server])
+          Isomorfeus::Installer.rack_server = Isomorfeus::Installer.rack_servers[options[:rack_server]]
+          Isomorfeus::Installer.rack_server_name = options[:rack_server]
         else
-          installer.rack_server = installer.rack_servers['iodine']
+          Isomorfeus::Installer.rack_server = Isomorfeus::Installer.rack_servers['iodine']
         end
       end
     end

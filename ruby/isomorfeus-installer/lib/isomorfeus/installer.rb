@@ -35,6 +35,7 @@ module Isomorfeus
       attr_reader   :project_name
       attr_accessor :rack_server
       attr_accessor :rack_server_name
+      attr_accessor :use_data
 
       # installer options
       attr_reader :options
@@ -140,8 +141,10 @@ module Isomorfeus
 
     def self.create_directories
       create_directory(File.join(isomorfeus_path, 'imports'))
+      create_directory(File.join(isomorfeus_path, 'channels'))
       create_directory(File.join(isomorfeus_path, 'components'))
-      create_directory(File.join(isomorfeus_path, 'models'))
+      create_directory(File.join(isomorfeus_path, 'data'))
+      create_directory(File.join(isomorfeus_path, 'handlers'))
       create_directory(File.join(isomorfeus_path, 'operations'))
       create_directory(File.join(isomorfeus_path, 'policies'))
       create_directory(File.join(isomorfeus_path, 'styles'))
@@ -177,8 +180,9 @@ module Isomorfeus
     end
 
     def self.install_isomorfeus_entries
+      STDERR.puts "ud: #{use_data?}, #{options.has_key?('data')}, #{options}, #{use_data}"
       data_hash = { app_class:          app_class,
-                    use_database:       use_database?,
+                    use_data:           use_data?,
                     use_i18n:           use_i18n?,
                     use_operation:      use_operation?,
                     use_policy:         use_policy? }
@@ -274,8 +278,8 @@ module Isomorfeus
       options.has_key?('asset_bundler')
     end
 
-    def self.use_database?
-      options.has_key?('database')
+    def self.use_data?
+      !!(options['data'] || use_data)
     end
 
     def self.use_i18n?

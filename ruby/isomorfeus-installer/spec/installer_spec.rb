@@ -19,6 +19,14 @@ RSpec.describe 'isomorfeus installer' do
     it 'it can' do
       Isomorfeus::Installer::CLI.start(%w[new morphing --no-yarn-and-bundle])
       Dir.chdir('morphing')
+      expect(Dir.exist?(File.join('isomorfeus', 'imports')))
+      expect(Dir.exist?(File.join('isomorfeus', 'channels')))
+      expect(Dir.exist?(File.join('isomorfeus', 'components')))
+      expect(Dir.exist?(File.join('isomorfeus', 'data')))
+      expect(Dir.exist?(File.join('isomorfeus', 'handlers')))
+      expect(Dir.exist?(File.join('isomorfeus', 'operations')))
+      expect(Dir.exist?(File.join('isomorfeus', 'policies')))
+      expect(Dir.exist?(File.join('isomorfeus', 'styles')))
       expect(File.exist?(File.join('isomorfeus','styles', 'application.css'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application_common.js'))).to be true
@@ -45,6 +53,14 @@ RSpec.describe 'isomorfeus installer' do
     it 'with the cmd it can' do
       system('bundle exec isomorfeus new morphing --no-yarn-and-bundle')
       Dir.chdir('morphing')
+      expect(Dir.exist?(File.join('isomorfeus', 'imports')))
+      expect(Dir.exist?(File.join('isomorfeus', 'channels')))
+      expect(Dir.exist?(File.join('isomorfeus', 'components')))
+      expect(Dir.exist?(File.join('isomorfeus', 'data')))
+      expect(Dir.exist?(File.join('isomorfeus', 'handlers')))
+      expect(Dir.exist?(File.join('isomorfeus', 'operations')))
+      expect(Dir.exist?(File.join('isomorfeus', 'policies')))
+      expect(Dir.exist?(File.join('isomorfeus', 'styles')))
       expect(File.exist?(File.join('isomorfeus','styles', 'application.css'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application.js'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'imports', 'application_common.js'))).to be true
@@ -124,7 +140,7 @@ RSpec.describe 'isomorfeus installer' do
 
     after do
       Dir.chdir('..') if Dir.pwd.end_with?('morphing')
-      FileUtils.rm_rf('morphing') if Dir.exist?('morphing')
+      # FileUtils.rm_rf('morphing') if Dir.exist?('morphing')
       Dir.chdir('..')
       Dir.chdir('..')
     end
