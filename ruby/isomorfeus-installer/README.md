@@ -35,9 +35,7 @@ Commands:
 ```
 
 ```
-Currently active options for the command 'new':
-  -r, [--rack-server=RACK_SERVER]                  # Select rack server, one of: agoo, falcon, iodine, puma. (optional)
-                                                   # Default: puma
+Available options for the command 'new':
   -y, [--yarn-and-bundle], [--no-yarn-and-bundle]  # Execute yarn install and bundle install. (optional)
                                                    # Default: true
 ```
