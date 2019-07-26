@@ -1,4 +1,4 @@
-if ENV['RACK_ENV'] != 'development'
+if ENV['RACK_ENV'] && ENV['RACK_ENV'] != 'development'
   require_relative 'all_component_types_app'
   run AllComponentTypesApp.app
 else
