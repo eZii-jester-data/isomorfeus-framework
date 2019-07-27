@@ -180,7 +180,6 @@ module Isomorfeus
     end
 
     def self.install_isomorfeus_entries
-      STDERR.puts "ud: #{use_data?}, #{options.has_key?('data')}, #{options}, #{use_data}"
       data_hash = { app_class:          app_class,
                     use_data:           use_data?,
                     use_i18n:           use_i18n?,
