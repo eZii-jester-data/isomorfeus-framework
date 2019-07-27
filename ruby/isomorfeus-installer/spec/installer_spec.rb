@@ -140,7 +140,7 @@ RSpec.describe 'isomorfeus installer' do
 
     after do
       Dir.chdir('..') if Dir.pwd.end_with?('morphing')
-      # FileUtils.rm_rf('morphing') if Dir.exist?('morphing')
+      FileUtils.rm_rf('morphing') if Dir.exist?('morphing')
       Dir.chdir('..')
       Dir.chdir('..')
     end
