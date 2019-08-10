@@ -35,7 +35,6 @@ module Isomorfeus
       attr_reader   :project_name
       attr_accessor :rack_server
       attr_accessor :rack_server_name
-      attr_accessor :use_data
 
       # installer options
       attr_reader :options
@@ -145,6 +144,7 @@ module Isomorfeus
       create_directory(File.join(isomorfeus_path, 'components'))
       create_directory(File.join(isomorfeus_path, 'data'))
       create_directory(File.join(isomorfeus_path, 'handlers'))
+      create_directory(File.join(isomorfeus_path, 'locales'))
       create_directory(File.join(isomorfeus_path, 'operations'))
       create_directory(File.join(isomorfeus_path, 'policies'))
       create_directory(File.join(isomorfeus_path, 'styles'))
@@ -181,7 +181,6 @@ module Isomorfeus
 
     def self.install_isomorfeus_entries
       data_hash = { app_class:          app_class,
-                    use_data:           use_data?,
                     use_i18n:           use_i18n?,
                     use_operation:      use_operation?,
                     use_policy:         use_policy? }
@@ -206,10 +205,6 @@ module Isomorfeus
       Isomorfeus::Installer.rack_servers[options[:rack_server]]&.fetch(:gems)&.each do |gem|
         rack_server_gems << generate_gem_line(gem)
       end
-      transport_gems = ''
-      [ { name: 'isomorfeus-transport', version: "~> #{Isomorfeus::Installer::VERSION}", require: true } ]&.each do |gem|
-        transport_gems << generate_gem_line(gem)
-      end
       database_gems = ''
       Isomorfeus::Installer.databases[options[:database]]&.fetch(:gems)&.each do |gem|
         database_gems << generate_gem_line(gem)
@@ -232,7 +227,8 @@ module Isomorfeus
                     operation_gems:     operation_gems.chop,
                     policy_gems:        policy_gems.chop,
                     rack_server_gems:   rack_server_gems.chop,
-                    transport_gems:     transport_gems.chop }
+                    isomorfeus_version: Isomorfeus::Installer::VERSION
+      }
       create_file_from_template('Gemfile.erb', 'Gemfile', data_hash)
     end
 
@@ -275,10 +271,6 @@ module Isomorfeus
 
     def self.use_asset_bundler?
       options.has_key?('asset_bundler')
-    end
-
-    def self.use_data?
-      !!(options['data'] || use_data)
     end
 
     def self.use_i18n?
