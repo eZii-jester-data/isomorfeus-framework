@@ -14,9 +14,9 @@ Gem::Specification.new do |s|
   s.test_files     = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.require_paths  = ['lib']
 
-  s.add_runtime_dependency 'opal', '~> 0.11.0'
-  s.add_runtime_dependency 'opal-activesupport', '~> 0.3.1'
-  s.add_runtime_dependency 'isomorfeus-react', '~> 16.8.9'
+  s.add_dependency 'opal', '~> 0.11.0'
+  s.add_dependency 'opal-activesupport', '~> 0.3.3'
+  s.add_dependency 'isomorfeus-react', '>= 16.9.0'
   s.add_development_dependency 'listen'
   s.add_development_dependency 'rake', '>= 11.3.0'
   s.add_development_dependency 'rails', '>= 5.1.0'
