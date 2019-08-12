@@ -1,19 +1,17 @@
 require 'opal'
 require 'opal-autoloader'
 require 'isomorfeus-redux'
-require 'isomorfeus-transport'
 require 'isomorfeus-react'
-
-<% if use_data %>require 'isomorfeus-data'<% end %>
+require 'isomorfeus-transport'
+require 'isomorfeus-data'
+require 'isomorfeus-i18n'
+require 'isomorfeus-operation'
 <% if use_policy %>require 'isomorfeus-policy'<% end %>
-<% if use_operation %>require 'isomorfeus-operation'<% end %>
-<% if use_i18n %>require 'isomorfeus-i18n'<% end %>
-
-<% if use_policy %>require_tree 'policies'<% end %>
-<% if use_operation %>require_tree 'operations'<% end %>
 
 require_tree 'channels'
 require_tree 'data'
 require_tree 'components'
+require_tree 'operations'
+<% if use_policy %>require_tree 'policies'<% end %>
 
 Isomorfeus.start_app!

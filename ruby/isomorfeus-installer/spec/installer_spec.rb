@@ -24,6 +24,7 @@ RSpec.describe 'isomorfeus installer' do
       expect(Dir.exist?(File.join('isomorfeus', 'components')))
       expect(Dir.exist?(File.join('isomorfeus', 'data')))
       expect(Dir.exist?(File.join('isomorfeus', 'handlers')))
+      expect(Dir.exist?(File.join('isomorfeus', 'locales')))
       expect(Dir.exist?(File.join('isomorfeus', 'operations')))
       expect(Dir.exist?(File.join('isomorfeus', 'policies')))
       expect(Dir.exist?(File.join('isomorfeus', 'styles')))
@@ -58,6 +59,7 @@ RSpec.describe 'isomorfeus installer' do
       expect(Dir.exist?(File.join('isomorfeus', 'components')))
       expect(Dir.exist?(File.join('isomorfeus', 'data')))
       expect(Dir.exist?(File.join('isomorfeus', 'handlers')))
+      expect(Dir.exist?(File.join('isomorfeus', 'locales')))
       expect(Dir.exist?(File.join('isomorfeus', 'operations')))
       expect(Dir.exist?(File.join('isomorfeus', 'policies')))
       expect(Dir.exist?(File.join('isomorfeus', 'styles')))
@@ -96,7 +98,7 @@ RSpec.describe 'isomorfeus installer' do
       gemfile = File.read('Gemfile')
       new_gemfile_lines = []
       gemfile.lines.each do |line|
-        if line.start_with?("gem 'isomorfeus-transport") && line.include?(Isomorfeus::Installer::VERSION)
+        if line.start_with?("gem 'isomorfeus-") && line.include?(Isomorfeus::Installer::VERSION)
           new_line_items = line.split(',')
           gem_name = line.split("'")[1]
           new_line_items[1] = "path: '../../../../#{gem_name}'"
@@ -161,7 +163,7 @@ RSpec.describe 'isomorfeus installer' do
       gemfile = File.read('Gemfile')
       new_gemfile_lines = []
       gemfile.lines.each do |line|
-        if line.start_with?("gem 'isomorfeus-transport") && line.include?(Isomorfeus::Installer::VERSION)
+        if line.start_with?("gem 'isomorfeus-") && line.include?(Isomorfeus::Installer::VERSION)
           new_line_items = line.split(',')
           gem_name = line.split("'")[1]
           new_line_items[1] = "path: '../../../../#{gem_name}'"

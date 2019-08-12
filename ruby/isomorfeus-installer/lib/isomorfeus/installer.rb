@@ -6,14 +6,6 @@ module Isomorfeus
       databases[name] = props
     end
 
-    def self.add_i18n_module(name, props)
-      i18ns[name] = props
-    end
-
-    def self.add_operation_module(name, props)
-      operations[name] = props
-    end
-
     def self.add_policy_module(name, props)
       policies[name] = props
     end
@@ -28,8 +20,6 @@ module Isomorfeus
       attr_reader   :app_require
       attr_accessor :database
       attr_accessor :framework
-      attr_accessor :i18n
-      attr_accessor :operation
       attr_accessor :policy
       attr_reader   :project_dir
       attr_reader   :project_name
@@ -56,14 +46,6 @@ module Isomorfeus
       databases.keys.sort
     end
 
-    def self.sorted_i18ns
-      i18ns.keys.sort
-    end
-
-    def self.sorted_operations
-      operations.keys.sort
-    end
-
     def self.sorted_policies
       policies.keys.sort
     end
@@ -74,14 +56,6 @@ module Isomorfeus
 
     def self.databases
       @databases ||= {}
-    end
-
-    def self.i18ns
-      @i18ns ||= {}
-    end
-
-    def self.operations
-      @operations ||= {}
     end
 
     def self.policies
@@ -181,8 +155,6 @@ module Isomorfeus
 
     def self.install_isomorfeus_entries
       data_hash = { app_class:          app_class,
-                    use_i18n:           use_i18n?,
-                    use_operation:      use_operation?,
                     use_policy:         use_policy? }
       create_file_from_template('isomorfeus_loader.rb.erb', File.join(isomorfeus_path, 'isomorfeus_loader.rb'), data_hash)
       create_file_from_template('isomorfeus_web_worker_loader.rb.erb', File.join(isomorfeus_path, 'isomorfeus_web_worker_loader.rb'), data_hash)
@@ -209,22 +181,12 @@ module Isomorfeus
       Isomorfeus::Installer.databases[options[:database]]&.fetch(:gems)&.each do |gem|
         database_gems << generate_gem_line(gem)
       end
-      i18n_gems = ''
-      Isomorfeus::Installer.i18ns['i18n']&.fetch(:gems)&.each do |gem|
-        i18n_gems << generate_gem_line(gem)
-      end
-      operation_gems = ''
-      Isomorfeus::Installer.operations['operation']&.fetch(:gems)&.each do |gem|
-        operation_gems << generate_gem_line(gem)
-      end
       policy_gems = ''
       Isomorfeus::Installer.policies['policy']&.fetch(:gems)&.each do |gem|
         policy_gems << generate_gem_line(gem)
       end
 
       data_hash = { database_gems:      database_gems.chop,
-                    i18n_gems:          i18n_gems.chop,
-                    operation_gems:     operation_gems.chop,
                     policy_gems:        policy_gems.chop,
                     rack_server_gems:   rack_server_gems.chop,
                     isomorfeus_version: Isomorfeus::Installer::VERSION
@@ -271,14 +233,6 @@ module Isomorfeus
 
     def self.use_asset_bundler?
       options.has_key?('asset_bundler')
-    end
-
-    def self.use_i18n?
-      options['i18n']
-    end
-
-    def self.use_operation?
-      options['operation']
     end
 
     def self.use_policy?
