@@ -2,8 +2,6 @@ module Isomorfeus
   module Installer
     module OptionsMangler
       def self.mangle_options(options)
-        Isomorfeus::Installer.use_data = true if options[:i18n]
-
         if options.key?(:rack_server) && Isomorfeus::Installer.sorted_rack_servers.include?(options[:rack_server])
           Isomorfeus::Installer.rack_server = Isomorfeus::Installer.rack_servers[options[:rack_server]]
           Isomorfeus::Installer.rack_server_name = options[:rack_server]
