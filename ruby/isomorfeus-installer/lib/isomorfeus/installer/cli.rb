@@ -3,7 +3,6 @@ module Isomorfeus
     class CLI < Thor
 
       desc "new project_name", "create a new isomorfeus project with project_name"
-      option :policy, default: false, type: :boolean, aliases: '-p', desc: "Use policy module. (optional)"
       option :rack_server, default: 'iodine', aliases: '-r',
              desc: "Select rack server, one of: #{Isomorfeus::Installer.sorted_rack_servers.join(', ')}. (optional)"
       option :yarn_and_bundle, default: true, required: false, type: :boolean, aliases: '-y', desc: "Execute yarn install and bundle install. (optional)"

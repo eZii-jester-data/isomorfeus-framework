@@ -6,10 +6,6 @@ module Isomorfeus
       databases[name] = props
     end
 
-    def self.add_policy_module(name, props)
-      policies[name] = props
-    end
-
     def self.add_rack_server(name, props)
       rack_servers[name] = props
     end
@@ -20,7 +16,6 @@ module Isomorfeus
       attr_reader   :app_require
       attr_accessor :database
       attr_accessor :framework
-      attr_accessor :policy
       attr_reader   :project_dir
       attr_reader   :project_name
       attr_accessor :rack_server
@@ -154,8 +149,7 @@ module Isomorfeus
     end
 
     def self.install_isomorfeus_entries
-      data_hash = { app_class:          app_class,
-                    use_policy:         use_policy? }
+      data_hash = { app_class:          app_class }
       create_file_from_template('isomorfeus_loader.rb.erb', File.join(isomorfeus_path, 'isomorfeus_loader.rb'), data_hash)
       create_file_from_template('isomorfeus_web_worker_loader.rb.erb', File.join(isomorfeus_path, 'isomorfeus_web_worker_loader.rb'), data_hash)
     end
@@ -181,16 +175,9 @@ module Isomorfeus
       Isomorfeus::Installer.databases[options[:database]]&.fetch(:gems)&.each do |gem|
         database_gems << generate_gem_line(gem)
       end
-      policy_gems = ''
-      Isomorfeus::Installer.policies['policy']&.fetch(:gems)&.each do |gem|
-        policy_gems << generate_gem_line(gem)
-      end
-
       data_hash = { database_gems:      database_gems.chop,
-                    policy_gems:        policy_gems.chop,
                     rack_server_gems:   rack_server_gems.chop,
-                    isomorfeus_version: Isomorfeus::Installer::VERSION
-      }
+                    isomorfeus_version: Isomorfeus::Installer::VERSION }
       create_file_from_template('Gemfile.erb', 'Gemfile', data_hash)
     end
 
@@ -233,10 +220,6 @@ module Isomorfeus
 
     def self.use_asset_bundler?
       options.has_key?('asset_bundler')
-    end
-
-    def self.use_policy?
-      options['policy']
     end
   end
 end

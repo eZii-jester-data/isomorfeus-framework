@@ -6,12 +6,12 @@ require 'isomorfeus-transport'
 require 'isomorfeus-data'
 require 'isomorfeus-i18n'
 require 'isomorfeus-operation'
-<% if use_policy %>require 'isomorfeus-policy'<% end %>
+require 'isomorfeus-policy'
 
 require_tree 'channels'
 require_tree 'data'
 require_tree 'components'
 require_tree 'operations'
-<% if use_policy %>require_tree 'policies'<% end %>
+require_tree 'policies'
 
 Isomorfeus.start_app!
