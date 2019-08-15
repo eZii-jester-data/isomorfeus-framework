@@ -39,12 +39,7 @@ const common_config = {
                 test: /.scss$/,
                 use: [
                     { loader: "cache-loader" },
-                    {
-                        loader: "style-loader",
-                        options: {
-                            hmr: false
-                        }
-                    },
+                    { loader: "style-loader" },
                     {
                         loader: "css-loader",
                         options: {
