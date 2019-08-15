@@ -14,10 +14,6 @@ class ShowLinks < React::PureComponent::Base
       Link(to: '/com_fun/10') { 'Render 10 Components'  }
     end
     DIV do
-      H3 { 'React::ReduxComponent, Props, State, Store:' }
-      Link(to: '/red_fun/10') { 'Render 10 Components'  }
-    end
-    DIV do
       H3 { 'LucidComponent, Props, State, Store:' }
       Link(to: '/luc_fun/10') { 'Render 10 Components'  }
     end
@@ -61,14 +57,6 @@ class ShowLinks < React::PureComponent::Base
       Link(to: '/com_run/3000') { 'Render 3000 nodes' }
       SPAN { ' | ' }
       Link(to: '/com_run/10000') { 'Render 10000 nodes' }
-    end
-    DIV do
-      H3 { 'React::ReduxComponent, Props, State, Store:' }
-      Link(to: '/red_run/1000') { 'Render 1000 nodes' }
-      SPAN { ' | ' }
-      Link(to: '/red_run/3000') { 'Render 3000 nodes' }
-      SPAN { ' | ' }
-      Link(to: '/red_run/10000') { 'Render 10000 nodes' }
     end
     DIV do
       H3 { 'LucidComponent, Props, State, Store:' }

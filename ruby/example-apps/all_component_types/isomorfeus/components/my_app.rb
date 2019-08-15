@@ -9,8 +9,6 @@ class MyApp < LucidMaterial::App::Base
           Route(path: '/pure_run/:count', exact: true, component: ExamplePure::Run.JS[:react_component])
           Route(path: '/com_fun/:count', exact: true, component: ExampleReact::Fun.JS[:react_component])
           Route(path: '/com_run/:count', exact: true, component: ExampleReact::Run.JS[:react_component])
-          Route(path: '/red_fun/:count', exact: true, component: ExampleRedux::Fun.JS[:react_component])
-          Route(path: '/red_run/:count', exact: true, component: ExampleRedux::Run.JS[:react_component])
           Route(path: '/luc_fun/:count', exact: true, component: ExampleLucid::Fun.JS[:react_component])
           Route(path: '/luc_run/:count', exact: true, component: ExampleLucid::Run.JS[:react_component])
           Route(path: '/lucs_fun/:count', exact: true, component: ExampleLucid::Jogging.JS[:react_component])

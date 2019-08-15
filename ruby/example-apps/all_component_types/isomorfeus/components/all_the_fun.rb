@@ -3,7 +3,6 @@ class AllTheFun < LucidComponent::Base
     DIV { ExampleFunction::AnotherFunComponent() }
     DIV { ExamplePure::AnotherPureComponent() }
     DIV { ExampleReact::AnotherComponent() }
-    DIV { ExampleRedux::AnotherReduxComponent() }
     DIV { ExampleLucid::AnotherLucidComponent() }
     DIV { ExampleJS.AnotherComponent() }
   end
