@@ -7,7 +7,6 @@ require 'thor'
 require 'opal-webpack-loader/installer_cli'
 require_relative '../lib/isomorfeus/installer'
 require_relative '../lib/isomorfeus/installer/rack_servers'
-require_relative '../lib/isomorfeus/installer/other_modules'
 require_relative '../lib/isomorfeus/installer/options_mangler'
 require_relative '../lib/isomorfeus/installer/new_project'
 
