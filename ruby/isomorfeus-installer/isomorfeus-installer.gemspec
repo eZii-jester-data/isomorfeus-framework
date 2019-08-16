@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'activesupport', '~> 5.2'
   s.add_dependency 'oj', '>= 3.8.0'
-  s.add_dependency 'opal-webpack-loader', '>= 0.9.2'
+  s.add_dependency 'opal-webpack-loader', '>= 0.9.4'
   s.add_dependency 'thor', '>= 0.19.4'
   s.add_development_dependency 'bundler'
   s.add_development_dependency 'rake'
