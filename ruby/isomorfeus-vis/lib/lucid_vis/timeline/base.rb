@@ -1,7 +1,7 @@
 module LucidVis
   module Timeline
     class Base
-      include Isomorfeus::Vis::Timeline::Mixin
+      include LucidVis::Timeline::Mixin
       def self.inherited(base)
         base.class_eval do
           param items: nil

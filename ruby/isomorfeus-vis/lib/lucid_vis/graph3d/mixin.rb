@@ -2,7 +2,7 @@ module LucidVis
   module Graph3d
     module Mixin
       def self.included(base)
-        base.include(IsmoComponent::Mixin)
+        base.include(LucidComponent::Mixin)
         base.class_eval do
           param vis_data: nil
           param options: nil

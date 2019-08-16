@@ -2,7 +2,7 @@ module LucidVis
   module Timeline
     module Mixin
       def self.included(base)
-        base.include(IsmoComponent::Mixin)
+        base.include(LucidComponent::Mixin)
         base.class_eval do
           param items: nil
           param groups: nil

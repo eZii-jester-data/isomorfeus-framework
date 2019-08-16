@@ -2,7 +2,7 @@ module LucidVis
   module Graph2d
     module Mixin
       def self.included(base)
-        base.include(IsmoComponent::Mixin)
+        base.include(LucidComponent::Mixin)
         base.class_eval do
           param items: nil
           param groups: nil
@@ -52,13 +52,13 @@ module LucidVis
             `false`
           end
 
-          after_mount do
+          component_did_mount do
             if @_dom_node && @_vis_render_block
               instance_exec(@_dom_node, @_items, @_groups, @_options, &@_vis_render_block)
             end
           end
 
-          before_receive_props do |new_props|
+          get_derived_state_from_props do |new_props, new_state|
             if automatic_refresh && @_dom_node && @_vis_render_block
               changed = false
               if new_props[:items] != @_items
@@ -77,6 +77,7 @@ module LucidVis
                 instance_exec(@_dom_node, @_items, @_groups, @_options, &@_vis_render_block)
               end
             end
+            nil
           end
         end
       end

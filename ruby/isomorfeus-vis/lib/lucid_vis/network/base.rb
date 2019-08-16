@@ -1,7 +1,7 @@
 module LucidVis
   module Network
     class Base
-      include Isomorfeus::Vis::Network::Mixin
+      include LucidVis::Network::Mixin
       def self.inherited(base)
         base.class_eval do
           param vis_data: nil
