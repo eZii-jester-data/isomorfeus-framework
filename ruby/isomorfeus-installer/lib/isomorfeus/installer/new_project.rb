@@ -35,9 +35,9 @@ module Isomorfeus
 
           if yarn_and_bundle
             puts 'Executing yarn install:'
-            system('yarn install')
+            system('env -i PATH=$PATH yarn install')
             puts 'Executing bundle install:'
-            system('bundle install')
+            system('env -i PATH=$PATH bundle install')
           end
 
           Dir.chdir('..')
