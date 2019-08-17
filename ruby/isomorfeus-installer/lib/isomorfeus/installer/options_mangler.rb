@@ -8,6 +8,8 @@ module Isomorfeus
         else
           Isomorfeus::Installer.rack_server = Isomorfeus::Installer.rack_servers['iodine']
         end
+        Isomorfeus::Installer.source_dir = File.expand_path(options[:source_dir]) if options.key?(:source_dir)
+        Isomorfeus::Installer.isomorfeus_module = "isomorfeus-#{options[:module]}".to_sym if options.key?(:module)
       end
     end
   end

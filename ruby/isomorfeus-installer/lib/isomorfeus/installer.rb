@@ -16,10 +16,12 @@ module Isomorfeus
       attr_reader   :app_require
       attr_accessor :database
       attr_accessor :framework
+      attr_accessor :isomorfeus_module
       attr_reader   :project_dir
       attr_reader   :project_name
       attr_accessor :rack_server
       attr_accessor :rack_server_name
+      attr_accessor :source_dir
 
       # installer options
       attr_reader :options
@@ -91,6 +93,10 @@ module Isomorfeus
       'isomorfeus'
     end
 
+    def self.webpack_config_path(config_file)
+      File.join( 'webpack', config_file)
+    end
+
     def self.stylesheet_path(stylesheet)
       File.join(isomorfeus_path, 'styles', stylesheet)
     end
@@ -112,7 +118,7 @@ module Isomorfeus
       create_directory(File.join(isomorfeus_path, 'channels'))
       create_directory(File.join(isomorfeus_path, 'components'))
       create_directory(File.join(isomorfeus_path, 'data'))
-      create_directory(File.join(isomorfeus_path, 'handlers'))
+      # create_directory(File.join(isomorfeus_path, 'handlers'))
       create_directory(File.join(isomorfeus_path, 'locales'))
       create_directory(File.join(isomorfeus_path, 'operations'))
       create_directory(File.join(isomorfeus_path, 'policies'))
@@ -166,6 +172,14 @@ module Isomorfeus
       create_file_from_template('application.css.erb', stylesheet_path('application.css'), {})
     end
 
+    def self.install_webpack_config
+      File.unlink(webpack_config_path('production.js'), webpack_config_path('development.js'),
+                  webpack_config_path('debug.js'))
+      create_file_from_template('production.js.erb', webpack_config_path('production.js'), {})
+      create_file_from_template('development.js.erb', webpack_config_path('development.js'), {})
+      create_file_from_template('debug.js.erb', webpack_config_path('debug.js'), {})
+    end
+
     def self.create_gemfile
       rack_server_gems = ''
       Isomorfeus::Installer.rack_servers[options[:rack_server]]&.fetch(:gems)&.each do |gem|
@@ -176,8 +190,14 @@ module Isomorfeus
         database_gems << generate_gem_line(gem)
       end
       data_hash = { database_gems:      database_gems.chop,
-                    rack_server_gems:   rack_server_gems.chop,
-                    isomorfeus_version: Isomorfeus::Installer::VERSION }
+                    rack_server_gems:   rack_server_gems.chop }
+      %i[isomorfeus_data isomorfeus_i18n isomorfeus_operation isomorfeus_policy isomorfeus_transport].each do |i_module|
+        if source_dir
+          data_hash[i_module] = i_module == isomorfeus_module ? "path: '..'" : "path: '../../#{i_module.to_s.tr('_', '-')}'"
+        else
+          data_hash[i_module] = "'~> #{Isomorfeus::Installer::VERSION}'"
+        end
+      end
       create_file_from_template('Gemfile.erb', 'Gemfile', data_hash)
     end
 
@@ -220,6 +240,10 @@ module Isomorfeus
 
     def self.use_asset_bundler?
       options.has_key?('asset_bundler')
+    end
+
+    def self.copy_source_dir_files
+
     end
   end
 end

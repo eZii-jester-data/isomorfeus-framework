@@ -4,28 +4,21 @@ require 'opal-webpack-loader/version'
 module Isomorfeus
   module Installer
     class NewProject
-      attr_reader :installer
-
-      def self.installer
-        Isomorfeus::Installer
-      end
-
       def self.execute(yarn_and_bundle: true)
         begin
-          Dir.mkdir(installer.project_dir)
-          Dir.chdir(installer.project_dir)
+          Dir.mkdir(Isomorfeus::Installer.project_dir)
+          Dir.chdir(Isomorfeus::Installer.project_dir)
         rescue
           puts "Directory #{installer.project_dir} could not be created!"
           exit 1
         end
-
-        root = Dir.open('.')
 
         begin
           Isomorfeus::Installer.create_directories
           Isomorfeus::Installer.install_framework
 
           OpalWebpackLoader::Installer::CLI.start(['iso'])
+          Isomorfeus::Installer.install_webpack_config
 
           Isomorfeus::Installer.install_styles
           Isomorfeus::Installer.install_js_entries
@@ -37,6 +30,8 @@ module Isomorfeus
           Isomorfeus::Installer.create_package_json
           Isomorfeus::Installer.create_gemfile
           Isomorfeus::Installer.create_procfile
+
+          Isomorfeus::Installer.copy_source_dir_files if Isomorfeus::Installer.source_dir
 
           if yarn_and_bundle
             puts 'Executing yarn install:'
