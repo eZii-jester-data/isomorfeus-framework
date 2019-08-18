@@ -8,4 +8,4 @@ This implementation is based on:
 [isomorfeus-installer documentation](https://github.com/isomorfeus/isomorfeus-framework/tree/ulysses/ruby/isomorfeus-installer)
 
 ## Example Apps
-[Example applications](https://github.com/isomorfeus/isomorfeus-framework/tree/ulysses/ruby/example-apps/) -
+[Example applications](https://github.com/isomorfeus/isomorfeus-framework/tree/ulysses/ruby/example-apps/)
