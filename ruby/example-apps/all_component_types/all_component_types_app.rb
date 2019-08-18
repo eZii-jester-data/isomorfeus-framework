@@ -10,7 +10,7 @@ class AllComponentTypesApp < Roda
   use_isomorfeus_middlewares
   plugin :public, root: 'public'
 
-  def page_content(location)
+  def page_content(host, location)
     <<~HTML
       <html>
         <head>
@@ -18,7 +18,7 @@ class AllComponentTypesApp < Roda
           #{owl_script_tag 'application.js'}
         </head>
         <body>
-          #{mount_component('MyApp', location: location)}
+          #{mount_component('MyApp', location_host: host, location: location)}
         </body>
       </html>
     HTML
@@ -26,7 +26,7 @@ class AllComponentTypesApp < Roda
 
   route do |r|
     r.root do
-      page_content('/')
+      page_content(env['HTTP_HOST'], '/')
     end
 
     r.public
@@ -36,7 +36,7 @@ class AllComponentTypesApp < Roda
     end
 
     r.get do
-      page_content(env['PATH_INFO'])
+      page_content(env['HTTP_HOST'], env['PATH_INFO'])
     end
   end
 end

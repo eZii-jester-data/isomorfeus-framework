@@ -4,17 +4,18 @@ require_relative 'iodine_config'
 
 class BasicApp < Roda
   include OpalWebpackLoader::ViewHelper
+  include Isomorfeus::ReactViewHelper
   plugin :public, root: 'public'
 
-  def default_content
+  def page_content(host, location)
     <<~HTML
       <html>
         <head>
-          <title>Welcome to BasicApp</title>
+          <title>Welcome to AllComponentTypesApp</title>
           #{owl_script_tag 'application.js'}
         </head>
         <body>
-          <div></div>
+          #{mount_component('BasicApp', location_host: host, location: location)}
         </body>
       </html>
     HTML
@@ -22,13 +23,17 @@ class BasicApp < Roda
 
   route do |r|
     r.root do
-      default_content
+      page_content(env['HTTP_HOST'], '/')
     end
 
     r.public
 
+    r.get 'favicon.ico' do
+      r.public
+    end
+
     r.get do
-      default_content
+      page_content(env['HTTP_HOST'], env['PATH_INFO'])
     end
   end
 end
