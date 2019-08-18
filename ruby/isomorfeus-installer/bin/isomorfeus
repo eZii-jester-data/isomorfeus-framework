@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-
+require 'fileutils'
 require 'erb'
 require 'active_support/core_ext/string'
 require 'thor'

@@ -243,7 +243,13 @@ module Isomorfeus
     end
 
     def self.copy_source_dir_files
-
+      Dir.glob("#{source_dir}/**/*").each do |file|
+        if File.file?(file)
+          target_file = file[(source_dir.size+1)..-1]
+          puts "Copying #{file} to #{target_file}."
+          FileUtils.copy(file, target_file)
+        end
+      end
     end
   end
 end
