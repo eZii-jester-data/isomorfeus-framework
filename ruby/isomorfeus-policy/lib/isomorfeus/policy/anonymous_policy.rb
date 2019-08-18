@@ -1,5 +1,5 @@
 module Isomorfeus
-  module Transport
+  module Policy
     class AnonymousPolicy < LucidPolicy::Base
       policy_for Anonymous
       deny all
