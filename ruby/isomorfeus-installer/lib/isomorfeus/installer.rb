@@ -246,6 +246,8 @@ module Isomorfeus
       Dir.glob("#{source_dir}/**/*").each do |file|
         if File.file?(file)
           target_file = file[(source_dir.size+1)..-1]
+          target_dir = File.dirname(target_file)
+          Dir.mkdir(target_dir) unless Dir.exist?(target_dir)
           puts "Copying #{file} to #{target_file}."
           FileUtils.copy(file, target_file)
         end
