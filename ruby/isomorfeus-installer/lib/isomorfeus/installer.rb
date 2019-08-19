@@ -209,6 +209,8 @@ module Isomorfeus
                                 File.join(isomorfeus_path, 'components', 'hello_component.rb'), {})
       create_file_from_template('navigation_links.rb.erb',
                                 File.join(isomorfeus_path, 'components', 'navigation_links.rb'), {})
+      create_file_from_template('not_found_404_component.rb.erb',
+                                File.join(isomorfeus_path, 'components', 'not_found_404_component.rb'), {})
       create_file_from_template('welcome_component.rb.erb',
                                 File.join(isomorfeus_path, 'components', 'welcome_component.rb'), {})
     end
