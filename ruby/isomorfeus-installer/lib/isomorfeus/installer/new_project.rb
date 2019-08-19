@@ -25,6 +25,7 @@ module Isomorfeus
           Isomorfeus::Installer.install_isomorfeus_entries
 
           Isomorfeus::Installer.create_components
+          Isomorfeus::Installer.create_policy
           Isomorfeus::Installer.create_spec
 
           Isomorfeus::Installer.create_package_json

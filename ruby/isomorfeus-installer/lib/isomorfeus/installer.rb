@@ -228,6 +228,11 @@ module Isomorfeus
       create_file_from_template('package.json.erb', 'package.json', data_hash)
     end
 
+    def self.create_policy
+      create_file_from_template('anonymous_policy.rb.erb',
+                                File.join(isomorfeus_path, 'policies', 'anonymous_policy.rb'), {})
+    end
+
     def self.create_procfile
       data_hash = { rack_server_start_command: rack_server[:start_command] }
       create_file_from_template('Procfile.erb', 'Procfile', data_hash)

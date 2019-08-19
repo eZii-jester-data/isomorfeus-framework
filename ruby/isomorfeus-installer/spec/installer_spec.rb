@@ -37,6 +37,7 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?(File.join('isomorfeus', 'components', 'morphing_app.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'navigation_links.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'not_found_404_component.rb'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'policies', 'anonymous_policy.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'isomorfeus_loader.rb'))).to be true
       expect(File.exist?(File.join('owl_init.rb'))).to be true
       expect(File.exist?(File.join('app_loader.rb'))).to be true
@@ -73,6 +74,7 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?(File.join('isomorfeus', 'components', 'morphing_app.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'navigation_links.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'components', 'not_found_404_component.rb'))).to be true
+      expect(File.exist?(File.join('isomorfeus', 'policies', 'anonymous_policy.rb'))).to be true
       expect(File.exist?(File.join('isomorfeus', 'isomorfeus_loader.rb'))).to be true
       expect(File.exist?(File.join('owl_init.rb'))).to be true
       expect(File.exist?(File.join('app_loader.rb'))).to be true
