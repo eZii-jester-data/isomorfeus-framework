@@ -51,6 +51,7 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?('config.ru')).to be true
       expect(File.exist?('morphing_app.rb')).to be true
       expect(File.exist?('Gemfile')).to be true
+      expect(File.exist?('.gitignore')).to be true
     end
 
     it 'with the cmd it can' do
@@ -88,6 +89,7 @@ RSpec.describe 'isomorfeus installer' do
       expect(File.exist?('config.ru')).to be true
       expect(File.exist?('morphing_app.rb')).to be true
       expect(File.exist?('Gemfile')).to be true
+      expect(File.exist?('.gitignore')).to be true
     end
   end
 
