@@ -152,6 +152,7 @@ module Isomorfeus
       data_hash = { app_require: app_require, app_class: app_class }
       create_file_from_template('config.ru.erb', 'config.ru', data_hash)
       create_file_from_template(File.join('app_loader.rb.erb'), 'app_loader.rb', {})
+      create_file_from_template(File.join('.gitignore.erb'), '.gitignore', {})
     end
 
     def self.install_isomorfeus_entries
