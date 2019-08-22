@@ -15,26 +15,28 @@
   "scripts": {
     "debug": "webpack-dev-server --config=webpack/debug.js",
     "development": "webpack-dev-server --config=webpack/development.js",
-    "production_build": "parallel-webpack --config=webpack/production.js --max-tries=1 --no-stats"
+    "production_build": "parallel-webpack --config=webpack/production.js"
   },
   "devDependencies": {
     "cache-loader": "^4.1.0",
-    "chokidar": "^3.0.2",
     "compression-webpack-plugin": "^3.0.0",
     "css-loader": "^3.2.0",
     "extra-watch-webpack-plugin": "^1.0.3",
     "file-loader": "^4.2.0",
-    "jsdom": "^15.1.1",
+    "jsdom": "15.1.1",
     "node-sass": "^4.12.0",
     "parallel-webpack": "^2.4.0",
-    "puppeteer": "^1.19.0",
+    "puppeteer": "1.19.0",
     "sass-loader": "^7.2.0",
     "style-loader": "^1.0.0",
     "terser-webpack-plugin": "^1.4.1",
-    "webpack": "^4.39.2",
+    "webpack": "^4.39.1",
     "webpack-assets-manifest": "^3.1.1",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0",
-    "webpack-manifest-plugin": "^2.0.4"
+    "webpack-dev-server": "^3.8.0"
+  },
+  "optionalDependencies": {
+    "bufferutil": "^4.0.1",
+    "utf-8-validate": "^5.0.2"
   }
 }

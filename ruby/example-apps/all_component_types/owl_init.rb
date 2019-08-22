@@ -1,6 +1,4 @@
-Opal.append_path(File.realdirpath('isomorfeus'))
-
-env = ENV['RACK_ENV']
+env = defined?(Rails) ? Rails.env : ENV['RACK_ENV']
 env = 'development' unless env
 if env != 'development'
   OpalWebpackLoader.client_asset_path = '' # the full path is in the manifest already, like: /assets/application-97fd9c2b7e7bdb112fc1.js

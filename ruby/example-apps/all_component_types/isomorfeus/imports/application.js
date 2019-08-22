@@ -1,12 +1,12 @@
-// import npm modules that are valid to use only in the browser
-// for example modules which depend on the window or document objects of the browser
+// entry file for the browser environment
+// import stylesheets here
 import '../styles/application.css';
 
 // import npm modules that are valid to use only in the browser
 import ReactDOM from 'react-dom';
+global.ReactDOM = ReactDOM;
 import { BrowserRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
 // global.History = History;
-global.ReactDOM = ReactDOM;
 global.Router = BrowserRouter;
 global.Link = Link;
 global.NavLink = NavLink;

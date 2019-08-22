@@ -2,6 +2,7 @@ require_relative 'app_loader'
 require_relative 'owl_init'
 require_relative 'iodine_config'
 
+
 class AllComponentTypesApp < Roda
   extend Isomorfeus::Transport::Middlewares
   include OpalWebpackLoader::ViewHelper
@@ -10,7 +11,10 @@ class AllComponentTypesApp < Roda
   use_isomorfeus_middlewares
   plugin :public, root: 'public'
 
-  def page_content(host, location)
+  def page_content(env, location)
+    locale = env.http_accept_language.preferred_language_from(Isomorfeus.available_locales)
+    locale = env.http_accept_language.compatible_language_from(Isomorfeus.available_locales) unless locale
+    locale = Isomorfeus.locale unless locale
     <<~HTML
       <html>
         <head>
@@ -18,7 +22,7 @@ class AllComponentTypesApp < Roda
           #{owl_script_tag 'application.js'}
         </head>
         <body>
-          #{mount_component('MyApp', location_host: host, location: location)}
+          #{mount_component('AllComponentTypesApp', location_host: env['HTTP_HOST'], location: location, locale: locale)}
         </body>
       </html>
     HTML
@@ -26,7 +30,7 @@ class AllComponentTypesApp < Roda
 
   route do |r|
     r.root do
-      page_content(env['HTTP_HOST'], '/')
+      page_content(env, '/')
     end
 
     r.public
@@ -36,7 +40,9 @@ class AllComponentTypesApp < Roda
     end
 
     r.get do
-      page_content(env['HTTP_HOST'], env['PATH_INFO'])
+      content = page_content(env, env['PATH_INFO'])
+      response.status = ssr_response_status
+      content
     end
   end
 end

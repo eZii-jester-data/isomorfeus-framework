@@ -2,9 +2,9 @@
 // import npm modules that are only valid to use in the server side rendering environment
 // for example modules which depend on objects provided by node js
 import ReactDOMServer from 'react-dom/server';
+global.ReactDOMServer = ReactDOMServer;
 import { StaticRouter, Link, NavLink, Route, Switch } from 'react-router-dom';
 // global.History = History;
-global.ReactDOMServer = ReactDOMServer;
 global.Router = StaticRouter;
 global.Link = Link;
 global.NavLink = NavLink;
