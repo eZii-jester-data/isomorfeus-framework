@@ -21,10 +21,6 @@ const common_config = {
         publicPath: '/assets/'
     },
     resolve: { plugins: [new OwlResolver('resolve', 'resolved')] }, // resolve ruby files
-    plugins: [
-        new CompressionPlugin({ test: /^((?!application_ssr).)*$/, cache: true }), // gzip compress, exclude application_ssr.js
-        new WebpackAssetsManifest({ publicPath: true, merge: true }) // generate manifest
-    ],
     module: {
         rules: [
             {
@@ -63,17 +59,28 @@ const common_config = {
 const browser_config = {
     target: 'web',
     entry: { application: [path.resolve(__dirname, '../isomorfeus/imports/application.js')] },
+    plugins: [
+        new CompressionPlugin({ test: /^((?!application_ssr).)*$/, cache: true }), // gzip compress, exclude application_ssr.js
+        new WebpackAssetsManifest({ publicPath: true, merge: true }) // generate manifest
+    ],
     externals: { crypto: 'Crypto' }
 };
 
 const ssr_config = {
     target: 'node',
-    entry: { application_ssr: [path.resolve(__dirname, '../isomorfeus/imports/application_ssr.js')] }
+    entry: { application_ssr: [path.resolve(__dirname, '../isomorfeus/imports/application_ssr.js')] },
+    plugins: [
+        new WebpackAssetsManifest({ publicPath: true, merge: true }) // generate manifest
+    ]
 };
 
 const web_worker_config = {
     target: 'webworker',
     entry: { web_worker: [path.resolve(__dirname, '../isomorfeus/imports/application_web_worker.js')] },
+    plugins: [
+        new CompressionPlugin({ test: /^((?!application_ssr).)*$/, cache: true }), // gzip compress, exclude application_ssr.js
+        new WebpackAssetsManifest({ publicPath: true, merge: true }) // generate manifest
+    ],
     externals: { crypto: 'Crypto' }
 };
 
