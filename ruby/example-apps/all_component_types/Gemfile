@@ -11,7 +11,7 @@ gem 'opal-activesupport', '~> 0.3.3'
 gem 'opal-webpack-loader', '>= 0.9.5'
 
 gem 'isomorfeus-redux', '~> 4.0.11'
-gem 'isomorfeus-react', '>= 16.9.7'
+gem 'isomorfeus-react', '>= 16.9.8'
 
 group :development do
   gem 'auto_reloader'

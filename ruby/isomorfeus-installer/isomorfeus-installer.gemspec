@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths  = ['lib']
 
   s.add_dependency 'activesupport', '~> 5.2'
-  s.add_dependency 'oj', '>= 3.8.0'
+  s.add_dependency 'oj', '>= 3.9.0'
   s.add_dependency 'opal-webpack-loader', '>= 0.9.5'
   s.add_dependency 'thor', '>= 0.19.4'
   s.add_development_dependency 'bundler'
