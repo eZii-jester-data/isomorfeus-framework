@@ -21,7 +21,7 @@ module ExampleMaterial
     end
 
     render do
-      SPAN(on_click: :change_letter, class_name: classes.root) { app_store.letter + props.letter + ' ' }
+      SPAN(on_click: :change_letter, class_name: styles.root) { app_store.letter + props.letter + ' ' }
     end
   end
 end
