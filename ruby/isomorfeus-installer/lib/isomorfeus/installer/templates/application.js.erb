@@ -12,6 +12,8 @@ global.Link = Link;
 global.NavLink = NavLink;
 global.Route = Route;
 global.Switch = Switch;
+import deepForceUpdate from 'react-deep-force-update'
+global.deepForceUpdate = deepForceUpdate;
 // import modules common to browser and server side rendering (ssr)
 // environments from application_common.js
 import './application_common.js';
