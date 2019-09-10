@@ -52,7 +52,7 @@ const common_config = {
                 use: ["file-loader"]
             },
             {
-                test: /.(rb|js.rb)$/,
+                test: /(\.js)?\.rb$/,
                 use: [
                     {
                         loader: 'opal-webpack-loader', // opal-webpack-loader will compile and include ruby files in the pack
