@@ -1,4 +1,4 @@
-class AllComponentTypesApp < LucidApp::Base
+class AllComponentTypesApp < LucidMaterial::App::Base
   render do
     Router(location: props.location) do
       Switch do
