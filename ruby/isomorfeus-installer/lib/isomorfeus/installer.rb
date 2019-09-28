@@ -143,7 +143,6 @@ module Isomorfeus
 
     def self.install_framework
       data_hash = { app_class:                      app_class,
-                    isomorfeus_config:              create_isomorfeus_config,
                     middlewares:                    create_middlewares,
                     middlewares_includes:           middlewares_includes,
                     rack_server_init:               rack_server[:rack_server_init] }
@@ -152,6 +151,7 @@ module Isomorfeus
       data_hash = { app_require: app_require, app_class: app_class }
       create_file_from_template('config.ru.erb', 'config.ru', data_hash)
       create_file_from_template(File.join('app_loader.rb.erb'), 'app_loader.rb', {})
+      create_file_from_template(File.join('arango_config.rb.erb'), 'arango_config.rb', data_hash )
       create_file_from_template(File.join('.gitignore.erb'), '.gitignore', {})
     end
 
@@ -218,10 +218,6 @@ module Isomorfeus
 
     def self.create_middlewares
       "use_isomorfeus_middlewares"
-    end
-
-    def self.create_isomorfeus_config
-      '' # "Isomorfeus.env = ENV['#{project_env}']"
     end
 
     def self.create_package_json
