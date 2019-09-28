@@ -3,6 +3,8 @@ require_relative 'owl_init'
 require_relative 'arango_config'
 <%= rack_server_init %>
 
+Isomorfeus.connect_to_arango if Isomorfeus.arango_configured?
+
 class <%= app_class %> < Roda
   extend Isomorfeus::Transport::Middlewares
   include OpalWebpackLoader::ViewHelper
