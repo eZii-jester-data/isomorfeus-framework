@@ -1,0 +1,11 @@
+Isomorfeus.arango_production =  { username: ENV['ARANGO_USER'], password: ENV['ARANGO_PASSWORD'],
+                                  host: "localhost", port: "8529",
+                                  database: "<%= app_class %>Production" }
+
+Isomorfeus.arango_development = { username: ENV['ARANGO_USER'], password: ENV['ARANGO_PASSWORD'],
+                                  host: "localhost", port: "8529",
+                                  database: "<%= app_class %>Development" }
+
+Isomorfeus.arango_test =        { username: ENV['ARANGO_USER'], password: ENV['ARANGO_PASSWORD'],
+                                  host: "localhost", port: "8529",
+                                  database: "<%= app_class %>Test" }
