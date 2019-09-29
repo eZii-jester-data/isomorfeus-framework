@@ -158,7 +158,7 @@ RSpec.describe 'isomorfeus installer' do
     #   Dir.chdir('morphing')
     #   system('env -i PATH=$PATH yarn install')
     #   system('env -i PATH=$PATH bundle install')
-    #   test_result = `env -i PATH=$PATH bundle exec rspec`
+    #   test_result = `env -i PATH=$PATH ARANGO_USER=$ARANGO_USER ARANGO_PASSWORD=$ARANGO_PASSWORD bundle exec rspec`
     #   expect(test_result).to include('1 example, 0 failures')
     # end
 
