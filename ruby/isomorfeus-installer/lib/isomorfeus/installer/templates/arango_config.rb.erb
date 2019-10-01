@@ -1,3 +1,5 @@
+# Arango DB
+# set all to nil to disable arango
 Isomorfeus.arango_production =  { username: ENV['ARANGO_USER'], password: ENV['ARANGO_PASSWORD'],
                                   host: "localhost", port: "8529",
                                   database: "<%= app_class %>Production" }
@@ -9,3 +11,9 @@ Isomorfeus.arango_development = { username: ENV['ARANGO_USER'], password: ENV['A
 Isomorfeus.arango_test =        { username: ENV['ARANGO_USER'], password: ENV['ARANGO_PASSWORD'],
                                   host: "localhost", port: "8529",
                                   database: "<%= app_class %>Test" }
+
+# create database, if possible
+# initialize Isomorfeus collections
+# create housekeeping tasks
+# keep it, it will take care of updates to the collections when required
+Isomorfeus.prepare_arango_database
