@@ -1,13 +1,9 @@
-class ShowLinks < React::PureComponent::Base
+class ShowLinks < React::Component::Base
   render do
     H2 { 'Functionality' }
     DIV do
       H3 { 'React::FunctionComponent, Props:' }
       Link(to: '/fun_fun/10') { 'Render 10 Components' }
-    end
-    DIV do
-      H3 { 'React::PureComponent, Props, State:' }
-      Link(to: '/pure_fun/10') { 'Render 10 Components'  }
     end
     DIV do
       H3 { 'React::Component, Props, State:' }
@@ -41,14 +37,6 @@ class ShowLinks < React::PureComponent::Base
       Link(to: '/fun_run/3000') { 'Render 3000 nodes' }
       SPAN { ' | ' }
       Link(to: '/fun_run/10000') { 'Render 10000 nodes' }
-    end
-    DIV do
-      H3 { 'React::PureComponent, Props, State:' }
-      Link(to: '/pure_run/1000') { 'Render 1000 nodes' }
-      SPAN { ' | ' }
-      Link(to: '/pure_run/3000') { 'Render 3000 nodes' }
-      SPAN { ' | ' }
-      Link(to: '/pure_run/10000') { 'Render 10000 nodes' }
     end
     DIV do
       H3 { 'React::Component, Props, State:' }
