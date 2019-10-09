@@ -114,8 +114,10 @@ RSpec.describe 'isomorfeus installer' do
         end
       end
       File.write('Gemfile', new_gemfile_lines.join("\n"))
-      system('env -i PATH=$PATH yarn install')
-      system('env -i PATH=$PATH bundle install')
+      Bundler.with_original_env do
+        system('yarn install')
+        system('bundle install')
+      end
     end
 
     after :all do
@@ -126,14 +128,18 @@ RSpec.describe 'isomorfeus installer' do
     end
 
     it 'can bundle the assets' do
-      system('env -i PATH=$PATH yarn run production_build')
+      Bundler.with_original_env do
+        system('yarn run production_build')
+      end
       manifest = Oj.load(File.read(File.join('public', 'assets', 'manifest.json')), mode: :strict)
       application_js = manifest['application.js']
       expect(File.exist?(File.join('public', application_js))).to be true
     end
 
     it 'can execute tests' do
-      test_result = `env -i PATH=$PATH THREADS=4 WORKERS=1 bundle exec rspec`
+      test_result = Bundler.with_original_env do
+        `THREADS=4 WORKERS=1 bundle exec rspec`
+      end
       expect(test_result).to include('1 example, 0 failures')
     end
   end
@@ -179,9 +185,12 @@ RSpec.describe 'isomorfeus installer' do
         end
       end
       File.write('Gemfile', new_gemfile_lines.join("\n"))
-      system('env -i PATH=$PATH yarn install')
-      system('env -i PATH=$PATH bundle install')
-      test_result = `env -i PATH=$PATH THREADS=4 WORKERS=1 bundle exec rspec`
+
+      test_result = Bundler.with_original_env do
+        system('yarn install')
+        system('bundle install')
+        `THREADS=4 WORKERS=1 bundle exec rspec`
+      end
       expect(test_result).to include('1 example, 0 failures')
     end
   end
