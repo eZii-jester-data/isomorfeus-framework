@@ -38,7 +38,10 @@ module Isomorfeus
             puts 'Executing yarn install:'
             system('env -i PATH=$PATH yarn install')
             puts 'Executing bundle install:'
-            system('env -i PATH=$PATH bundle install')
+            bundle_command =  Gem.bin_path("bundler", "bundle")
+            Bundler.with_original_env do
+              system("#{Gem.ruby} #{bundle_command} install")
+            end
           end
 
           Dir.chdir('..')
