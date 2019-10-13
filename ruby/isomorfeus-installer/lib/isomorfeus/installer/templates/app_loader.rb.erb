@@ -6,4 +6,3 @@ elsif ENV['RACK_ENV'] && ENV['RACK_ENV'] == 'test'
 else
   Bundler.require(:default, :development)
 end
-Opal.append_path(File.expand_path('isomorfeus'))
