@@ -1,16 +1,21 @@
 if ENV['RACK_ENV'] && ENV['RACK_ENV'] != 'development'
   require_relative 'all_component_types_app'
+  Isomorfeus.zeitwerk.setup
+  Isomorfeus.zeitwerk.eager_load
+
   run AllComponentTypesApp.app
 else
-  require 'auto_reloader'
-  AutoReloader.activate reloadable_paths: [__dir__], delay: 1
+  require_relative 'all_component_types_app'
+
+  Isomorfeus.zeitwerk.enable_reloading
+  Isomorfeus.zeitwerk.setup
+  Isomorfeus.zeitwerk.eager_load
+
   run ->(env) do
-    AutoReloader.reload! do |unloaded|
-      # by default, AutoReloader only unloads constants when a watched file changes;
-      # when it unloads code before calling this block, the value for unloaded will be true.
-      ActiveSupport::Dependencies.clear if unloaded && defined?(ActiveSupport::Dependencies)
-      require_relative 'all_component_types_app'
-      AllComponentTypesApp.call env
+    Isomorfeus.mutex.synchronize do
+      Isomorfeus.zeitwerk.reload
+      STDERR.puts "reloading!"
     end
+    AllComponentTypesApp.call env
   end
 end
