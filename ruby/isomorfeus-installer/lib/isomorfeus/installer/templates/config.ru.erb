@@ -13,10 +13,11 @@ else
   Isomorfeus.zeitwerk.eager_load
 
   run ->(env) do
-    Isomorfeus.zeitwerk_mutex.synchronize do
+    Isomorfeus.zeitwerk_lock.with_write_lock do
       Isomorfeus.zeitwerk.reload
-      STDERR.puts "reloading!"
     end
-    <%= app_class %>.call env
+    Isomorfeus.zeitwerk_lock.with_read_lock do
+      <%= app_class %>.call env
+    end
   end
 end
