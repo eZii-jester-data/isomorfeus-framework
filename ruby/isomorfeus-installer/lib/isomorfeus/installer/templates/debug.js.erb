@@ -122,6 +122,18 @@ const browser_config = {
 
 const ssr_config = {
     target: 'node',
+    plugins: [
+        // dont split ssr asset in chunks
+        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+        // both for hot reloading
+        // new webpack.NamedModulesPlugin(),
+        // new webpack.HotModuleReplacementPlugin(),
+        // watch for added files in opal dir
+        new ExtraWatchWebpackPlugin({ dirs: [ path.resolve(__dirname, '../isomorfeus') ] }),
+        new webpack.DefinePlugin({
+            OPAL_DEVTOOLS_OBJECT_REGISTRY: true
+        })
+    ],
     entry: { application_ssr: [path.resolve(__dirname, '../isomorfeus/imports/application_ssr.js')] }
 };
 
@@ -135,4 +147,4 @@ const browser = Object.assign({}, common_config, browser_config);
 const ssr = Object.assign({}, common_config, ssr_config);
 const web_worker = Object.assign({}, common_config, web_worker_config);
 
-module.exports = [ browser ];
+module.exports = [ browser, ssr ];
