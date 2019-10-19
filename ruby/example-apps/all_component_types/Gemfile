@@ -11,7 +11,7 @@ gem 'opal-activesupport', '~> 0.3.3'
 gem 'opal-webpack-loader', '>= 0.9.6'
 
 gem 'isomorfeus-redux', '~> 4.0.16'
-gem 'isomorfeus-react', '>= 16.10.11'
+gem 'isomorfeus-react', '>= 16.10.13'
 gem 'isomorfeus-policy', '~> 1.0.0.zeta5'
 gem 'isomorfeus-transport', '~> 1.0.0.zeta5'
 gem 'isomorfeus-i18n', '~> 1.0.0.zeta5'
