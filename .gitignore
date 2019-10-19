@@ -21,6 +21,7 @@
 /storage/*
 !/storage/.keep
 
+test_app
 node_modules
 yarn-error.log
 .owl_cache
