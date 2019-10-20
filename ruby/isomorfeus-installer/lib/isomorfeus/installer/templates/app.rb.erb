@@ -17,10 +17,12 @@ class <%= app_class %> < Roda
     locale = Isomorfeus.locale unless locale
     rendered_tree = mount_component('<%= app_class %>', location_host: env['HTTP_HOST'], location: location, locale: locale)
     <<~HTML
+      <!DOCTYPE html>
       <html>
         <head>
           <title>Welcome to <%= app_class %></title>
           <meta charset="utf-8"/>
+          <meta name="viewport" content="width=device-width, initial-scale=1">
           <style id="jss-server-side" type="text/css">#{ssr_styles}</style>
           #{owl_script_tag 'application.js'}
         </head>
@@ -39,6 +41,10 @@ class <%= app_class %> < Roda
     r.public
 
     r.get 'favicon.ico' do
+      r.public
+    end
+
+    r.get 'robots.txt' do
       r.public
     end
 
