@@ -9,7 +9,7 @@ const common_config = {
     mode: "production",
     optimization: {
         minimize: true, // minimize
-        minimizer: [new TerserPlugin({ parallel: true, cache: true })]
+        minimizer: [new TerserPlugin({ parallel: true, cache: true, terserOptions: { output: { comments: false }}})]
     },
     performance: {
         maxAssetSize: 20000000,
