@@ -4,6 +4,7 @@ const OwlResolver = require('opal-webpack-loader/resolver'); // to resolve ruby 
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin'); // to watch for added ruby files
 
 const common_config = {
+    target: 'web',
     context: path.resolve(__dirname, '../isomorfeus'),
     mode: "development",
     optimization: {
@@ -25,6 +26,7 @@ const common_config = {
         path: path.resolve(__dirname, '../public/assets'),
         publicPath: 'http://localhost:3035/assets/'
     },
+    externals: { crypto: 'Crypto' },
     resolve: {
         plugins: [new OwlResolver('resolve', 'resolved')], // this makes it possible for webpack to find ruby files
         alias: {
@@ -34,7 +36,6 @@ const common_config = {
     },
     plugins: [
         // both for hot reloading
-        new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
         // watch for added files in opal dir
         new ExtraWatchWebpackPlugin({ dirs: [path.resolve(__dirname, '../isomorfeus')] }),
@@ -115,36 +116,17 @@ const common_config = {
 };
 
 const browser_config = {
-    target: 'web',
-    entry: { application: [path.resolve(__dirname, '../isomorfeus/imports/application.js')] },
-    externals: { crypto: 'Crypto' }
+    entry: { application: [path.resolve(__dirname, '../isomorfeus/imports/application.js')] }
 };
 
-const ssr_config = {
-    target: 'node',
-    plugins: [
-        // dont split ssr asset in chunks
-        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
-        // both for hot reloading
-        // new webpack.NamedModulesPlugin(),
-        // new webpack.HotModuleReplacementPlugin(),
-        // watch for added files in opal dir
-        new ExtraWatchWebpackPlugin({ dirs: [ path.resolve(__dirname, '../isomorfeus') ] }),
-        new webpack.DefinePlugin({
-            OPAL_DEVTOOLS_OBJECT_REGISTRY: true
-        })
-    ],
-    entry: { application_ssr: [path.resolve(__dirname, '../isomorfeus/imports/application_ssr.js')] }
-};
 
-const web_worker_config = {
-    target: 'webworker',
-    entry: { web_worker: [path.resolve(__dirname, '../isomorfeus/imports/application_web_worker.js')] },
-    externals: { crypto: 'Crypto' }
-};
+//const web_worker_config = {
+//    target: 'webworker',
+//    entry: { web_worker: [path.resolve(__dirname, '../isomorfeus/imports/application_web_worker.js')] },
+//    externals: { crypto: 'Crypto' }
+//};
 
 const browser = Object.assign({}, common_config, browser_config);
-const ssr = Object.assign({}, common_config, ssr_config);
-const web_worker = Object.assign({}, common_config, web_worker_config);
+// const web_worker = Object.assign({}, common_config, web_worker_config);
 
-module.exports = [ browser, ssr ];
+module.exports = [ browser ];
