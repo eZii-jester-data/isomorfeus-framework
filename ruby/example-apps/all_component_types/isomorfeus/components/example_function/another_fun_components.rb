@@ -8,7 +8,7 @@ module ExampleFunction
       `alert("ORANGE ALERT!")`
     end
 
-    create_function do
+    render do
       ExampleFunction::AFunComponent(on_click: :show_orange_alert, text: 'Yes') do
         SPAN(on_click: :show_red_alert) { 'Click for red alert! (Child 1), ' }
         SPAN { 'Child 2, '}

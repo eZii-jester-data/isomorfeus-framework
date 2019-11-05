@@ -1,6 +1,6 @@
 module ExampleFunction
   class Fun < React::FunctionComponent::Base
-    create_function do
+    render do
       props.match.count.to_i.times do |i|
         ExampleFunction::AnotherFunComponent(key: i)
       end
