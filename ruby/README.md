@@ -5,7 +5,7 @@ This implementation is based on:
 - [isomorfeus-react](https://github.com/isomorfeus/isomorfeus-react/tree/master/ruby)
 
 ## Creating new applications with the Installer
-[isomorfeus-installer documentation](https://github.com/isomorfeus/isomorfeus-framework/tree/ulysses/ruby/isomorfeus-installer)
+[isomorfeus installer documentation](https://github.com/isomorfeus/isomorfeus-framework/tree/ulysses/ruby/isomorfeus)
 
 ## Example Apps
 [Example applications](https://github.com/isomorfeus/isomorfeus-framework/tree/ulysses/ruby/example-apps/)
