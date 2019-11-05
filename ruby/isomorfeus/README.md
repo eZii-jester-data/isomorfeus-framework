@@ -14,7 +14,7 @@ At the [Isomorfeus Framework Project](http://isomorfeus.com)
 
 ## Installation
 ```bash
-gem install isomorfeus-installer
+gem install isomorfeus
 ```
 
 ## Creating new applications

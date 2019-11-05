@@ -1,7 +1,7 @@
-require_relative 'lib/isomorfeus/installer/version.rb'
+require_relative 'lib/isomorfeus/version.rb'
 
 Gem::Specification.new do |s|
-  s.name         = 'isomorfeus-installer'
+  s.name         = 'isomorfeus'
   s.version      = Isomorfeus::Installer::VERSION
   s.author       = 'Jan Biedermann'
   s.email        = 'jan@kursator.de'
